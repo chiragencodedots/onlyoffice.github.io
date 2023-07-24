@@ -139,11 +139,11 @@
             document.getElementById('divContractCreate').classList.add(displayNoneClass);
         });
 
-        const varBtnRedirectClauseLists = document.getElementById('btnRedirectClauseLists');
+        /*const varBtnRedirectClauseLists = document.getElementById('btnRedirectClauseLists');
         varBtnRedirectClauseLists.addEventListener('click', function () {
             document.getElementById('divContractCreate').classList.add(displayNoneClass);
             document.getElementById('divContractChatHistory').classList.remove(displayNoneClass);
-        });
+        });*/
         // Create contract clause screen
 
         // Contract chat history screen
