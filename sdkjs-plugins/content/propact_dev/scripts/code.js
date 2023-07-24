@@ -260,8 +260,14 @@
                         });
                         if (teamLists.length > 0) {
                             inviteTeamListIDs = teamLists;
-                            document.getElementById('teamsNoteFoundMessage').classList.add(displayNoneClass);
-                            document.getElementById('inviteteams').classList.remove(displayNoneClass);
+                            var teamsNoteFoundMessage = document.getElementById('teamsNoteFoundMessage');
+                            if (teamsNoteFoundMessage) {
+                                teamsNoteFoundMessage.classList.add(displayNoneClass);
+                            }
+                            var inviteteams = document.getElementById('inviteteams');
+                            if (inviteteams) {
+                                inviteteams.classList.remove(displayNoneClass);
+                            }
                             var html = '';
                             html += '<div class="filter-inner">\n';
                             html += '<ul>\n';
@@ -286,8 +292,14 @@
                         }
                         if (userLists.length > 0) {
                             inviteUserListIDs = userLists;
-                            document.getElementById('usersNoteFoundMessage').classList.add(displayNoneClass);
-                            document.getElementById('inviteusers').classList.remove(displayNoneClass);
+                            var usersNoteFoundMessage = document.getElementById('usersNoteFoundMessage');
+                            if (usersNoteFoundMessage) {
+                                usersNoteFoundMessage.classList.add(displayNoneClass);
+                            }
+                            var inviteusers = document.getElementById('inviteusers');
+                            if (inviteusers) {
+                                inviteusers.classList.remove(displayNoneClass);
+                            }
                             var html = '';
                             html += '<div class="filter-inner">';
                             html += '<ul>';
