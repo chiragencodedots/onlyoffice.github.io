@@ -101,6 +101,8 @@
             if (text) {
                 document.getElementById('divContractLists').classList.add(displayNoneClass);
                 document.getElementById('divContractCreate').classList.remove(displayNoneClass);
+                toggleInviteUsersDivShow = true;
+                document.getElementById('divContractLists').classList.add(displayNoneClass);
             }
         });
 
@@ -601,6 +603,15 @@
             }
             document.getElementById('inviteUsersInput').placeholder = placeholderText;
         }
+
+        document.getElementById('inviteUsersInput').addEventListener('click', function() {
+            if (toggleInviteUsersDivShow) {
+                document.getElementById('inviteUsersBox').classList.remove(displayNoneClass);
+            } else {
+                document.getElementById('inviteUsersBox').classList.add(displayNoneClass);
+            }
+            toggleInviteUsersDivShow = !toggleInviteUsersDivShow;
+        })
 
         // Plugin Code - End CM //
 
