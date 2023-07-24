@@ -101,18 +101,6 @@
             if (text) {
                 document.getElementById('divContractLists').classList.add(displayNoneClass);
                 document.getElementById('divContractCreate').classList.remove(displayNoneClass);
-                // var nContentControlType = 2;
-                // color = {
-                //     R: 104,
-                //     G: 215,
-                //     B: 248,
-                // };
-                // window.Asc.plugin.executeMethod("AddContentControl", [nContentControlType, {
-                //     "Id": 7,
-                //     "Tag": text.replace(/\n/g, "<br>"),
-                //     "Lock": 0,
-                //     "Color": color
-                // }]);
             }
         });
 
@@ -444,13 +432,14 @@
          * Create clause section for contract
          */
         function createClauseSection() {
+            var commentID = generateRandomCommentID();
             var form = document.getElementById('clauseForm');
             var data = JSON.stringify({
                 contractId: documentID,
                 contractSection: form.elements['contractSection'].value,
                 contractDescription: form.elements['contractDescription'].value,
                 assignedTeamAndUserDetails: [...selectedInvitedTeams, ...selectedInvitedUsers],
-                commentId: generateRandomCommentID()
+                commentId: commentID
             });
             const createClauseSectionUrl = apiBaseUrl + '/contractSection/createNewContractSection';
             const headers = {
@@ -469,6 +458,18 @@
                     document.getElementById("clauseForm").reset();
                     const responseData = data;
                     if (responseData && responseData.status == true && responseData.code == 200) {
+                        var nContentControlType = 2;
+                        color = {
+                            R: 104,
+                            G: 215,
+                            B: 248,
+                        };
+                        window.Asc.plugin.executeMethod("AddContentControl", [nContentControlType, {
+                            "Id": commentID,
+                            "Tag": text.replace(/\n/g, "<br>"),
+                            "Lock": 0,
+                            "Color": color
+                        }]);
                         document.getElementById('divContractChatHistory').classList.remove(displayNoneClass);
                         document.getElementById('divContractCreate').classList.add(displayNoneClass);
                     }
