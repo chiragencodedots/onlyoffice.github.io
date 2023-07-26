@@ -25,19 +25,6 @@
 
     window.Asc.plugin.init = function (text) {
 
-        if (!flagInit) {
-            this.executeMethod("GetAllContentControls", null, function (data) {
-                for (var i = 0; i < data.length; i++) {
-                    console.log('ContentControls ' + i, data[i]);
-                    // if (data[i].Tag == 11) {
-                    // this.Asc.plugin.executeMethod ("SelectContentControl", [data[i].InternalId]);
-                    // break;
-                    // }
-                }
-            });
-            flagInit = true;
-        }
-
         // var sDocumentEditingRestrictions = "readOnly";
         // window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
 
@@ -46,6 +33,7 @@
         var disabledClass = "disabled";
         var authToken = '';
         var documentID = '';
+        var documentMode = '';
         var apiBaseUrl = 'http://localhost:3000/api/v1/app';
         var IMAGE_USER_PATH_LINK = 'https://propact.s3.amazonaws.com/';
         var inviteTeamListIDs = [];
@@ -54,28 +42,35 @@
         var selectedInvitedUsers = [];
         var selectedInvitedTeams = [];
 
-        if (text) {
-            document.getElementById('btnCreateClause').classList.remove(disabledClass);
-        } else {
-            if (!document.getElementById('btnCreateClause').classList.contains(disabledClass)) {
-                document.getElementById('btnCreateClause').classList.add(disabledClass);
-            }
-        }
-
-
         // $(document).ready(function () {
 
         // Get & Set documentID
-        documentID = window.Asc.plugin.info.documentId.replace(/(_ss|_cp)/g, '');
+        documentID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
         // Get & Set documentID
 
         // Get & Set AuthToken
         authToken = window.Asc.plugin.info.documentCallbackUrl.split('/').pop();
         // Get & Set AuthToken
 
+        // Get & document mode
+        documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
+        // Get & document mode
+
         // Get & Set APIBASEURL
         // apiBaseUrl = url.split('/').slice(0, 6).join('/');
         // Get & Set APIBASEURL
+
+        if (documentMode == 'markup') {
+            document.getElementById('btnCreateClause').classList.add(disabledClass);
+        } else {
+            if (text) {
+                document.getElementById('btnCreateClause').classList.remove(disabledClass);
+            } else {
+                if (!document.getElementById('btnCreateClause').classList.contains(disabledClass)) {
+                    document.getElementById('btnCreateClause').classList.add(disabledClass);
+                }
+            }
+        }
 
         // Get contract details
         if (documentID && authToken) {
@@ -218,7 +213,19 @@
                 .then(data => {
                     // Handle the response data
                     const responseData = data;
-                    if (responseData && responseData.status == true && responseData.code == 200) {
+                    if (responseData && responseData.status == true && responseData.code == 200 && responseData.data) {
+                        if (!flagInit) {
+                            if (responseData.data.openContractDetails && responseData.data.openContractDetails.counterPartyInviteStatus == 'Accepted') {
+                                if (documentMode == 'markup') {
+                                    var sDocumentEditingRestrictions = "none";
+                                    window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                                } else {
+                                    var sDocumentEditingRestrictions = "readOnly";
+                                    window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                                }
+                            }
+                            flagInit = true;
+                        }
                         if (responseData.data.invitationDetail && responseData.data.invitationDetail._id) {
                             document.getElementById('divInviteCounterparty').classList.add(displayNoneClass);
                             document.getElementById('divInviteCounterpartyPending').classList.remove(displayNoneClass);
@@ -237,9 +244,9 @@
                             document.getElementById('userProfilerole').textContent = responseData.data.loggedInUserDetails.role;
                             document.getElementById('organizationName').textContent = responseData.data.oppositeUser.company.companyName;
                             document.getElementById('counterpartyName').textContent = responseData.data.oppositeUser.firstName + " " + responseData.data.oppositeUser.lastName;
-                            var sDocumentEditingRestrictions = "readOnly";
-                            window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-                            getContractTeamAndUserList();
+                            if (documentMode != 'markup') {
+                                getContractTeamAndUserList();
+                            }
                             getContractSectionList();
                         } else if ((responseData.data.openContractDetails && responseData.data.openContractDetails.counterPartyInviteStatus && responseData.data.openContractDetails.counterPartyInviteStatus == 'Pending') || responseData.data.counterPartyInviteStatus == 'Pending') {
                             document.getElementById('divInviteCounterparty').classList.remove(displayNoneClass);
@@ -573,6 +580,24 @@
                 randomString += characters.charAt(Math.floor(Math.random() * characters.length));
             }
             return randomString;
+        }
+
+        /**
+         * @param url
+         * @returns {*|string}
+         */
+        function getDocumentMode(url) {
+            const urlArr = url.split('/');
+            return urlArr[urlArr.length - 2];
+        }
+
+        /**
+         * @param url
+         * @returns {*|string}
+         */
+        function getDocumentID(url) {
+            const urlArr = url.split('/');
+            return urlArr[urlArr.length - 4];
         }
 
         $(document).on('click', '#inviteteams', function () {
