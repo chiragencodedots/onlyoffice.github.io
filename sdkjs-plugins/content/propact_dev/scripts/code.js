@@ -25,6 +25,22 @@
 
     window.Asc.plugin.init = function (text) {
 
+        if (!flagInit) {
+            this.executeMethod("GetAllContentControls", null, function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    console.log('ContentControls ' + i, data[i]);
+                    // if (data[i].Tag == 11) {
+                    // this.Asc.plugin.executeMethod ("SelectContentControl", [data[i].InternalId]);
+                    // break;
+                    // }
+                }
+            });
+            flagInit = true;
+        }
+
+        // var sDocumentEditingRestrictions = "readOnly";
+        // window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+
         // Plugin Code - Start CM //
         var displayNoneClass = "d-none";
         var disabledClass = "disabled";
@@ -50,7 +66,7 @@
         // $(document).ready(function () {
 
         // Get & Set documentID
-        documentID = window.Asc.plugin.info.documentId;
+        documentID = window.Asc.plugin.info.documentId.replace(/(_ss|_cp)/g, '');
         // Get & Set documentID
 
         // Get & Set AuthToken
@@ -102,7 +118,6 @@
                 document.getElementById('divContractLists').classList.add(displayNoneClass);
                 document.getElementById('divContractCreate').classList.remove(displayNoneClass);
                 toggleInviteUsersDivShow = true;
-                document.getElementById('divContractLists').classList.add(displayNoneClass);
             }
         });
 
@@ -222,7 +237,10 @@
                             document.getElementById('userProfilerole').textContent = responseData.data.loggedInUserDetails.role;
                             document.getElementById('organizationName').textContent = responseData.data.oppositeUser.company.companyName;
                             document.getElementById('counterpartyName').textContent = responseData.data.oppositeUser.firstName + " " + responseData.data.oppositeUser.lastName;
+                            var sDocumentEditingRestrictions = "readOnly";
+                            window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
                             getContractTeamAndUserList();
+                            getContractSectionList();
                         } else if ((responseData.data.openContractDetails && responseData.data.openContractDetails.counterPartyInviteStatus && responseData.data.openContractDetails.counterPartyInviteStatus == 'Pending') || responseData.data.counterPartyInviteStatus == 'Pending') {
                             document.getElementById('divInviteCounterparty').classList.remove(displayNoneClass);
                         }
@@ -330,6 +348,32 @@
                             document.getElementById('accordionBodyUsers').innerHTML = html;
                         }
                     }
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error:', error);
+                });
+        }
+
+        /**
+         * Get contract section list
+         */
+        function getContractSectionList() {
+            const getContractSectionListUrl = apiBaseUrl + '/contractSection/getContractSectionList/' + documentID;
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + authToken
+            };
+            const requestOptions = {
+                method: 'GET',
+                headers: headers,
+            };
+            fetch(getContractSectionListUrl, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response data
+                    const responseData = data;
+                    console.log('getContractSectionListResponse', responseData);
                 })
                 .catch(error => {
                     // Handle any errors
@@ -446,7 +490,8 @@
          * Create clause section for contract
          */
         function createClauseSection() {
-            var commentID = generateRandomCommentID();
+            var randomNumber = Math.floor(Math.random() * (1000000 - 1 + 1)) + 1;
+            var commentID = Date.now() + '-' + randomNumber;
             var form = document.getElementById('clauseForm');
             var data = JSON.stringify({
                 contractId: documentID,
@@ -472,18 +517,25 @@
                     document.getElementById("clauseForm").reset();
                     const responseData = data;
                     if (responseData && responseData.status == true && responseData.code == 200) {
+                        var sDocumentEditingRestrictions = "none";
+                        window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
                         var nContentControlType = 2;
                         color = {
                             R: 104,
                             G: 215,
                             B: 248,
                         };
-                        window.Asc.plugin.executeMethod("AddContentControl", [nContentControlType, {
-                            "Id": commentID,
-                            "Tag": text.replace(/\n/g, "<br>"),
-                            "Lock": 0,
-                            "Color": color
-                        }]);
+                        nContentControlProperties = {
+                            "Id": randomNumber,
+                            "Tag": commentID,
+                            "Lock": 1,
+                            "Color": color,
+                            "InternalId": randomNumber
+                        };
+                        console.log('nContentControlProperties', nContentControlProperties);
+                        window.Asc.plugin.executeMethod("AddContentControl", [nContentControlType, nContentControlProperties]);
+                        var sDocumentEditingRestrictions = "readOnly";
+                        window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
                         document.getElementById('divContractChatHistory').classList.remove(displayNoneClass);
                         document.getElementById('divContractCreate').classList.add(displayNoneClass);
                     }
@@ -604,7 +656,7 @@
             document.getElementById('inviteUsersInput').placeholder = placeholderText;
         }
 
-        document.getElementById('inviteUsersInput').addEventListener('click', function() {
+        document.getElementById('inviteUsersInput').addEventListener('click', function () {
             if (toggleInviteUsersDivShow) {
                 document.getElementById('inviteUsersBox').classList.remove(displayNoneClass);
             } else {
