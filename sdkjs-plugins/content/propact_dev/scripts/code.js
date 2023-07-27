@@ -103,10 +103,7 @@
                     const responseData = data;
                     if (responseData && responseData.status == true && responseData.code == 200 && responseData.data) {
                         if (responseData.data.openContractDetails && responseData.data.openContractDetails.counterPartyInviteStatus == 'Accepted') {
-                            if (documentMode == 'markup') {
-                                var sDocumentEditingRestrictions = "none";
-                                window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-                            } else {
+                            if (documentMode !== 'markup') {
                                 var sDocumentEditingRestrictions = "readOnly";
                                 window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
                             }
