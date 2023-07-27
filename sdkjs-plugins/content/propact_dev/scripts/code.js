@@ -102,12 +102,12 @@
                     // Handle the response data
                     const responseData = data;
                     if (responseData && responseData.status == true && responseData.code == 200 && responseData.data) {
-                        if (responseData.data.openContractDetails && responseData.data.openContractDetails.counterPartyInviteStatus == 'Accepted') {
-                            if (documentMode !== 'markup') {
-                                var sDocumentEditingRestrictions = "readOnly";
-                                window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-                            }
-                        }
+                        // if (documentMode !== 'markup') {
+                        //     if (responseData.data.openContractDetails && responseData.data.openContractDetails.counterPartyInviteStatus == 'Accepted') {
+                        //         var sDocumentEditingRestrictions = "readOnly";
+                        //         window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                        //     }
+                        // }
                         flagInit = true;
                         if (responseData.data.invitationDetail && responseData.data.invitationDetail._id) {
                             document.getElementById('divInviteCounterparty').classList.add(displayNoneClass);
