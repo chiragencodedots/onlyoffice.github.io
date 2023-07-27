@@ -205,7 +205,9 @@
                 document.getElementById('inviteUsersBox').classList.add(displayNoneClass);
             }
             toggleInviteUsersDivShow = !toggleInviteUsersDivShow;
-        })
+        });
+
+
 
         /**====================== Utils Function Start ======================*/
         /**
