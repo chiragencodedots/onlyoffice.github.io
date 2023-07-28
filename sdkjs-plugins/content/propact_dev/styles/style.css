@@ -24,7 +24,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .invite-counterpartie { width: 100%; margin: 0; padding: 20px; float: left; height: auto;}
 .invite-counterpartie .invite-button { display: flex; width: 100%; margin: 0; padding: 18px 18px; text-align: center; border: 1px dashed #A2A6A7; font-size: 14px; color: #282756;  font-weight: 400; line-height: normal; border-radius: 4px; justify-content: center; align-items: center;}
 .invite-counterpartie .invite-button img {margin: 0 12px 0 0;}
-.invite-counterpartie-form, .invite-counterpartie-pending, .contract-sameside-chat, .contract-create-form, .contract-chat-history { width: 100%; }
+.invite-counterpartie-form, .invite-counterpartie-pending, .contract-sameside-chat, .contract-create-form, .contract-chat-history, .contract-lists { width: 100%; }
 .invite-form{width: 100%; float: left; margin: 0; padding: 0;}
 .invite-form .invite-form-header { width: 100%; margin: 0; padding: 13px 20px; display: flex; align-items: center; justify-content: space-between; background: #F5F9FF;}
 .invite-form-header h3 {margin: 0; padding:0 15px 0 0; font-size: 14px; color: #282756; font-weight: 600; }
@@ -61,7 +61,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .contract-list .contract-search .form-group .btn { position: absolute; right: 0; top: 0; width: auto; min-width: auto; padding: 14px 12px; background: transparent;}
 
 .contract-list-items {width: 100%; float: left; margin: 0;  padding: 2px 0 12px; height: calc(100% - 60px); overflow-y: auto; overflow-x: hidden;}
-.contract-list-items .contract-item { width: 100%; margin: 0 0 10px 0; padding: 12px; float: left; background: #F7F7F7; border-radius: 6px;}
+.contract-list-items .contract-item { width: 99.75%; margin: 0 0 10px 0; padding: 12px; float: left; background: #F7F7F7; border-radius: 6px;}
 .contract-list-items .contract-item a { width: 100%; margin: 0; padding: 0; float: left;}
 .contract-item .contract-top { width: 100%; margin: 0; padding: 0 0 10px 0; border-bottom: 1px solid #E4E4E4; float: left;}
 .contract-item .contract-top h3 { font-size: 14px; font-weight: 600; color: #282756; margin: 0 0 8px 0; padding: 0; width: 100%; display: block;}
@@ -218,4 +218,15 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
     border-color: #DADDE0;
     outline: 0;
     box-shadow: none;
+}
+.contract-list-items::-webkit-scrollbar {
+    width: 0.25em;
+    z-index: 99999999;
+}
+.contract-list-items::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+.contract-list-items::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
 }

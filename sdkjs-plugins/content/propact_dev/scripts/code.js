@@ -32,6 +32,11 @@
     var selectedInvitedTeams = [];
     var apiBaseUrl = 'http://localhost:3000/api/v1/app';
     var IMAGE_USER_PATH_LINK = 'https://propact.s3.amazonaws.com/';
+    var clauseRecordLimit = 10;
+    var clauseNextPage = 1;
+    var clauseHasNextPage = true;
+    var searchText = '';
+    var searchTimeout;
 
 
     // Plugin Init - Start CM //
@@ -198,6 +203,7 @@
             updateInviteUserCheckbox();
         });
 
+        // Toggle inviteuser tabs view
         document.getElementById('inviteUsersInput').addEventListener('click', function () {
             if (toggleInviteUsersDivShow) {
                 document.getElementById('inviteUsersBox').classList.remove(displayNoneClass);
@@ -205,6 +211,38 @@
                 document.getElementById('inviteUsersBox').classList.add(displayNoneClass);
             }
             toggleInviteUsersDivShow = !toggleInviteUsersDivShow;
+        });
+
+        // Clause Lazyload functionality
+        document.getElementById('contractListItemsDiv').onscroll = (e) => {
+            if (document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight >= document.getElementById('contractListItemsDiv').scrollHeight) {
+                if (clauseHasNextPage) {
+                    getContractSectionList();
+                    console.log(clauseNextPage, clauseHasNextPage);
+                }
+                console.log("End");
+            }
+        }
+
+        // Clause listing screen - Search input
+        document.getElementById('inputSearchbox').addEventListener('keyup', function(event) {
+            clearTimeout(searchTimeout); // Clear any existing timeout
+
+            // Set a new timeout to call performSearch after 800 milliseconds (adjust as needed)
+            searchTimeout = setTimeout(function() {
+                if (searchText != event.target.value.trim()) {
+                    document.getElementById('contractListItemsDiv').innerHTML = '';
+                    searchText = event.target.value.trim();
+                    clauseNextPage = 1;
+                    clauseHasNextPage = true;
+                    getContractSectionList();
+                } else {
+                    searchText = '';
+                    clauseNextPage = 1;
+                    clauseHasNextPage = true;
+                    getContractSectionList();
+                }
+            }, 500);
         });
 
 
@@ -466,7 +504,22 @@
          * @desc Get list of contract sections
          */
         function getContractSectionList() {
-            const getContractSectionListUrl = apiBaseUrl + '/contractSection/getContractSectionList/' + documentID;
+            let getContractSectionListUrl = apiBaseUrl + '/contractSection/getSelectedStatusContractSection/all/' + documentID;
+            //?filter[description]=Test&sort[createdAt]=-1&page=1&limit=6
+            getContractSectionListUrl += '?';
+            let queryParam = [];
+            // Search text
+            if (searchText) {
+                queryParam.push('filter[search_text]=' + searchText);
+            }
+            // Set sortby created time
+            queryParam.push('sort[createdAt]=-1');
+            // Set pageSize
+            queryParam.push('page=' + clauseNextPage);
+            // Set recordLimit
+            queryParam.push('limit=' + clauseRecordLimit);
+            // Set queryparams
+            getContractSectionListUrl += queryParam.join('&');
             const headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + authToken
@@ -480,7 +533,74 @@
                 .then(data => {
                     // Handle the response data
                     const responseData = data;
-                    console.log('getContractSectionListResponse', responseData);
+                    if (responseData && responseData.data) {
+                        const resData = responseData.data;
+                        console.log('getContractSectionListResponse', responseData);
+                        // document.getElementById('contractListItemsDiv').innerHTML = '';
+                        if (resData.data.length > 0) {
+                            clauseHasNextPage = resData.hasNextPage;
+                            clauseNextPage = resData.nextPage;
+                            var result = resData.data;
+                            console.log('result', resData);
+                            var html = '';
+                            var html1 = '';
+                            result.forEach((ele) => {
+                                html += '<div class="contract-item">\n' +
+                                    '\t\t\t<a href="#">\n' +
+                                    '\t\t\t\t\t\t<div class="contract-top">\n' +
+                                    '\t\t\t\t\t\t\t\t\t<h3>' + ele.contractSection + '</h3>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<p>' + ele.contractDescription + '</p>\n';
+                                let contractStatusColorCode = 'active-color';
+                                if (ele.contractStatus == 'Drafting') {
+                                    contractStatusColorCode = 'fuchsia-color';
+                                } else if (ele.contractStatus == 'Under Negotiation') {
+                                    contractStatusColorCode = 'blue-color';
+                                } else if (ele.contractStatus == 'Agreed Position') {
+                                    contractStatusColorCode = 'dark-green-color';
+                                } else if (ele.contractStatus == 'Under Revision') {
+                                    contractStatusColorCode = 'brown-color';
+                                } else if (ele.contractStatus == 'Requires Discussion') {
+                                    contractStatusColorCode = 'invited-color';
+                                } else if (ele.contractStatus == 'Completed') {
+                                    contractStatusColorCode = 'success-color';
+                                }
+                                html += '\t\t\t\t\t\t\t\t\t<button class="btn ' + contractStatusColorCode + '">' + ele.contractStatus + '</button>\n';
+
+                                html += '\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t<div class="contract-foot">\n' +
+                                    '\t\t\t\t\t\t\t\t\t<div class="contract-foot-inner">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t<div class="contract-foot-item">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h3>Created by</h3>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="contract-user">\n';
+
+                                html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="' + (ele && ele.createdByUserDetails && ele.createdByUserDetails.imageUrl ? ele.createdByUserDetails.imageUrl : 'images/no-profile-image.jpg') + '" alt="">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>' + (ele && ele.createdByUserDetails ? ele.createdByUserDetails.firstName + ' ' + ele.createdByUserDetails.lastName : '') + '</span>\n';
+
+                                html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t<div class="contract-foot-item">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h3>Requires action by</h3>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="contract-user">\n';
+
+                                if (ele && ele.approvedByUserDetails && ele.approvedByUserDetails.length > 0) {
+                                    ele.approvedByUserDetails.forEach((element) => {
+                                        html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="' + (element && element.userInfo && ele.userInfo?.imageUrl ? ele.userInfo?.imageUrl : 'images/no-profile-image.jpg') + '" alt="">\n' +
+                                            '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>' + (element && element.userInfo ? element.userInfo.firstName + ' ' + element.userInfo.lastName : '') + '</span>\n';
+                                    });
+                                } else {
+                                    html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>&mdash;</span>\n';
+                                }
+
+                                html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t</a>\n' +
+                                    '</div>';
+                            });
+                            document.getElementById('contractListItemsDiv').innerHTML += html;
+                        }
+                    }
                 })
                 .catch(error => {
                     // Handle any errors
