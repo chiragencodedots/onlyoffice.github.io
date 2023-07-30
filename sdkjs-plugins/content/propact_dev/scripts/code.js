@@ -20,6 +20,7 @@
 (function (window, undefined) {
     // Declare variables
     var flagInit = false;
+    var fClickLabel = false;
     var displayNoneClass = "d-none";
     var disabledClass = "disabled";
     var toggleInviteUsersDivShow = true;
