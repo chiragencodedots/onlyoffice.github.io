@@ -82,6 +82,7 @@
 
         }  else if (_plugin.info.methodName == "GetCurrentContentControl") {
             console.log('Fn called', _plugin);
+            console.log('Fn called', returnValue);
         }
     };
 
