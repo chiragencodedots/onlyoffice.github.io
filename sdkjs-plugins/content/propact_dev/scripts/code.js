@@ -73,6 +73,30 @@
 
     };
 
+    window.Asc.plugin.onMethodReturn = function(returnValue)
+    {
+        //evend return for completed methods
+        var _plugin = window.Asc.plugin;
+        if (_plugin.info.methodName == "GetAllContentControls") {
+
+        }  else if (_plugin.info.methodName == "GetCurrentContentControl") {
+            console.log('Fn called', _plugin);
+        }
+    };
+
+
+
+    window.Asc.plugin.event_onTargetPositionChanged = function()
+    {
+        //event change cursor position
+        //all events are specified in the config file in the "events" field
+        if (!fClickLabel) {
+            //menthod for get current content control (where is the cursor located)
+            window.Asc.plugin.executeMethod("GetCurrentContentControl");
+        }
+        fClickLabel = false;
+    };
+
     // Invite counterparty screen
     const varBtnRedirectInviteCounterpartyForm = document.getElementById('btnRedirectInviteCounterpartyForm');
     varBtnRedirectInviteCounterpartyForm.addEventListener('click', function () {

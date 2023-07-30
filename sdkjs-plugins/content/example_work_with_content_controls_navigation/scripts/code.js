@@ -32,20 +32,12 @@
 
 		};
 
-		document.getElementById("createContentBlock").onclick = function() {
-			var nContentControlType = 2;
-			color = {
-				R : 200,
-				G : 0,
-				B : 0,
-			};
-			window.Asc.plugin.executeMethod ("AddContentControl", [nContentControlType, {"Id" : 7, "Tag" : text.replace(/\n/g,"<br>"), "Lock" : 1, "Color": color}]);
-		}
+		
 
 		document.getElementById("buttonIDGetAll").onclick = function() {
 			//method for get all content controls
 			window.Asc.plugin.executeMethod("GetAllContentControls");
-			fBtnGetAll = true;
+			fBtnGetAll = true;					
 
 		};
 
@@ -57,12 +49,12 @@
 
 		};
 
-		// if (!flagInit) {
-		// 	flagInit = true;
+		if (!flagInit) {
+			flagInit = true;
 			//method for get all content controls
 			window.Asc.plugin.executeMethod("GetAllContentControls");
 			// document.getElementById("buttonIDGetAll").click();
-		// }
+		}
 	};
 	
 	addLabel = (returnValue, element) => {
@@ -107,21 +99,18 @@
 		var _plugin = window.Asc.plugin;
 		if (_plugin.info.methodName == "GetAllContentControls")
 		{
-			// if (fBtnGetAll) {
-			// 	// document.getElementById("divP").innerHTML = "";
-			// 	fBtnGetAll = false;
-			// 	for (var i = 0; i < returnValue.length; i++) {
-			// 		addLabel(returnValue[i], "#divG");
-			// 		// $('.label-selected').removeClass('label-selected');
-			// 		// addLabel({InternalId: returnValue[i].InternalId},"#divG");
-			// 		// $('#' + returnValue).addClass('label-selected');
-			// 	}
-			// } else {
+			if (fBtnGetAll) {
+				document.getElementById("divP").innerHTML = "";
+				fBtnGetAll = false;
+				for (var i = 0; i < returnValue.length; i++) {	
+					addLabel(returnValue[i], "#divP");
+				}
+			} else {
 				document.getElementById("divG").innerHTML = "";
 				for (var i = 0; i < returnValue.length; i++) {	
 					addLabel(returnValue[i], "#divG");
 				}
-			// }
+			}
 			
 
 		} else if (_plugin.info.methodName == "GetCurrentContentControl") {
