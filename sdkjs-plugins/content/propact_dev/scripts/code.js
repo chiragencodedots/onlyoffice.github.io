@@ -173,6 +173,48 @@
         });
         // Contract sameside chat screen
 
+        // Toggle inviteuser tabs view
+        document.getElementById('inviteUsersInput').addEventListener('click', function () {
+            if (toggleInviteUsersDivShow) {
+                document.getElementById('inviteUsersBox').classList.remove(displayNoneClass);
+            } else {
+                document.getElementById('inviteUsersBox').classList.add(displayNoneClass);
+            }
+            toggleInviteUsersDivShow = !toggleInviteUsersDivShow;
+        });
+
+        // Clause Lazyload functionality
+        document.getElementById('contractListItemsDiv').onscroll = (e) => {
+            if (document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight >= document.getElementById('contractListItemsDiv').scrollHeight) {
+                if (clauseHasNextPage) {
+                    getContractSectionList();
+                    console.log(clauseNextPage, clauseHasNextPage);
+                }
+                console.log("End");
+            }
+        }
+
+        // Clause listing screen - Search input
+        document.getElementById('inputSearchbox').addEventListener('keyup', function (event) {
+            clearTimeout(searchTimeout); // Clear any existing timeout
+
+            // Set a new timeout to call performSearch after 800 milliseconds (adjust as needed)
+            searchTimeout = setTimeout(function () {
+                if (searchText != event.target.value.trim()) {
+                    document.getElementById('contractListItemsDiv').innerHTML = '';
+                    searchText = event.target.value.trim();
+                    clauseNextPage = 1;
+                    clauseHasNextPage = true;
+                    getContractSectionList();
+                } else {
+                    searchText = '';
+                    clauseNextPage = 1;
+                    clauseHasNextPage = true;
+                    getContractSectionList();
+                }
+            }, 500);
+        });
+
     };
 
     window.Asc.plugin.onMethodReturn = function(returnValue)
@@ -268,48 +310,6 @@
         var allChecked = $('.user-chkbox:checked').length === $('.user-chkbox').length;
         $('#inviteusers').prop('checked', allChecked);
         updateInviteUserCheckbox();
-    });
-
-    // Toggle inviteuser tabs view
-    document.getElementById('inviteUsersInput').addEventListener('click', function () {
-        if (toggleInviteUsersDivShow) {
-            document.getElementById('inviteUsersBox').classList.remove(displayNoneClass);
-        } else {
-            document.getElementById('inviteUsersBox').classList.add(displayNoneClass);
-        }
-        toggleInviteUsersDivShow = !toggleInviteUsersDivShow;
-    });
-
-    // Clause Lazyload functionality
-    document.getElementById('contractListItemsDiv').onscroll = (e) => {
-        if (document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight >= document.getElementById('contractListItemsDiv').scrollHeight) {
-            if (clauseHasNextPage) {
-                getContractSectionList();
-                console.log(clauseNextPage, clauseHasNextPage);
-            }
-            console.log("End");
-        }
-    }
-
-    // Clause listing screen - Search input
-    document.getElementById('inputSearchbox').addEventListener('keyup', function (event) {
-        clearTimeout(searchTimeout); // Clear any existing timeout
-
-        // Set a new timeout to call performSearch after 800 milliseconds (adjust as needed)
-        searchTimeout = setTimeout(function () {
-            if (searchText != event.target.value.trim()) {
-                document.getElementById('contractListItemsDiv').innerHTML = '';
-                searchText = event.target.value.trim();
-                clauseNextPage = 1;
-                clauseHasNextPage = true;
-                getContractSectionList();
-            } else {
-                searchText = '';
-                clauseNextPage = 1;
-                clauseHasNextPage = true;
-                getContractSectionList();
-            }
-        }, 500);
     });
 
 
