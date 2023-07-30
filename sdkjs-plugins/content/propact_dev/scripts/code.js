@@ -820,7 +820,7 @@
                         "Tag": commentID,
                         "Lock": 1,
                         "Color": color,
-                        "InternalId": randomNumber
+                        "InternalId": randomNumber.toString()
                     };
                     console.log('nContentControlProperties', nContentControlProperties);
                     window.Asc.plugin.executeMethod("AddContentControl", [nContentControlType, nContentControlProperties]);
