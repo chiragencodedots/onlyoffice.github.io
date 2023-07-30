@@ -77,6 +77,102 @@
             getOpenContractUserDetails();
         }
 
+        // Invite counterparty screen
+        const varBtnRedirectInviteCounterpartyForm = document.getElementById('btnRedirectInviteCounterpartyForm');
+        varBtnRedirectInviteCounterpartyForm.addEventListener('click', function () {
+            document.getElementById('divInviteCounterparty').classList.add(displayNoneClass);
+            document.getElementById('divInviteCounterpartyForm').classList.remove(displayNoneClass);
+        });
+        // Invite counterparty screen
+
+        // Invite counterparty Form screen
+        const varBtnRedirectInviteCounterpartyCancel = document.getElementById('btnRedirectInviteCounterpartyCancel');
+        varBtnRedirectInviteCounterpartyCancel.addEventListener('click', function () {
+            document.getElementById('divInviteCounterparty').classList.remove(displayNoneClass);
+            document.getElementById('divInviteCounterpartyForm').classList.add(displayNoneClass);
+        });
+        // Invite counterparty Form screen
+
+        // Invite counterparty Pending screen
+        const varBtnResendVerification = document.getElementById('btnResendVerification');
+        varBtnResendVerification.addEventListener('click', function () {
+            resendCounterpartyInvitation();
+        });
+
+        const varBtnCancelInvitation = document.getElementById('btnCancelInvitation');
+        varBtnCancelInvitation.addEventListener('click', function () {
+            cancelInvitation();
+        });
+        // Invite counterparty Pending screen
+
+        // Contract clause lists screen
+        const varBtnCreateClause = document.getElementById('btnCreateClause');
+        varBtnCreateClause.addEventListener('click', function () {
+            if (text) {
+                document.getElementById('divContractLists').classList.add(displayNoneClass);
+                document.getElementById('divContractCreate').classList.remove(displayNoneClass);
+                toggleInviteUsersDivShow = true;
+            }
+        });
+
+        const buttonsOpenChatBoard = document.querySelectorAll('.contract-item');
+        // Add a click event listener to each button element
+        buttonsOpenChatBoard.forEach(function (button) {
+            button.addEventListener('click', function () {
+                document.getElementById('divContractLists').classList.add(displayNoneClass);
+                document.getElementById('divContractChatHistory').classList.remove(displayNoneClass);
+            });
+        });
+        // Contract clause lists screen
+
+        // Create contract clause screen
+        const varBtnContractCreateClose = document.getElementById('btnContractCreateClose');
+        varBtnContractCreateClose.addEventListener('click', function () {
+            document.getElementById('divContractLists').classList.remove(displayNoneClass);
+            document.getElementById('divContractCreate').classList.add(displayNoneClass);
+        });
+
+        const varBtnContractCreateCancel = document.getElementById('btnContractCreateCancel');
+        varBtnContractCreateCancel.addEventListener('click', function () {
+            document.getElementById('divContractLists').classList.remove(displayNoneClass);
+            document.getElementById('divContractCreate').classList.add(displayNoneClass);
+        });
+        // Create contract clause screen
+
+        // Contract chat history screen
+        const varBtnRedirectClauseListsA = document.getElementById('btnRedirectClauseListsA');
+        varBtnRedirectClauseListsA.addEventListener('click', function () {
+            document.getElementById('divContractLists').classList.remove(displayNoneClass);
+            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+        });
+
+        const varBtnGoToSameSideChat = document.getElementById('btnGoToSameSideChat');
+        varBtnGoToSameSideChat.addEventListener('click', function () {
+            document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
+            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+        });
+
+        const varBtnGoToCounterparty = document.getElementById('btnGoToCounterparty');
+        varBtnGoToCounterparty.addEventListener('click', function () {
+            document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
+            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+        });
+        // Contract chat history screen
+
+        // Contract sameside chat screen
+        const varBtnGoToCounterpartyA = document.getElementById('btnGoToCounterpartyA');
+        varBtnGoToCounterpartyA.addEventListener('click', function () {
+            document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
+            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+        });
+
+        const varBtnRedirectClauseListsB = document.getElementById('btnRedirectClauseListsB');
+        varBtnRedirectClauseListsB.addEventListener('click', function () {
+            document.getElementById('divContractLists').classList.remove(displayNoneClass);
+            document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
+        });
+        // Contract sameside chat screen
+
     };
 
     window.Asc.plugin.onMethodReturn = function(returnValue)
@@ -136,102 +232,6 @@
         }
         fClickLabel = false;
     };
-
-    // Invite counterparty screen
-    const varBtnRedirectInviteCounterpartyForm = document.getElementById('btnRedirectInviteCounterpartyForm');
-    varBtnRedirectInviteCounterpartyForm.addEventListener('click', function () {
-        document.getElementById('divInviteCounterparty').classList.add(displayNoneClass);
-        document.getElementById('divInviteCounterpartyForm').classList.remove(displayNoneClass);
-    });
-    // Invite counterparty screen
-
-    // Invite counterparty Form screen
-    const varBtnRedirectInviteCounterpartyCancel = document.getElementById('btnRedirectInviteCounterpartyCancel');
-    varBtnRedirectInviteCounterpartyCancel.addEventListener('click', function () {
-        document.getElementById('divInviteCounterparty').classList.remove(displayNoneClass);
-        document.getElementById('divInviteCounterpartyForm').classList.add(displayNoneClass);
-    });
-    // Invite counterparty Form screen
-
-    // Invite counterparty Pending screen
-    const varBtnResendVerification = document.getElementById('btnResendVerification');
-    varBtnResendVerification.addEventListener('click', function () {
-        resendCounterpartyInvitation();
-    });
-
-    const varBtnCancelInvitation = document.getElementById('btnCancelInvitation');
-    varBtnCancelInvitation.addEventListener('click', function () {
-        cancelInvitation();
-    });
-    // Invite counterparty Pending screen
-
-    // Contract clause lists screen
-    const varBtnCreateClause = document.getElementById('btnCreateClause');
-    varBtnCreateClause.addEventListener('click', function () {
-        if (text) {
-            document.getElementById('divContractLists').classList.add(displayNoneClass);
-            document.getElementById('divContractCreate').classList.remove(displayNoneClass);
-            toggleInviteUsersDivShow = true;
-        }
-    });
-
-    const buttonsOpenChatBoard = document.querySelectorAll('.contract-item');
-    // Add a click event listener to each button element
-    buttonsOpenChatBoard.forEach(function (button) {
-        button.addEventListener('click', function () {
-            document.getElementById('divContractLists').classList.add(displayNoneClass);
-            document.getElementById('divContractChatHistory').classList.remove(displayNoneClass);
-        });
-    });
-    // Contract clause lists screen
-
-    // Create contract clause screen
-    const varBtnContractCreateClose = document.getElementById('btnContractCreateClose');
-    varBtnContractCreateClose.addEventListener('click', function () {
-        document.getElementById('divContractLists').classList.remove(displayNoneClass);
-        document.getElementById('divContractCreate').classList.add(displayNoneClass);
-    });
-
-    const varBtnContractCreateCancel = document.getElementById('btnContractCreateCancel');
-    varBtnContractCreateCancel.addEventListener('click', function () {
-        document.getElementById('divContractLists').classList.remove(displayNoneClass);
-        document.getElementById('divContractCreate').classList.add(displayNoneClass);
-    });
-    // Create contract clause screen
-
-    // Contract chat history screen
-    const varBtnRedirectClauseListsA = document.getElementById('btnRedirectClauseListsA');
-    varBtnRedirectClauseListsA.addEventListener('click', function () {
-        document.getElementById('divContractLists').classList.remove(displayNoneClass);
-        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-    });
-
-    const varBtnGoToSameSideChat = document.getElementById('btnGoToSameSideChat');
-    varBtnGoToSameSideChat.addEventListener('click', function () {
-        document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
-        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-    });
-
-    const varBtnGoToCounterparty = document.getElementById('btnGoToCounterparty');
-    varBtnGoToCounterparty.addEventListener('click', function () {
-        document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
-        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-    });
-    // Contract chat history screen
-
-    // Contract sameside chat screen
-    const varBtnGoToCounterpartyA = document.getElementById('btnGoToCounterpartyA');
-    varBtnGoToCounterpartyA.addEventListener('click', function () {
-        document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
-        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-    });
-
-    const varBtnRedirectClauseListsB = document.getElementById('btnRedirectClauseListsB');
-    varBtnRedirectClauseListsB.addEventListener('click', function () {
-        document.getElementById('divContractLists').classList.remove(displayNoneClass);
-        document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
-    });
-    // Contract sameside chat screen
 
     /** Invite counterparty form submit */
     $("#inviteForm").validate({
