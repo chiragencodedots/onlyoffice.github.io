@@ -278,26 +278,26 @@
         }  else if (_plugin.info.methodName == "GetCurrentContentControl") {
             console.log('Fn called', _plugin);
             console.log('Fn called', returnValue);
-            // if (fClickBtnCur) {
-            //     //method for select content control by id
-            //     window.Asc.plugin.executeMethod("SelectContentControl",[returnValue]);
-            //     fClickBtnCur = false;
-            // } else if (!($('.label-selected').length && $('.label-selected')[0].id === returnValue) && returnValue) {
-            //     if (document.getElementById(returnValue))
-            //     {
-            //         $('.label-selected').removeClass('label-selected');
-            //         // $('#divG #' + returnValue).addClass('label-selected');
-            //         // $('#divP #' + returnValue).addClass('label-selected');
-            //
-            //
-            //     } else {
-            //         $('.label-selected').removeClass('label-selected');
-            //         // addLabel({InternalId: returnValue},"#divG");
-            //         // $('#' + returnValue).addClass('label-selected');
-            //     }
-            // } else if (!returnValue) {
-            //     $('.label-selected').removeClass('label-selected');
-            // }
+            if (fClickBtnCur) {
+                //method for select content control by id
+                window.Asc.plugin.executeMethod("SelectContentControl",[returnValue]);
+                fClickBtnCur = false;
+            } else if (!($('.label-selected').length && $('.label-selected')[0].id === returnValue) && returnValue) {
+                if (document.getElementById(returnValue))
+                {
+                    $('.label-selected').removeClass('label-selected');
+                    // $('#divG #' + returnValue).addClass('label-selected');
+                    // $('#divP #' + returnValue).addClass('label-selected');
+
+
+                } else {
+                    $('.label-selected').removeClass('label-selected');
+                    // addLabel({InternalId: returnValue},"#divG");
+                    // $('#' + returnValue).addClass('label-selected');
+                }
+            } else if (!returnValue) {
+                $('.label-selected').removeClass('label-selected');
+            }
         }
     };
 
