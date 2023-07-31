@@ -222,43 +222,43 @@
         //evend return for completed methods
         var _plugin = window.Asc.plugin;
         if (_plugin.info.methodName == "GetAllContentControls") {
-            if (fBtnGetAll) {
-                // document.getElementById("divP").innerHTML = "";
-                fBtnGetAll = false;
-                for (var i = 0; i < returnValue.length; i++) {
-                    // addLabel(returnValue[i], "#divP");
-                    console.log('returnValue', returnValue);
-                }
-            } else {
-                // document.getElementById("divG").innerHTML = "";
-                for (var i = 0; i < returnValue.length; i++) {
-                    // addLabel(returnValue[i], "#divG");
-                    console.log('returnValue', returnValue);
-                }
-            }
+            // if (fBtnGetAll) {
+            //     // document.getElementById("divP").innerHTML = "";
+            //     fBtnGetAll = false;
+            //     for (var i = 0; i < returnValue.length; i++) {
+            //         // addLabel(returnValue[i], "#divP");
+            //         console.log('returnValue', returnValue);
+            //     }
+            // } else {
+            //     // document.getElementById("divG").innerHTML = "";
+            //     for (var i = 0; i < returnValue.length; i++) {
+            //         // addLabel(returnValue[i], "#divG");
+            //         console.log('returnValue', returnValue);
+            //     }
+            // }
         }  else if (_plugin.info.methodName == "GetCurrentContentControl") {
             console.log('Fn called', _plugin);
             console.log('Fn called', returnValue);
-            if (fClickBtnCur) {
-                //method for select content control by id
-                window.Asc.plugin.executeMethod("SelectContentControl",[returnValue]);
-                fClickBtnCur = false;
-            } else if (!($('.label-selected').length && $('.label-selected')[0].id === returnValue) && returnValue) {
-                if (document.getElementById(returnValue))
-                {
-                    $('.label-selected').removeClass('label-selected');
-                    // $('#divG #' + returnValue).addClass('label-selected');
-                    // $('#divP #' + returnValue).addClass('label-selected');
-
-
-                } else {
-                    $('.label-selected').removeClass('label-selected');
-                    // addLabel({InternalId: returnValue},"#divG");
-                    // $('#' + returnValue).addClass('label-selected');
-                }
-            } else if (!returnValue) {
-                $('.label-selected').removeClass('label-selected');
-            }
+            // if (fClickBtnCur) {
+            //     //method for select content control by id
+            //     window.Asc.plugin.executeMethod("SelectContentControl",[returnValue]);
+            //     fClickBtnCur = false;
+            // } else if (!($('.label-selected').length && $('.label-selected')[0].id === returnValue) && returnValue) {
+            //     if (document.getElementById(returnValue))
+            //     {
+            //         $('.label-selected').removeClass('label-selected');
+            //         // $('#divG #' + returnValue).addClass('label-selected');
+            //         // $('#divP #' + returnValue).addClass('label-selected');
+            //
+            //
+            //     } else {
+            //         $('.label-selected').removeClass('label-selected');
+            //         // addLabel({InternalId: returnValue},"#divG");
+            //         // $('#' + returnValue).addClass('label-selected');
+            //     }
+            // } else if (!returnValue) {
+            //     $('.label-selected').removeClass('label-selected');
+            // }
         }
     };
 
