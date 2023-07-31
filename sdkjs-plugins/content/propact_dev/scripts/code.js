@@ -289,12 +289,12 @@
                 }
             }
         } else if (_plugin.info.methodName == "GetCurrentContentControl") {
+            let selectedTag = tagLists.findIndex((ele) => +ele.InternalId == +returnValue);
             if (fClickBtnCur) {
                 //method for select content control by id
-                window.Asc.plugin.executeMethod("SelectContentControl", [returnValue]);
+                window.Asc.plugin.executeMethod("SelectContentControl", [tagLists[selectedTag].Id]);
                 fClickBtnCur = false;
-            } else if (!($('.div-selected').length && $('.div-selected')[0].id === returnValue) && returnValue) {
-                let selectedTag = tagLists.findIndex((ele) => +ele.InternalId == +returnValue);
+            } else if (!($('.div-selected').length && $('.div-selected')[0].id === tagLists[selectedTag].Id) && tagLists[selectedTag].Id) {
                 if (document.getElementById(tagLists[selectedTag].Id)) {
                     selectedCommentThereadID = tagLists[selectedTag].Tag;
                     // document.getElementById('divContractLists').classList.remove('d-none');
