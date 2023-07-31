@@ -261,20 +261,20 @@
         //evend return for completed methods
         var _plugin = window.Asc.plugin;
         if (_plugin.info.methodName == "GetAllContentControls") {
-            // if (fBtnGetAll) {
-            //     // document.getElementById("divP").innerHTML = "";
-            //     fBtnGetAll = false;
-            //     for (var i = 0; i < returnValue.length; i++) {
-            //         // addLabel(returnValue[i], "#divP");
-            //         console.log('returnValue', returnValue);
-            //     }
-            // } else {
-            //     // document.getElementById("divG").innerHTML = "";
-            //     for (var i = 0; i < returnValue.length; i++) {
-            //         // addLabel(returnValue[i], "#divG");
-            //         console.log('returnValue', returnValue);
-            //     }
-            // }
+            if (fBtnGetAll) {
+                // document.getElementById("divP").innerHTML = "";
+                fBtnGetAll = false;
+                for (var i = 0; i < returnValue.length; i++) {
+                    // addLabel(returnValue[i], "#divP");
+                    console.log('returnValue', returnValue);
+                }
+            } else {
+                // document.getElementById("divG").innerHTML = "";
+                for (var i = 0; i < returnValue.length; i++) {
+                    // addLabel(returnValue[i], "#divG");
+                    console.log('returnValue', returnValue);
+                }
+            }
         }  else if (_plugin.info.methodName == "GetCurrentContentControl") {
             console.log('Fn called', _plugin);
             console.log('Fn called', returnValue);
