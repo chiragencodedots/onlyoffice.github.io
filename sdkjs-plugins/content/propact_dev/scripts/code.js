@@ -263,17 +263,17 @@
             if (fBtnGetAll) {
                 fBtnGetAll = false;
                 for (var i = 0; i < returnValue.length; i++) {
-                    console.log('returnValue', returnValue);
-                    if (tagLists.findIndex((ele) => ele.id == returnValue.id) < 0) {
-                        tagLists.push(returnValue);
+                    console.log('returnValue', returnValue[i]);
+                    if (tagLists.findIndex((ele) => ele.id == returnValue[i].id) < 0) {
+                        tagLists.push(returnValue[i]);
                     }
                 }
             } else {
                 // document.getElementById("divG").innerHTML = "";
                 for (var i = 0; i < returnValue.length; i++) {
-                    console.log('returnValue', returnValue);
-                    if (tagLists.findIndex((ele) => ele.id == returnValue.id) < 0) {
-                        tagLists.push(returnValue);
+                    console.log('returnValue', returnValue[i]);
+                    if (tagLists.findIndex((ele) => ele.id == returnValue[i].id) < 0) {
+                        tagLists.push(returnValue[i]);
                     }
                 }
             }
