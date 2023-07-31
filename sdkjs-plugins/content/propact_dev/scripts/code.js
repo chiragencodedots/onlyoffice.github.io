@@ -254,6 +254,14 @@
             updateInviteUserCheckbox();
         });
 
+        $(document).on('click', '.contract-item', function() {
+            var elementID = $(this).attr('id');
+            let tagExists = tagLists.findIndex((ele) => +ele.id == +elementID);
+            if (tagExists > -1) {
+                window.Asc.plugin.executeMethod("SelectContentControl",[tagLists[tagExists].InternalId]);
+            }
+        });
+
     };
 
     window.Asc.plugin.onMethodReturn = function (returnValue) {
@@ -290,7 +298,6 @@
                 fClickBtnCur = false;
             } else if (!($('.div-selected').length && $('.div-selected')[0].id === returnValue) && returnValue) {
                 let selectedTag = tagLists.findIndex((ele) => +ele.InternalId == +returnValue);
-                console.log('selectedTag', selectedTag);
                 if (document.getElementById(tagLists[selectedTag].Id)) {
                     $('.div-selected').removeClass('div-selected');
                     $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('div-selected');
