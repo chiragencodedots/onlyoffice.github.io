@@ -230,3 +230,6 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
     background-color: darkgrey;
     outline: 1px solid slategrey;
 }
+div.div-selected {
+    background: #d5d5d5 !important;
+}

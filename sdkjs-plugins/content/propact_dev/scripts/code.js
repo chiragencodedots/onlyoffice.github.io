@@ -288,19 +288,17 @@
                 //method for select content control by id
                 window.Asc.plugin.executeMethod("SelectContentControl", [returnValue]);
                 fClickBtnCur = false;
-            } else if (!($('.label-selected').length && $('.label-selected')[0].id === returnValue) && returnValue) {
+            } else if (!($('.div-selected').length && $('.div-selected')[0].id === returnValue) && returnValue) {
                 let selectedTag = tagLists.findIndex((ele) => +ele.InternalId == +returnValue);
                 console.log('selectedTag', selectedTag);
                 if (document.getElementById(tagLists[selectedTag].Id)) {
-                    $('.label-selected').removeClass('label-selected');
-                    $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('label-selected');
+                    $('.div-selected').removeClass('div-selected');
+                    $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('div-selected');
                 } else {
-                    $('.label-selected').removeClass('label-selected');
-                    // addLabel({InternalId: returnValue},"#divG");
-                    // $('#' + returnValue).addClass('label-selected');
+                    $('.div-selected').removeClass('div-selected');
                 }
             } else if (!returnValue) {
-                $('.label-selected').removeClass('label-selected');
+                $('.div-selected').removeClass('div-selected');
             }
         }
     };
