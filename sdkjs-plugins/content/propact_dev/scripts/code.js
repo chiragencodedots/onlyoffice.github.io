@@ -40,6 +40,7 @@
     var searchText = '';
     var searchTimeout;
     var tagLists = [];
+    var selectedCommentThereadID = '';
 
 
     // /********************* Plugin Init - Start CM *********************/ //
@@ -277,7 +278,6 @@
                         tagLists.push(returnValue[i]);
                     }
                 }
-                console.log('tagLists', tagLists);
             } else {
                 // document.getElementById("divG").innerHTML = "";
                 for (var i = 0; i < returnValue.length; i++) {
@@ -287,11 +287,8 @@
                         tagLists.push(returnValue[i]);
                     }
                 }
-                console.log('tagLists', tagLists);
             }
         } else if (_plugin.info.methodName == "GetCurrentContentControl") {
-            console.log('Fn called', _plugin);
-            console.log('Fn called', returnValue);
             if (fClickBtnCur) {
                 //method for select content control by id
                 window.Asc.plugin.executeMethod("SelectContentControl", [returnValue]);
@@ -299,16 +296,19 @@
             } else if (!($('.div-selected').length && $('.div-selected')[0].id === returnValue) && returnValue) {
                 let selectedTag = tagLists.findIndex((ele) => +ele.InternalId == +returnValue);
                 if (document.getElementById(tagLists[selectedTag].Id)) {
-                    document.getElementById('divContractLists').classList.remove('d-none');
-                    document.getElementById('divContractCreate').classList.add('d-none');
-                    document.getElementById('divContractChatHistory').classList.add('d-none');
-                    document.getElementById('divContractSameSideChat').classList.add('d-none');
+                    selectedCommentThereadID = tagLists[selectedTag].Tag;
+                    // document.getElementById('divContractLists').classList.remove('d-none');
+                    // document.getElementById('divContractCreate').classList.add('d-none');
+                    // document.getElementById('divContractChatHistory').classList.add('d-none');
+                    // document.getElementById('divContractSameSideChat').classList.add('d-none');
                     $('.div-selected').removeClass('div-selected');
                     $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('div-selected');
                 } else {
+                    selectedCommentThereadID = '';
                     $('.div-selected').removeClass('div-selected');
                 }
             } else if (!returnValue) {
+                selectedCommentThereadID = '';
                 $('.div-selected').removeClass('div-selected');
             }
         }
