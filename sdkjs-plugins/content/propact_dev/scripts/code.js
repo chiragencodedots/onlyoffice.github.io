@@ -256,7 +256,7 @@
 
         $(document).on('click', '.contract-item', function() {
             var elementID = $(this).attr('id');
-            let tagExists = tagLists.findIndex((ele) => +ele.id == +elementID);
+            let tagExists = tagLists.findIndex((ele) => +ele.Id == +elementID);
             if (tagExists > -1) {
                 window.Asc.plugin.executeMethod("SelectContentControl",[tagLists[tagExists].InternalId]);
             }
