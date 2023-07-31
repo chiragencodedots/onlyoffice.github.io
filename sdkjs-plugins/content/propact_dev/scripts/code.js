@@ -256,6 +256,7 @@
         });
 
         $(document).on('click', '.contract-item', function() {
+            fClickLabel = true;
             var elementID = $(this).attr('id');
             let tagExists = tagLists.findIndex((ele) => +ele.Id == +elementID);
             if (tagExists > -1) {
