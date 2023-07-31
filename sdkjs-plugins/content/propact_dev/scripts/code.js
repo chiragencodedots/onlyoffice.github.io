@@ -215,6 +215,45 @@
             }, 500);
         });
 
+
+
+        /** Invite counterparty form submit */
+        $("#inviteForm").validate({
+            submitHandler: function (form) {
+                // $(form).ajaxSubmit();
+                inviteCounterparties();
+            }
+        });
+
+        /** Clause create form submit */
+        $("#clauseForm").validate({
+            submitHandler: function (form) {
+                createClauseSection();
+            }
+        });
+
+        $(document).on('click', '#inviteteams', function () {
+            $('.team-chkbox').prop('checked', this.checked);
+            updateInviteTeamCheckbox();
+        })
+
+        $(document).on('click', '.team-chkbox', function () {
+            var allChecked = $('.team-chkbox:checked').length === $('.team-chkbox').length;
+            $('#inviteteams').prop('checked', allChecked);
+            updateInviteTeamCheckbox();
+        });
+
+        $(document).on('click', '#inviteusers', function () {
+            $('.user-chkbox').prop('checked', this.checked);
+            updateInviteUserCheckbox();
+        })
+
+        $(document).on('click', '.user-chkbox', function () {
+            var allChecked = $('.user-chkbox:checked').length === $('.user-chkbox').length;
+            $('#inviteusers').prop('checked', allChecked);
+            updateInviteUserCheckbox();
+        });
+
     };
 
     window.Asc.plugin.onMethodReturn = function(returnValue)
@@ -274,43 +313,6 @@
         }
         fClickLabel = false;
     };
-
-    /** Invite counterparty form submit */
-    $("#inviteForm").validate({
-        submitHandler: function (form) {
-            // $(form).ajaxSubmit();
-            inviteCounterparties();
-        }
-    });
-
-    /** Clause create form submit */
-    $("#clauseForm").validate({
-        submitHandler: function (form) {
-            createClauseSection();
-        }
-    });
-
-    $(document).on('click', '#inviteteams', function () {
-        $('.team-chkbox').prop('checked', this.checked);
-        updateInviteTeamCheckbox();
-    })
-
-    $(document).on('click', '.team-chkbox', function () {
-        var allChecked = $('.team-chkbox:checked').length === $('.team-chkbox').length;
-        $('#inviteteams').prop('checked', allChecked);
-        updateInviteTeamCheckbox();
-    });
-
-    $(document).on('click', '#inviteusers', function () {
-        $('.user-chkbox').prop('checked', this.checked);
-        updateInviteUserCheckbox();
-    })
-
-    $(document).on('click', '.user-chkbox', function () {
-        var allChecked = $('.user-chkbox:checked').length === $('.user-chkbox').length;
-        $('#inviteusers').prop('checked', allChecked);
-        updateInviteUserCheckbox();
-    });
 
 
     /**====================== Utils Function Start ======================*/
