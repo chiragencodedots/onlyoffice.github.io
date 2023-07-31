@@ -285,12 +285,11 @@
                 window.Asc.plugin.executeMethod("SelectContentControl", [returnValue]);
                 fClickBtnCur = false;
             } else if (!($('.label-selected').length && $('.label-selected')[0].id === returnValue) && returnValue) {
-                if (document.getElementById(returnValue)) {
+                let selectedTag = tagLists.findIndex((ele) => ele.InternalId == returnValue);
+                console.log('selectedTag', selectedTag);
+                if (document.getElementById(selectedTag[0].Id)) {
                     $('.label-selected').removeClass('label-selected');
-                    // $('#divG #' + returnValue).addClass('label-selected');
-                    // $('#divP #' + returnValue).addClass('label-selected');
-
-
+                    $('#contractListItemsDiv #' + selectedTag[0].Id).addClass('label-selected');
                 } else {
                     $('.label-selected').removeClass('label-selected');
                     // addLabel({InternalId: returnValue},"#divG");
@@ -610,7 +609,7 @@
                         var html1 = '';
                         result.forEach((ele) => {
                             let commentID = ele.commentId;
-                            html += '<div class="contract-item" data-commentid="' + commentID + '" data-id="' + commentID.split('-').pop() + '">\n' +
+                            html += '<div class="contract-item" data-commentid="' + commentID + '" id="' + commentID.split('-').pop() + '">\n' +
                                 '\t\t\t<a href="#">\n' +
                                 '\t\t\t\t\t\t<div class="contract-top">\n' +
                                 '\t\t\t\t\t\t\t\t\t<h3>' + ele.contractSection + '</h3>\n' +
