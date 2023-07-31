@@ -299,10 +299,10 @@
             } else if (!($('.div-selected').length && $('.div-selected')[0].id === returnValue) && returnValue) {
                 let selectedTag = tagLists.findIndex((ele) => +ele.InternalId == +returnValue);
                 if (document.getElementById(tagLists[selectedTag].Id)) {
-                    document.getElementById(divContractLists).classList.remove('d-none');
-                    document.getElementById(divContractCreate).classList.remove('d-none');
-                    document.getElementById(divContractChatHistory).classList.remove('d-none');
-                    document.getElementById(divContractSameSideChat).classList.remove('d-none');
+                    document.getElementById('divContractLists').classList.remove('d-none');
+                    document.getElementById('divContractCreate').classList.add('d-none');
+                    document.getElementById('divContractChatHistory').classList.add('d-none');
+                    document.getElementById('divContractSameSideChat').classList.add('d-none');
                     $('.div-selected').removeClass('div-selected');
                     $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('div-selected');
                 } else {
