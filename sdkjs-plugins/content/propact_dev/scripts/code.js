@@ -285,7 +285,7 @@
                 window.Asc.plugin.executeMethod("SelectContentControl", [returnValue]);
                 fClickBtnCur = false;
             } else if (!($('.label-selected').length && $('.label-selected')[0].id === returnValue) && returnValue) {
-                let selectedTag = tagLists.findIndex((ele) => ele.InternalId == returnValue);
+                let selectedTag = tagLists.findIndex((ele) => +ele.InternalId == +returnValue);
                 console.log('selectedTag', selectedTag);
                 if (document.getElementById(selectedTag[0].Id)) {
                     $('.label-selected').removeClass('label-selected');
