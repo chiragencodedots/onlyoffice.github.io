@@ -263,7 +263,9 @@
             if (fBtnGetAll) {
                 fBtnGetAll = false;
                 for (var i = 0; i < returnValue.length; i++) {
-                    if (tagLists.findIndex((ele) => ele.id == returnValue[i].id) < 0) {
+                    let tagExists = tagLists.findIndex((ele) => +ele.id == +returnValue[i].id);
+                    console.log('tagExists', tagExists);
+                    if (tagExists < 0) {
                         tagLists.push(returnValue[i]);
                     }
                 }
@@ -271,7 +273,9 @@
             } else {
                 // document.getElementById("divG").innerHTML = "";
                 for (var i = 0; i < returnValue.length; i++) {
-                    if (tagLists.findIndex((ele) => ele.id == returnValue[i].id) < 0) {
+                    let tagExists = tagLists.findIndex((ele) => +ele.id == +returnValue[i].id);
+                    console.log('tagExists', tagExists);
+                    if (tagExists < 0) {
                         tagLists.push(returnValue[i]);
                     }
                 }
