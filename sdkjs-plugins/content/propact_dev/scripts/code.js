@@ -263,19 +263,19 @@
             if (fBtnGetAll) {
                 fBtnGetAll = false;
                 for (var i = 0; i < returnValue.length; i++) {
-                    console.log('returnValue', returnValue[i]);
                     if (tagLists.findIndex((ele) => ele.id == returnValue[i].id) < 0) {
                         tagLists.push(returnValue[i]);
                     }
                 }
+                console.log('tagLists', tagLists);
             } else {
                 // document.getElementById("divG").innerHTML = "";
                 for (var i = 0; i < returnValue.length; i++) {
-                    console.log('returnValue', returnValue[i]);
                     if (tagLists.findIndex((ele) => ele.id == returnValue[i].id) < 0) {
                         tagLists.push(returnValue[i]);
                     }
                 }
+                console.log('tagLists', tagLists);
             }
         } else if (_plugin.info.methodName == "GetCurrentContentControl") {
             console.log('Fn called', _plugin);
@@ -287,9 +287,9 @@
             } else if (!($('.label-selected').length && $('.label-selected')[0].id === returnValue) && returnValue) {
                 let selectedTag = tagLists.findIndex((ele) => +ele.InternalId == +returnValue);
                 console.log('selectedTag', selectedTag);
-                if (document.getElementById(selectedTag[0].Id)) {
+                if (document.getElementById(tagLists[selectedTag].Id)) {
                     $('.label-selected').removeClass('label-selected');
-                    $('#contractListItemsDiv #' + selectedTag[0].Id).addClass('label-selected');
+                    $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('label-selected');
                 } else {
                     $('.label-selected').removeClass('label-selected');
                     // addLabel({InternalId: returnValue},"#divG");
