@@ -272,7 +272,7 @@
             if (fBtnGetAll) {
                 fBtnGetAll = false;
                 for (var i = 0; i < returnValue.length; i++) {
-                    let tagExists = tagLists.findIndex((ele) => +ele.id == +returnValue[i].id);
+                    let tagExists = tagLists.findIndex((ele) => +ele.Id == +returnValue[i].Id);
                     console.log('tagExists', tagExists);
                     if (tagExists < 0) {
                         tagLists.push(returnValue[i]);
@@ -281,7 +281,7 @@
             } else {
                 // document.getElementById("divG").innerHTML = "";
                 for (var i = 0; i < returnValue.length; i++) {
-                    let tagExists = tagLists.findIndex((ele) => +ele.id == +returnValue[i].id);
+                    let tagExists = tagLists.findIndex((ele) => +ele.Id == +returnValue[i].Id);
                     console.log('tagExists', tagExists);
                     if (tagExists < 0) {
                         tagLists.push(returnValue[i]);
