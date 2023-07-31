@@ -39,6 +39,7 @@
     var clauseHasNextPage = true;
     var searchText = '';
     var searchTimeout;
+    var tagLists = [];
 
 
     // /********************* Plugin Init - Start CM *********************/ //
@@ -216,7 +217,6 @@
         });
 
 
-
         /** Invite counterparty form submit */
         $("#inviteForm").validate({
             submitHandler: function (form) {
@@ -256,35 +256,36 @@
 
     };
 
-    window.Asc.plugin.onMethodReturn = function(returnValue)
-    {
+    window.Asc.plugin.onMethodReturn = function (returnValue) {
         //evend return for completed methods
         var _plugin = window.Asc.plugin;
         if (_plugin.info.methodName == "GetAllContentControls") {
             if (fBtnGetAll) {
-                // document.getElementById("divP").innerHTML = "";
                 fBtnGetAll = false;
                 for (var i = 0; i < returnValue.length; i++) {
-                    // addLabel(returnValue[i], "#divP");
                     console.log('returnValue', returnValue);
+                    if (tagLists.findIndex((ele) => ele.id == returnValue.id) < 0) {
+                        tagLists.push(returnValue);
+                    }
                 }
             } else {
                 // document.getElementById("divG").innerHTML = "";
                 for (var i = 0; i < returnValue.length; i++) {
-                    // addLabel(returnValue[i], "#divG");
                     console.log('returnValue', returnValue);
+                    if (tagLists.findIndex((ele) => ele.id == returnValue.id) < 0) {
+                        tagLists.push(returnValue);
+                    }
                 }
             }
-        }  else if (_plugin.info.methodName == "GetCurrentContentControl") {
+        } else if (_plugin.info.methodName == "GetCurrentContentControl") {
             console.log('Fn called', _plugin);
             console.log('Fn called', returnValue);
             if (fClickBtnCur) {
                 //method for select content control by id
-                window.Asc.plugin.executeMethod("SelectContentControl",[returnValue]);
+                window.Asc.plugin.executeMethod("SelectContentControl", [returnValue]);
                 fClickBtnCur = false;
             } else if (!($('.label-selected').length && $('.label-selected')[0].id === returnValue) && returnValue) {
-                if (document.getElementById(returnValue))
-                {
+                if (document.getElementById(returnValue)) {
                     $('.label-selected').removeClass('label-selected');
                     // $('#divG #' + returnValue).addClass('label-selected');
                     // $('#divP #' + returnValue).addClass('label-selected');
@@ -302,9 +303,7 @@
     };
 
 
-
-    window.Asc.plugin.event_onTargetPositionChanged = function()
-    {
+    window.Asc.plugin.event_onTargetPositionChanged = function () {
         //event change cursor position
         //all events are specified in the config file in the "events" field
         if (!fClickLabel) {
@@ -610,7 +609,8 @@
                         var html = '';
                         var html1 = '';
                         result.forEach((ele) => {
-                            html += '<div class="contract-item">\n' +
+                            let commentID = ele.commentId;
+                            html += '<div class="contract-item" data-commentid="' + commentID + '" data-id="' + commentID.split('-').pop() + '">\n' +
                                 '\t\t\t<a href="#">\n' +
                                 '\t\t\t\t\t\t<div class="contract-top">\n' +
                                 '\t\t\t\t\t\t\t\t\t<h3>' + ele.contractSection + '</h3>\n' +
@@ -837,8 +837,8 @@
                 console.error('Error:', error);
             });
     }
-    /**====================== API Function End ======================*/
 
+    /**====================== API Function End ======================*/
 
 
     // /********************* Plugin Init - End CM *********************/ //
