@@ -247,14 +247,14 @@
                 if (document.getElementById(returnValue))
                 {
                     $('.label-selected').removeClass('label-selected');
-                    $('#divG #' + returnValue).addClass('label-selected');
-                    $('#divP #' + returnValue).addClass('label-selected');
+                    // $('#divG #' + returnValue).addClass('label-selected');
+                    // $('#divP #' + returnValue).addClass('label-selected');
 
 
                 } else {
                     $('.label-selected').removeClass('label-selected');
-                    addLabel({InternalId: returnValue},"#divG");
-                    $('#' + returnValue).addClass('label-selected');
+                    // addLabel({InternalId: returnValue},"#divG");
+                    // $('#' + returnValue).addClass('label-selected');
                 }
             } else if (!returnValue) {
                 $('.label-selected').removeClass('label-selected');
