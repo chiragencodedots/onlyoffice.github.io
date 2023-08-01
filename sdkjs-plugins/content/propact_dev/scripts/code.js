@@ -299,10 +299,6 @@
                 } else if (!($('.div-selected').length && $('.div-selected')[0].id === tagLists[selectedTag].Id) && tagLists[selectedTag].Id) {
                     if (document.getElementById(tagLists[selectedTag].Id)) {
                         selectedCommentThereadID = tagLists[selectedTag].Tag;
-                        document.getElementById('divContractLists').classList.remove('d-none');
-                        document.getElementById('divContractCreate').classList.add('d-none');
-                        document.getElementById('divContractChatHistory').classList.add('d-none');
-                        document.getElementById('divContractSameSideChat').classList.add('d-none');
                         $('.div-selected').removeClass('div-selected');
                         $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('div-selected');
                     } else {
