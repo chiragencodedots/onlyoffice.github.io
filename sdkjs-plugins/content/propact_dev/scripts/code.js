@@ -290,7 +290,7 @@
                 }
             }
         } else if (_plugin.info.methodName == "GetCurrentContentControl") {
-            if (tagLists) {
+            if (tagLists && tagLists.length > 0) {
                 let selectedTag = tagLists.findIndex((ele) => +ele.InternalId == +returnValue);
                 if (fClickBtnCur) {
                     //method for select content control by id
