@@ -219,6 +219,6 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .chat-body::-webkit-scrollbar-track, .contract-list-items::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); }
 .chat-body::-webkit-scrollbar-thumb, .contract-list-items::-webkit-scrollbar-thumb { background-color: darkgrey; outline: 1px solid slategrey; }
 div.div-selected { background: #d5d5d5 !important; }
-.crop-text { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; width:85px; }​
 .chat-body .chat-area .message-wrapper.reverse .message {direction: ltr;}
 .small, small { font-size: 0.75em; }
+.crop-text { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; width:85px; }​
