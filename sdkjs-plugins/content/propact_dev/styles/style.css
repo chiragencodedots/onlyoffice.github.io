@@ -110,9 +110,9 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .message-wrapper .profile-picture .last-seen { font-size: 12px; font-weight: 400; margin: 0 0 0 6px; padding: 0; display: inline-block; color: #282756; opacity: 50%;}
 .message-wrapper .profile-picture .name { font-size: 14px; font-weight: 400; color: #282756; margin: 0 0 0 8px; padding: 0; display: inline-block;}
 .message-wrapper .profile-picture img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #79D7FA; object-fit: cover; object-position: center center;}
-.chat-body .chat-area .message-wrapper .message-content { width: auto; display: inline-block; text-align: left; max-width: 308px; background: #EFFAFF; padding: 12px; border-radius: 0 5px 5px 5px; margin: -10px 0 0 48px; min-width: 246px; position: relative;}
+.chat-body .chat-area .message-wrapper .message-content { width: auto; display: inline-block; text-align: left; max-width: 308px; background: #EFFAFF; padding: 12px; border-radius: 0 5px 5px 5px; margin: 8px 0 0 48px; min-width: 246px; position: relative;}
 .chat-body .chat-area .message-wrapper .message-content .message { font-size: 12px; font-weight: 400; line-height: 17px; color: #282756;}
-.chat-body .chat-area .message-wrapper.reverse .message-content { margin-right: 48px; border-radius: 5px 0px 5px 5px; margin-left: 0;}
+.chat-body .chat-area .message-wrapper.reverse .message-content { margin-right: 0; border-radius: 5px 0px 5px 5px; margin-left: 0;}
 .dark-gold-color .profile-picture img { border-color: #FFBC81;}
 .chat-body .chat-area .dark-gold-color .message-content {background: #FFBC81;}
 .chat-body .chat-area .dark-gold-color .message-content h4 { font-size: 12px; font-weight: 600; margin:0 0 12px 0 ; padding: 0; line-height: 16px;}
