@@ -1185,6 +1185,7 @@
                         var sDocumentEditingRestrictions = "readOnly";
                         window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
                         getContractSectionList();
+                        location.reload(true);
                         document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
                         document.getElementById('divContractCreate').classList.add(displayNoneClass);
                         document.getElementById('divContractLists').classList.remove(displayNoneClass);
