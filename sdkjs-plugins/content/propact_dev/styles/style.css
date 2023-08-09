@@ -86,7 +86,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .conversation-left .user-icon { width: 40px; height: 40px; margin: 0 10px 0 0; padding: 0;}
 .conversation-left .user-icon img { border-radius: 50%; object-fit: cover; object-position: center center; width: 100%; height: 100%;}
 .conversation-left .user-inner { float: left; margin: 0; padding: 0;}
-.conversation-left .user-inner .user-name { font-size: 14px; color: #282756; font-weight: 600; margin: 0 0 0px 0; padding: 0; display: block; line-height: 22px;}
+.conversation-left .user-inner .user-name { font-size: 12px; color: #282756; font-weight: 600; margin: 0 0 0px 0; padding: 0; display: block; line-height: 22px;}
 .conversation-left .user-inner p { font-size: 12px; line-height: 16px; margin: 0; padding: 0; display: block;}
 .create-contract-inner { width: 100%; margin: 0; padding: 20px; float: left;}
 .form-group textarea.form-control { min-height: 95px; margin: 0; padding: 12px;}
@@ -108,7 +108,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .message-wrapper.reverse .profile-picture .last-seen {margin: 0 6px 0 0;}
 .message-wrapper.reverse .profile-picture .name {margin: 0 8px 0 0;}
 .message-wrapper .profile-picture .last-seen { font-size: 12px; font-weight: 400; margin: 0 0 0 6px; padding: 0; display: inline-block; color: #282756; opacity: 50%;}
-.message-wrapper .profile-picture .name { font-size: 14px; font-weight: 400; color: #282756; margin: 0 0 0 8px; padding: 0; display: inline-block;}
+.message-wrapper .profile-picture .name { font-size: 12px; font-weight: 400; color: #282756; margin: 0 0 0 8px; padding: 0; display: inline-block;}
 .message-wrapper .profile-picture img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #79D7FA; object-fit: cover; object-position: center center;}
 .chat-body .chat-area .message-wrapper .message-content { width: auto; display: inline-block; text-align: left; max-width: 308px; background: #EFFAFF; padding: 12px; border-radius: 0 5px 5px 5px; margin: 8px 0 0 0px; min-width: 246px; position: relative;}
 .chat-body .chat-area .message-wrapper .message-content .message { font-size: 12px; font-weight: 400; line-height: 17px; color: #282756;}
@@ -221,4 +221,5 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 div.div-selected { background: #d5d5d5 !important; }
 .chat-body .chat-area .message-wrapper.reverse .message {direction: ltr;}
 .small, small { font-size: 0.75em; }
-.crop-text { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; width:85px; }​
+.crop-text { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; width:103px; }
+p.nodata-info { text-align: center; font-size: 12px; color: #282756; }

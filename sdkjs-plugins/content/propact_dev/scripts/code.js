@@ -1009,6 +1009,9 @@
                                 '</div>';
                         });
                         document.getElementById('contractListItemsDiv').innerHTML += html;
+                    } else {
+                        let norecordhtml = '<p class="nodata-info">No clause available</p>';
+                        document.getElementById('contractListItemsDiv').innerHTML = norecordhtml;
                     }
                 }
             })
@@ -1177,11 +1180,14 @@
                             "Color": color,
                             "InternalId": randomNumber.toString()
                         };
+                        tagLists.push(nContentControlProperties);
                         window.Asc.plugin.executeMethod("AddContentControl", [nContentControlType, nContentControlProperties]);
                         var sDocumentEditingRestrictions = "readOnly";
                         window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-                        document.getElementById('divContractChatHistory').classList.remove(displayNoneClass);
+                        getContractSectionList();
+                        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
                         document.getElementById('divContractCreate').classList.add(displayNoneClass);
+                        document.getElementById('divContractLists').classList.remove(displayNoneClass);
                     }
                 })
                 .catch(error => {
