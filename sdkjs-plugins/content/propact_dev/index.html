@@ -15,7 +15,6 @@
  -->
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <title>ProPact</title>
     <meta charset="utf-8">
@@ -238,7 +237,7 @@
             <div class="chat-create-header" id="chatHeader">
                 <div class="conversation-left">
                     <span class="user-icon">
-                        <img src="images/profile-image.png" alt="">
+                        <img id="userProfileImageA" src="images/profile-image.png" alt="profile-picture">
                     </span>
                     <div class="user-inner">
                         <span class="user-name crop-text" id="userProfileNameA">-</span>
@@ -249,7 +248,7 @@
                     <ul>
                         <li>
                             <a href="#" id="btnGoToConversionHistory">
-                                <img src="images/chat-header-icon1.svg" alt="">
+                                <img src="images/chat-header-icon1.svg" alt="chat-icon">
                             </a>
                         </li>
                         <li>
@@ -341,8 +340,121 @@
                 <div class="chat-footer-inner" id="chatFooterInner">
                     <button class="btn" id="btnGoToCounterpartyA">Go to counterparty</button>
                     <div class="send-btn">
-                        <!--                        <button class="btn-primary attach"><img src="images/attach-icon.svg" alt=""></button>-->
                         <button class="btn-primary" id="btnSend"><img src="images/send-icon.svg" alt="">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="contract-sameside-chat d-none" id="divContractCounterpartyChat">
+        <div class="meeting-screen conversion-history">
+            <div class="chat-create-header counterparty" id="chatCounterpartyHeader">
+                <div class="conversation-left">
+                    <span class="user-icon">
+                        <img id="userProfileImageB" src="images/profile-image.png" alt="">
+                    </span>
+                    <div class="user-inner">
+                        <span class="user-name crop-text" id="userProfileNameB">-</span>
+                        <p class="crop-text" id="userProfileroleB">-</p>
+                    </div>
+                </div>
+                <div class="conversation-right">
+                    <ul>
+                        <li>
+                            <a href="#" id="btnGoToConversionHistoryA">
+                                <img src="images/chat-header-icon1.svg" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="images/chat-header-icon2.svg" alt="">
+                            </a>
+                            <div class="invite-user-tabs active">
+                                <div class="invite-user-tabs-header">
+                                    <ul class="nav nav-tabs" role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#users-tabs">Users</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" data-bs-toggle="tab" href="#user-teams">Teams</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="invite-user-tabs-body">
+                                    <div class="tab-content">
+                                        <div id="usersTabs" class="tab-pane active">
+                                            <div class="invite-user-list">
+                                                <ul>
+                                                    <li>
+                                                        <div class="invite-user-inner">
+                                                            <div class="invite-user-icon">
+                                                                <img src="images/henderson.png" alt="">
+                                                            </div>
+                                                            <div class="invite-user-name">
+                                                                <h3>Johnny Henderson</h3>
+                                                                <span>Legal Adviser</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="invite-user-inner">
+                                                            <div class="invite-user-icon">
+                                                                <img src="images/henderson.png" alt="">
+                                                            </div>
+                                                            <div class="invite-user-name">
+                                                                <h3>Johnny Henderson</h3>
+                                                                <span>Legal Adviser</span>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <div class="invite-btn">
+                                                    <button class="btn btn-primary">
+                                                        <img src="images/invite-user-btn-icon.svg "
+                                                             alt="invite user btn icon"> Invite
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="userTeams" class="tab-pane">
+                                            <div class="user-teams-list">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="images/chat-header-icon3.svg" alt="">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <img src="images/chat-header-icon4.svg" alt="">
+                            </a>
+                        </li>
+
+                    </ul>
+                    <a href="#" class="close-btn" id="btnRedirectClauseListsC">
+                        <img src="images/close.svg" alt="Close Icon">
+                    </a>
+                </div>
+            </div>
+            <div class="chat-body" id="chatCPBodyID">
+                <div class="chat-area" id="chatCPArea">
+                </div>
+            </div>
+            <div class="chat-create-footer">
+                <span id="typingSpanCP"></span>
+                <div class="form-group">
+                    <textarea type="textarea" id="messageInputCP" placeholder="Type message here"
+                              class="form-control"></textarea>
+                </div>
+                <div class="chat-footer-inner" id="chatFooterInnerCP">
+                    <button class="btn" id="btnGoToSameSideA">Go to same side</button>
+                    <div class="send-btn">
+                        <button class="btn-primary" id="btnSendCP"><img src="images/send-icon.svg" alt="">Send</button>
                     </div>
                 </div>
             </div>

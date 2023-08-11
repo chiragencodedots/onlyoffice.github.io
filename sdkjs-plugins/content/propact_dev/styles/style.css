@@ -226,3 +226,4 @@ p.nodata-info { text-align: center; font-size: 12px; color: #282756; }
 .btn.disabled, .btn:disabled, fieldset:disabled .btn { background-color: grey !important; color: white !important; border: none; }
 .btn-primary { color: #ffffff !important; border: 1px solid; }
 .btn-primary:hover { background-color: transparent !important; border-color: #282756 !important; color: #282756 !important; }
+span#typingSpanCP, span#typingSpan { font-size: 10px; }
