@@ -348,7 +348,7 @@
         /** Clause create form submit */
         $("#clauseForm").validate({
             submitHandler: function (form) {
-                createClauseSection();
+                createClauseSection(socket);
             }
         });
 
@@ -453,6 +453,8 @@
                 getContractSectionMessageHistory();
             }
         };
+
+
     };
     /**================================== Plugin Init End =================================*/
 
@@ -481,23 +483,11 @@
         } else if (_plugin.info.methodName == "GetCurrentContentControl") {
             if (tagLists && tagLists.length > 0 && returnValue) {
                 let selectedTag = tagLists.findIndex((ele) => ele.InternalId == returnValue);
-                if (fClickBtnCur) {
-                    //method for select content control by id
-                    window.Asc.plugin.executeMethod("SelectContentControl", [tagLists[selectedTag].Id]);
-                    fClickBtnCur = false;
-                } else if (!($('.div-selected').length && $('.div-selected')[0].id === tagLists[selectedTag].Id) && tagLists[selectedTag].Id) {
-                    if (document.getElementById(tagLists[selectedTag].Id)) {
-                        selectedCommentThereadID = tagLists[selectedTag].Tag;
+                if (selectedTag && selectedTag > -1 && tagLists[selectedTag].Id && document.getElementById(tagLists[selectedTag].Id)) {
+                    selectedCommentThereadID = tagLists[selectedTag].Tag;
 
-                        let chatRoomName = withType == 'Our Team' ? 'user_' + selectedCommentThereadID : "counter_" + selectedCommentThereadID;
-                        socket.emit('join_contract_section_chat_room', chatRoomName);
-
-                        $('.div-selected').removeClass('div-selected');
-                        $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('div-selected');
-                    }
-                } else if (!returnValue) {
-                    selectedCommentThereadID = '';
                     $('.div-selected').removeClass('div-selected');
+                    $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('div-selected');
                 }
             }
         }
@@ -515,7 +505,6 @@
         fClickLabel = false;
     };
     /**================== Plugin event_onTargetPositionChanged End ========================*/
-
 
     /**============================== Utils Function Start ================================*/
     /**
@@ -651,6 +640,9 @@
 
             let chatRoomName = loggedInUserDetails.userWebId + "_" + documentID;
             socket.emit('join_chat_room', chatRoomName);
+
+            let documentChatRoomName = documentID;
+            socket.emit('join_chat_room', documentChatRoomName);
 
             function user_is_typing_contract_section(socket, data) {
                 socket.emit('user_is_typing_contract_section', data);
@@ -809,6 +801,14 @@
                 newHistoryElement.innerHTML = htmlHistory;
                 contentHistoryDiv.appendChild(newHistoryElement);
             });
+
+            socket.on('forward_new_clause_create', data => {
+                if (data) {
+                    console.log('__data', data);
+                    tagLists.push(JSON.parse(data));
+                    getContractSectionList();
+                }
+            })
 
             // Handle connection errors
             socket.on('connect_error', (error) => {
@@ -1231,7 +1231,7 @@
     /**
      * @desc Create clause section
      */
-    function createClauseSection() {
+    function createClauseSection(socket) {
         try {
             var randomNumber = Math.floor(Math.random() * (1000000 - 1 + 1)) + 1;
             var commentID = Date.now() + '-' + randomNumber;
@@ -1280,6 +1280,11 @@
                         var sDocumentEditingRestrictions = "readOnly";
                         window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
                         getContractSectionList();
+                        let data = {
+                            chatRoomName: documentID,
+                            tagData: JSON.stringify(nContentControlProperties)
+                        }
+                        socket.emit('new_clause_created', data);
                         location.reload(true);
                         document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
                         document.getElementById('divContractCreate').classList.add(displayNoneClass);
