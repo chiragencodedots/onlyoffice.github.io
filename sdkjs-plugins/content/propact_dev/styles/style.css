@@ -9,7 +9,6 @@ a, a:focus, a:hover {text-decoration: none; transition: all 0.4s ease-in-out;}
 ul {padding: 0; margin: 0;}
 li {list-style: none;}
 img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
-
 /* ======================================= Editor Css ======================================= */
 .btn {width: auto; display: inline-block; margin: 0;  padding: 10px 18px; border: 0; font-size: 14px; color: #282756;  font-weight: 400; font-family: 'Poppins', sans-serif;  border-radius: 4px; min-width: 86px; text-align: center; box-shadow: none !important; outline: none !important; }
 .btn-secondary {background: #E5E5E5;}
@@ -20,7 +19,6 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .form-group label.error { font-weight: 400 !important; color: red; }
 .form-group .form-control {width: 100%; margin: 0; padding: 0 12px; border: 1px solid #DADDE0;  border-radius: 5px; height: 50px; font-size: 12px; color: #282756; font-weight: 400; font-family: 'Poppins', sans-serif; outline: none !important;}
 .form-group select.form-control { background-image: url(../images/select_Icon.svg); background-repeat: no-repeat; -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0.375rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; background-position: 99.5%; padding-right: 0px;}
-
 .left-sidebar { width: 100%; margin: 0; padding: 0; display: flex; flex-wrap: wrap; background: #FFFFFF; height: 100vh; max-width: 100%; overflow: hidden;}
 .invite-counterpartie { width: 100%; margin: 0; padding: 20px; float: left; height: auto;}
 .invite-counterpartie .invite-button { display: flex; width: 100%; margin: 0; padding: 18px 18px; text-align: center; border: 1px dashed #A2A6A7; font-size: 14px; color: #282756;  font-weight: 400; line-height: normal; border-radius: 4px; justify-content: center; align-items: center;}
@@ -34,7 +32,6 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .form-inner .submit-btn { float: right; margin:10px 0 0 0; padding: 0; clear: both;}
 .form-inner .submit-btn .btn {margin: 0 0 0 14px;}
 .form-inner .submit-btn .btn:first-child{margin: 0;}
-
 .contract-section { width: 100%; margin: 0; padding: 20px; float: left;}
 .intellivision-inner { width: 100%; margin: 0 0 20px 0; padding: 0; display: flex; align-items: center; flex-wrap: wrap;}
 .intellivision-inner img { border-radius: 50%; margin: 0 10px 0 0; padding: 0; object-fit: cover; object-position: center center; width: 40px; height: 40px;}
@@ -50,8 +47,6 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .contract-section.disabled .contract-user-inner {opacity: 50%;}
 .contract-user-list p { font-size: 12px; color: #282756; font-weight: 400; margin: 0; padding: 0; line-height: 22px;}
 .contract-user-list p a { font-size: 12px; color: #282756; font-weight: 600; text-decoration: underline; opacity: 1;}
-
-
 .contract-drafting { width: 100%; margin: 0; padding: 0; float: left;}
 .contract-drafting .contract-header { width: 100%; margin: 0; padding: 8px 20px; display: flex; align-items: center; justify-content: space-between; background: #F5F9FF;}
 .contract-drafting .contract-header h3 { margin: 0; padding: 0 15px 0 0; font-size: 14px; color: #282756; font-weight: 600;}
@@ -60,7 +55,6 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .contract-list .contract-search .form-group { width: 100%; margin: 0; padding: 0; float: left; position: relative;}
 .contract-list .contract-search .form-group .form-control { width: 100%; margin: 0; padding: 0 42px 0 12px; border: 1px solid #DADDE0; border-radius: 5px; height: 50px; font-size: 12px; color: #485666; font-weight: 400; font-family: 'Poppins', sans-serif;}
 .contract-list .contract-search .form-group .btn { position: absolute; right: 0; top: 0; width: auto; min-width: auto; padding: 14px 12px; background: transparent;}
-
 .contract-list-items {width: 100%; float: left; margin: 0;  padding: 2px 0 12px; height: calc(100% - 60px); overflow-y: auto; overflow-x: hidden;}
 .contract-list-items .contract-item { width: 99.75%; margin: 0 0 10px 0; padding: 12px 12px 7px 12px; float: left; background: #F7F7F7; border-radius: 6px;}
 .contract-list-items .contract-item a { width: 100%; margin: 0; padding: 0; float: left;}
@@ -72,7 +66,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .contract-item .contract-top .fuchsia-color{ color: #950495; border-color: #950495;}
 .contract-item .contract-top .success-color{ color:#11AE0C; border-color: #11AE0C;}
 .contract-foot { width: 100%; float: left; margin: 0; padding: 0;}
-.contract-foot .contract-foot-inner { display: flex; align-items: center; margin: 0 -15px; padding:8px 0 0 0;}
+.contract-foot .contract-foot-inner { display: flex; margin: 0 -15px; padding:8px 0 0 0;}
 .contract-foot-inner .contract-foot-item { width: 50%; padding: 0 15px; float: left; margin: 0; position: relative;}
 .contract-foot-inner .contract-foot-item::after { content: ""; border-right: 1px solid #E4E4E4; width: 1px; height: 100%; position: absolute; top: 0; right: 10px;}
 .contract-foot-inner .contract-foot-item:last-child::after{display: none;}
@@ -81,7 +75,6 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .contract-foot-inner .contract-foot-item .contract-user img { width: 24px; height: 24px; border-radius: 50%; margin: 0 4px 0 0; padding: 0;}
 .contract-foot-inner .contract-foot-item .contract-user span { font-size: 12px; color: #282756; font-weight: 400; margin: 0; padding: 0; display: block; width: calc(100% - 27px); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
 .contract-foot-inner .contract-foot-item .contract-user .approved-user-lists {display: flex; width: auto; margin: 0 7px 5px 0;}
-
 .create-contract{width: 100%; margin: 0; padding: 0; float: left;}
 .create-contract-header { background: #79D7FA; width: 100%; margin: 0; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;}
 .conversation-left { display: flex; align-items: center; margin: 0; padding: 0; flex-wrap: wrap;}
@@ -92,11 +85,9 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .conversation-left .user-inner p { font-size: 12px; line-height: 16px; margin: 0; padding: 0; display: block;}
 .create-contract-inner { width: 100%; margin: 0; padding: 20px; float: left;}
 .form-group textarea.form-control { min-height: 95px; margin: 0; padding: 12px;}
-
 .create-contract-inner .submit-btn { float: right; margin:10px 0 0 0; padding: 0; clear: both;}
 .create-contract-inner .submit-btn .btn {margin: 0 0 0 14px;}
 .create-contract-inner .submit-btn .btn:first-child{margin: 0;}
-
 .meeting-screen{ width: 100%; margin: 0; padding: 0; float: left; height: 100%;}
 .meeting-screen .chat-create-header { background: #79D7FA; width: 100%; margin: 0; padding: 17px 20px; display: flex; align-items: center; justify-content: space-between;}
 .meeting-screen .chat-create-header.counterparty { background: #FFBC81 !important; }
@@ -136,16 +127,11 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .chat-body .chat-area .dudhiya-color .message-content .message { background: #fff; border-radius: 5px; padding: 6px;}
 .chat-body .chat-area .top-bar {position: sticky; top: -12px; margin: 0; text-align: center; background: #ffff; padding: 4px 5px; z-index: 9;}
 .chat-body .chat-area .top-bar span { font-size: 12px; font-weight: 600; color: #282756; opacity: 50%;}
-
 .chat-create-footer { width: 100%; float: left; margin: 0; padding: 12px 20px 20px;}
 .chat-footer-inner { display: flex; justify-content: center; margin: 0; padding: 0; width: 100%; flex-wrap: wrap;}
 .chat-footer-inner .btn { border: 1px solid #282756; margin: 0 8px; background: transparent; color: #282756; opacity: 1; padding: 10px 12px; min-width: 157px;}
 .chat-footer-inner .btn:hover, .submit-btn .btn:hover    { cursor: pointer; }
-
-
 .chat-body .chat-area .grey-color .message-content {background:#F3F3F3;}
-
-
 .meeting-screen .chat-create-header .conversation-right { display: flex; align-items: center; margin: 0; padding: 0; position: relative;}
 .conversation-right > ul { display: flex; align-items: center; margin: 0; padding: 0; width: auto;}
 .conversation-right > ul li { margin: 0; padding: 0 6px; width: auto; float: left;}
@@ -170,7 +156,6 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .request-row .request-btn { display: flex; align-items: center; margin: 20px 0 0; padding: 0 0 0  10px;}
 .request-row .request-btn .btn { margin: 0 6px; min-width: 100px;}
 .request-row .request-btn .reject-btn { background: #FF0000; color: #fff;}
-
 .conversation-right > ul li .invite-user-tabs { width: 100%; position: absolute; background: #fff;  box-shadow: 0 3px 10px #0000001a; border-radius: 10px; min-width: 250px; left: auto; right: 0; top: 34px; padding: 20px 12px; transition: all .6s ease .1s; opacity: 0; transform: translateY(-15px); visibility:hidden; pointer-events: none; z-index: 99;}
 .conversation-right > ul li .invite-user-tabs:after{ background: url(../images/Polygon_icon.svg) no-repeat center center; content: ""; position: absolute; margin: 0; padding: 0; width: 14px; height: 14px; top: -5px; left: 108px; right: auto;}
 .conversation-right > ul li.active .invite-user-tabs{transform: translate(0); opacity: 1; visibility: visible; pointer-events: auto;}
@@ -193,19 +178,6 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .invite-user-list .invite-btn .btn-primary {padding: 4px 15px; font-size: 14px; font-weight: 400; background: #282756 !important;  color: #fff !important; border: 1px solid !important;}
 .invite-user-list .invite-btn .btn-primary:hover{opacity: 90%}
 .d-none { display: none; }
-@media only screen and (max-width:375px){
-    .chat-footer-inner .btn { margin: 0 4px;  padding: 10px 12px; min-width: auto;}
-    .btn {font-size: 12px;}
-    .chat-body .chat-area .message-wrapper .message-content {min-width: auto;}
-    .conversation-right > ul li {padding: 0 4px;}
-    .conversation-right > ul li a img { max-width: 24px; max-height: 24px;}
-    .conversation-left .user-icon { width: 35px; height: 35px; margin: 0 6px 0 0;}
-    .conversation-left .user-inner .user-name {font-size: 12px;}
-    .conversion-history .chat-footer-inner .send-btn .btn-primary { margin: 0 0 0 2px; padding: 0 10px;}
-    .meeting-screen .chat-create-header .conversation-right .close-btn img { max-width: 24px;}
-    .chat-body .chat-area .message-wrapper .message-content .delete-icon {right: -20px;}
-
-}
 .btn-markup { border: 1px solid }
 .btn-markup:hover{background-color:#282756 !important; border-color: #282756 !important; color: #fff !important;}
 /* ======================================= Editor Css ======================================= */
@@ -234,11 +206,8 @@ p.nodata-info { text-align: center; font-size: 12px; color: #282756; }
 span#typingSpanCP, span#typingSpan { font-size: 10px; }
 .invite-user-list #userTabContent, .invite-user-list #teamTabContent { padding: 0 8px }
 .invite-teams-popup, .invite-users-popup, .position-confirmation-popup { width: 100%; float: left; margin: 0; padding: 40px 12px; position: absolute; left: 0; right: 0; bottom: 0; background: #fff; z-index: 9; box-shadow: 0 -3px 10px #0000001a; border-radius: 10px 10px 4px 4px; }
-.select-user-table h4 { font-size: 1rem; }
 .contract-completed { opacity: .5!important; pointer-events: none!important; }
 .chat-body .chat-area .message-wrapper .message-content .message p { font-size: 12px; font-weight: 400; line-height: 17px; color: #282756; }
-
-
 
 /*==================================== 22-08-2023 ====================================*/
 .invite-users-inner { width: 100%; margin: 0; padding: 0; display: block;}
@@ -247,16 +216,16 @@ span#typingSpanCP, span#typingSpan { font-size: 10px; }
 .chat-create-footer .chat-typing-area {width: 100%; margin: 0; padding: 0; display: block; text-align: center; }
 .chat-create-footer .chat-typing-area .position-text { font-size: 14px; color: #282756; font-weight: 400; margin: 0 auto 20px; max-width: 340px;}
 .select-user-table { width: 100%; margin: 0; padding: 0; display: block;}
-.select-user-table h4 { margin: 0 0 15px 0; padding: 0; display: block; width: 100%;}
+.select-user-table h4 { margin: 0 0 15px 0; padding: 0; display: block; width: 100%; color: #282756; font-size: 1rem;}
 .select-user-table .table-responsive { width: 100%; margin: 0; padding: 0; }
 .select-user-table .table-responsive thead th {vertical-align: middle; font-size: 14px; font-weight: 500; margin: 0;}
 .select-user-table .table-responsive tbody td {vertical-align: middle; font-size: 14px; font-weight: 400; margin: 0;}
 .select-user-table .table-responsive .form-check {display: block; min-height: 0; padding-left: 0; margin-bottom: 0;}
-.confirmation-form .accordion-header input[type=checkbox],.select-user-table .table-responsive input[type=checkbox] {position: relative; border: 1px solid #282756; border-radius: 2px; cursor: pointer; line-height: 0; margin: 2px 0 0 0; outline: 0; padding: 0 !important; vertical-align: text-top; height: 18px;width: 18px; -webkit-appearance: none; opacity: 1; background-color: #fff; box-shadow: none !important; }
-.confirmation-form .accordion-header input[type=checkbox]:hover,.select-user-table .table-responsive input[type=checkbox]:hover {opacity: 1;}
-.confirmation-form .accordion-header input[type=checkbox]:checked,.select-user-table .table-responsive input[type=checkbox]:checked {background-color:#282756; opacity: 1;}
-.confirmation-form .accordion-header input[type=checkbox]:before,.select-user-table .table-responsive input[type=checkbox]:before { content: ''; position: absolute; right: 50%; top: 50%;  width: 6px; height: 10px; border: solid #FFF;  border-width: 0 2px 2px 0; margin: -1px -2px 0 -1px;  transform: rotate(45deg) translate(-50%, -50%); z-index: 2;}
-
+input[type=checkbox] {position: relative; border: 1px solid #282756 !important; border-radius: 2px; cursor: pointer; line-height: 0; margin: 2px 0 0 0; outline: 0; padding: 0 !important; vertical-align: text-top; height: 18px;width: 18px; -webkit-appearance: none; opacity: 1; background-color: #fff; box-shadow: none !important; }
+input[type=checkbox]:hover {opacity: 1;}
+input[type=checkbox]:checked {background-color:#282756 !important; opacity: 1;}
+input[type=checkbox]:before { content: ''; position: absolute; right: 50%; top: 50%;  width: 6px; height: 10px; border: solid #FFF;  border-width: 0 2px 2px 0; margin: -1px -2px 0 -1px;  transform: rotate(45deg) translate(-50%, -50%); z-index: 2;}
+.form-check-input:focus {border-color: #282756 !important; outline: 0 !important; box-shadow: none !important;}
 .confirmation-form { width: 100%; margin: 0; padding: 0; display: block;}
 .confirmation-form .accordion-header { width: 100%; display: block; clear: both; margin: 0 0 20px 0; padding: 0;}
 .filter-box {width: 100%; margin: 10px 0 0 0; padding: 0; display: block;}
@@ -264,4 +233,87 @@ span#typingSpanCP, span#typingSpan { font-size: 10px; }
 .filter-box .filter-inner {width: 100%; margin: 0; padding: 0; display: block;}
 .filter-box .filter-inner li { margin: 0 0 15px 0;}
 .filter-box .filter-inner li:last-child {margin: 0;}
+.contract-drafting .contract-header .btn-markup {color: #282756  !important;}
+.contract-drafting .contract-header .btn-markup:hover{color: #fff  !important;}
+.contract-drafting .contract-header .btn-primary {color: #ffffff !important;}
+.contract-drafting .contract-header .btn-primary:hover{color: #282756  !important;}
+.filter-box .accordion-item .accordion-button { font-size: 14px; font-weight: 500; gap: 10px; color: #282756;}
+.filter-box .filter-inner .form-check { gap: 10px; display: flex; align-items: center;}
+.filter-box .filter-inner .form-check .form-check-label { margin: 0;}
+.filter-box .filter-inner .form-check .form-check-label strong {font-weight: 500;}
+.accordion-button:not(.collapsed) {background-color: #ebebeb;}
 /*==================================== 22-08-2023 ====================================*/
+
+
+@media only screen and (max-width:375px){
+    .chat-footer-inner .btn { margin: 0 4px;  padding: 10px 12px; min-width: auto;}
+    .btn {font-size: 12px;}
+    .request-row .request-content,.chat-body .chat-area .message-wrapper .message-content {min-width: auto;}
+    .conversation-right > ul li {padding: 0 4px;}
+    .conversation-right > ul li a img { max-width: 24px; max-height: 24px;}
+    .conversation-left .user-icon { width: 35px; height: 35px; margin: 0 6px 0 0;}
+    .conversation-left .user-inner .user-name {font-size: 12px;}
+    .conversion-history .chat-footer-inner .send-btn .btn-primary { margin: 0 0 0 2px; padding: 0 10px;}
+    .meeting-screen .chat-create-header .conversation-right .close-btn img { max-width: 24px;}
+    .chat-body .chat-area .message-wrapper .message-content .delete-icon {right: -20px;}
+    .contract-list .contract-search .form-group .form-control {height: 40px; }
+    .contract-list .contract-search .form-group .btn {padding: 10px 12px; height: 40px}
+    .contract-list .contract-search .form-group .btn img {max-width: 15px;}
+    .chat-body .chat-area .message-wrapper strong,.chat-body .chat-area .message-wrapper.reverse strong {font-size: 12px;}
+    .select-user-table .table-responsive tbody td,.select-user-table .table-responsive thead th {font-size: 12px;}
+    .select-user-table h4 { margin: 0 0 10px 0; font-size: 14px; }
+    .confirmation-form .accordion-header label {font-size: 12px; line-height: 16px;}
+    .form-group .form-control {height: 40px;}
+    .confirmation-form .accordion-header .accordion-button {padding: 10px 12px; font-size: 12px;}
+    .confirmation-form .accordion-collapse .accordion-body {padding: 8px 10px;}
+    .conversation-right > ul li .invite-user-tabs {min-width: 230px; padding: 10px 10px;}
+    .invite-user-tabs .invite-user-tabs-header .nav-tabs {margin: 0 auto 10px; max-width: 216px;}
+    .invite-user-tabs-header .nav-tabs .nav-item .nav-link {font-size: 12px; min-width: 100px;}
+    .invite-user-list ul li .invite-user-inner .invite-user-icon img {width: 30px; height: 30px;}
+    .invite-user-list ul li .invite-user-inner .invite-user-name {width: calc(100% - 40px);}
+    .invite-user-list ul li .invite-user-inner .invite-user-name h3 {font-size: 12px; margin: 0 0 0; line-height: 16px;}
+    .invite-user-list ul li .invite-user-inner .invite-user-name span {line-height: 15px;}
+    .conversion-history .chat-footer-inner .send-btn .btn-primary {font-size: 12px;}
+    .invite-user-list .invite-btn .btn-primary {font-size: 12px;}
+    .filter-box .accordion-item .accordion-button {font-size: 12px; padding: 10px 10px;}
+    .accordion-body {padding: 10px;}
+}
+@media only screen and (max-width:350px){
+    .meeting-screen .chat-create-header {padding: 10px 10px;}
+    .contract-drafting .contract-header {padding: 8px 10px;}
+    .conversation-left .user-icon { width: 25px; height: 25px;}
+    .btn {padding: 6px 8px;}
+    .contract-list {padding: 12px 10px;}
+    div#inviteTeamPopup .invite-users-inner img, .contract-list-items .contract-item {padding: 10px 10px 5px 10px;}
+    .contract-foot-inner .contract-foot-item {padding: 0 10px;}
+    .contract-foot .contract-foot-inner {margin: 0 -10px;}
+    .contract-foot-inner .contract-foot-item::after {right: 5px;}
+    .chat-create-header h3 {font-size: 12px; line-height: 18px;}
+    .chat-body {padding: 10px 10px 10px;}
+    .message-wrapper .profile-picture img { width: 25px; height: 25px; border: 1px ;}
+    .message-wrapper .profile-picture .name { font-size: 10px; margin: 0 0 0 4px; line-height: 16px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+    .message-wrapper .profile-picture .last-seen { font-size: 10px; margin: 0 0 0 4px; line-height: 16px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+    .message-wrapper.reverse .profile-picture .name,.message-wrapper.reverse .profile-picture .last-seen {margin: 0 4px 0 0;}
+    .message-wrapper .profile-picture .name small {display: none;}
+    .chat-body .chat-area .message-wrapper .message-content {padding: 6px;}
+    .request-row .request-content {padding: 6px;}
+    .conversation-left {flex-wrap: inherit;}
+    .conversation-left .user-inner .user-name {font-size: 11px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; width: 80px;}
+    .conversation-left .user-inner p {white-space: nowrap; text-overflow: ellipsis; overflow: hidden; width: 80px; font-size: 10px;}
+    .conversation-right > ul li a img {max-width: 20px; max-height: 20px; }
+    .conversation-right > ul li {padding: 0 2px;}
+    .chat-create-footer {padding: 10px 10px 10px;}
+    .conversion-history .chat-body {height: calc(100vh - 217px); }
+    .conversion-history .chat-footer-inner .send-btn .btn-primary {height: 40px; line-height: 40px;}
+    .conversion-history .chat-footer-inner .btn {margin: 0; height: 40px;}
+    .chat-footer-inner { flex-wrap: inherit;}
+    .chat-footer-inner .btn {margin: 0 2px; padding: 10px 4px;}
+    .contract-list {height: calc(100vh - 48px);}
+    .invite-teams-popup, .invite-users-popup, .position-confirmation-popup {padding: 20px 10px;}
+    .invite-users-inner img {width: 40px; margin: 0 auto 10px;}
+    div#inviteTeamPopup .invite-users-inner img, div#inviteUserPopup .invite-users-inner img {max-width: 30px;}
+    .invite-users-inner h3 {font-size: 14px;}
+    .conversion-history .chat-footer-inner .send-btn .btn-primary img {margin: 0 6px 0 0; max-width: 16px;}
+    .request-row .request-btn {padding: 0 0 0  0;}
+    .request-row .request-btn .btn {margin: 0 4px; min-width: 90px;}
+}

@@ -2660,7 +2660,7 @@
                         nContentControlProperties = {
                             "Id": randomNumber,
                             "Tag": commentID,
-                            "Lock": 1,
+                            "Lock": 2,
                             "Color": color,
                             "InternalId": randomNumber.toString()
                         };
@@ -4348,6 +4348,7 @@
                                 '      <strong>' + postData.actionperformedbyUser + ' has assigned ' + postData.sendToName + ' to draft this contract section</strong>\n' +
                                 '   </div>\n' +
                                 '</div>\n';
+                            getOpenContractUserDetails(socket, redirection = false);
                         } else {
                             html += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "light-gold-color" : "") + '">\n' +
                                 '   <div class="profile-picture">\n' +
