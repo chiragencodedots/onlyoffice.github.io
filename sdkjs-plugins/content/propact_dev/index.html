@@ -61,7 +61,8 @@
                     </div>
                     <div class="form-group">
                         <label class="">Email</label>
-                        <input type="email" class="form-control" placeholder="Email" name="email" required id="inviteEmailAddress">
+                        <input type="email" class="form-control" placeholder="Email" name="email" required
+                               id="inviteEmailAddress">
                     </div>
                     <div class="form-group">
                         <label class="">Organisation name</label>
@@ -251,71 +252,70 @@
                                 <img src="images/chat-header-icon1.svg" alt="chat-icon">
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
+                        <li class="action-sameside">
+                            <a href="#" id="toggleInviteUserTeam">
                                 <img src="images/chat-header-icon2.svg" alt="">
                             </a>
                             <div class="invite-user-tabs active">
                                 <div class="invite-user-tabs-header">
                                     <ul class="nav nav-tabs" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" data-bs-toggle="tab" href="#users-tabs">Users</a>
+                                            <a class="nav-link active" data-bs-toggle="tab" href="#usersTabs">Users</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#user-teams">Teams</a>
+                                            <a class="nav-link" data-bs-toggle="tab" href="#userTeams">Teams</a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="invite-user-tabs-body">
                                     <div class="tab-content">
-                                        <div id="users-tabs" class="tab-pane active">
+                                        <div id="usersTabs" class="tab-pane active">
                                             <div class="invite-user-list">
-                                                <ul>
-                                                    <li>
-                                                        <div class="invite-user-inner">
-                                                            <div class="invite-user-icon">
-                                                                <img src="images/henderson.png" alt="">
+                                                <div id="userTabContent">
+                                                    <!--<ul>
+                                                        <li>
+                                                            <div class="invite-user-inner">
+                                                                <div class="invite-user-icon">
+                                                                    <img src="images/henderson.png" alt="">
+                                                                </div>
+                                                                <div class="invite-user-name">
+                                                                    <h3>Johnny Henderson</h3>
+                                                                    <span>Legal Adviser</span>
+                                                                </div>
                                                             </div>
-                                                            <div class="invite-user-name">
-                                                                <h3>Johnny Henderson</h3>
-                                                                <span>Legal Adviser</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="invite-user-inner">
-                                                            <div class="invite-user-icon">
-                                                                <img src="images/henderson.png" alt="">
-                                                            </div>
-                                                            <div class="invite-user-name">
-                                                                <h3>Johnny Henderson</h3>
-                                                                <span>Legal Adviser</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
+                                                        </li>
+                                                    </ul>-->
+                                                </div>
                                                 <div class="invite-btn">
-                                                    <button class="btn btn-primary">
-                                                        <img src="images/invite-user-btn-icon.svg "
+                                                    <button class="btn btn-primary" id="btnInviteUsers">
+                                                        <img src="images/invite-user-btn-icon.svg"
                                                              alt="invite user btn icon"> Invite
                                                     </button>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="user-teams" class="tab-pane">
-                                            <div class="user-teams-list">
+                                        <div id="userTeams" class="tab-pane">
+                                            <div class="user-teams-list invite-user-list">
+                                                <div id="teamTabContent">
+                                                </div>
+                                                <div class="invite-btn">
+                                                    <button class="btn btn-primary" id="btnInviteUserTeams">
+                                                        <img src="images/invite-user-btn-icon.svg"
+                                                             alt="invite team btn icon"> Invite
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </li>
-                        <li>
-                            <a href="#">
+                        <li class="action-sameside">
+                            <a href="#" id="toggleSendPositionConfirmation">
                                 <img src="images/chat-header-icon3.svg" alt="">
                             </a>
                         </li>
-                        <li>
+                        <li class="action-sameside">
                             <a href="#">
                                 <img src="images/chat-header-icon4.svg" alt="">
                             </a>
@@ -331,16 +331,19 @@
                 <div class="chat-area" id="chatArea">
                 </div>
             </div>
-            <div class="chat-create-footer">
-                <span id="typingSpan"></span>
-                <div class="form-group">
+            <div class="chat-create-footer" id="chatContractSameSideFooter">
+                <div id="sameSideTypeBox">
+                    <span id="typingSpan"></span>
+                    <div class="form-group">
                     <textarea type="textarea" id="messageInput" placeholder="Type message here"
                               class="form-control"></textarea>
-                </div>
-                <div class="chat-footer-inner" id="chatFooterInner">
-                    <button class="btn" id="btnGoToCounterpartyA">Go to counterparty</button>
-                    <div class="send-btn">
-                        <button class="btn-primary" id="btnSend"><img src="images/send-icon.svg" alt="">Send</button>
+                    </div>
+                    <div class="chat-footer-inner" id="chatFooterInner">
+                        <button class="btn" id="btnGoToCounterpartyA">Go to counterparty</button>
+                        <div class="send-btn">
+                            <button class="btn-primary" id="btnSend"><img src="images/send-icon.svg" alt="">Send
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -351,11 +354,11 @@
             <div class="chat-create-header counterparty" id="chatCounterpartyHeader">
                 <div class="conversation-left">
                     <span class="user-icon">
-                        <img id="userProfileImageB" src="images/profile-image.png" alt="">
+                        <img id="oppsiteUserProfileImage" src="images/profile-image.png" alt="">
                     </span>
                     <div class="user-inner">
-                        <span class="user-name crop-text" id="userProfileNameB">-</span>
-                        <p class="crop-text" id="userProfileroleB">-</p>
+                        <span class="user-name crop-text" id="oppsiteUserProfileName">-</span>
+                        <p class="crop-text" id="oppsiteUserProfilerole">-</p>
                     </div>
                 </div>
                 <div class="conversation-right">
@@ -365,71 +368,12 @@
                                 <img src="images/chat-header-icon1.svg" alt="">
                             </a>
                         </li>
-                        <li>
-                            <a href="#">
-                                <img src="images/chat-header-icon2.svg" alt="">
-                            </a>
-                            <div class="invite-user-tabs active">
-                                <div class="invite-user-tabs-header">
-                                    <ul class="nav nav-tabs" role="tablist">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" data-bs-toggle="tab" href="#users-tabs">Users</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" data-bs-toggle="tab" href="#user-teams">Teams</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="invite-user-tabs-body">
-                                    <div class="tab-content">
-                                        <div id="usersTabs" class="tab-pane active">
-                                            <div class="invite-user-list">
-                                                <ul>
-                                                    <li>
-                                                        <div class="invite-user-inner">
-                                                            <div class="invite-user-icon">
-                                                                <img src="images/henderson.png" alt="">
-                                                            </div>
-                                                            <div class="invite-user-name">
-                                                                <h3>Johnny Henderson</h3>
-                                                                <span>Legal Adviser</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li>
-                                                        <div class="invite-user-inner">
-                                                            <div class="invite-user-icon">
-                                                                <img src="images/henderson.png" alt="">
-                                                            </div>
-                                                            <div class="invite-user-name">
-                                                                <h3>Johnny Henderson</h3>
-                                                                <span>Legal Adviser</span>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                                <div class="invite-btn">
-                                                    <button class="btn btn-primary">
-                                                        <img src="images/invite-user-btn-icon.svg "
-                                                             alt="invite user btn icon"> Invite
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div id="userTeams" class="tab-pane">
-                                            <div class="user-teams-list">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#">
+                        <li class="action-counterparty">
+                            <a href="#" id="toggleSendPositionConfirmationA">
                                 <img src="images/chat-header-icon3.svg" alt="">
                             </a>
                         </li>
-                        <li>
+                        <li class="action-counterparty">
                             <a href="#">
                                 <img src="images/chat-header-icon4.svg" alt="">
                             </a>
@@ -445,21 +389,276 @@
                 <div class="chat-area" id="chatCPArea">
                 </div>
             </div>
-            <div class="chat-create-footer">
-                <span id="typingSpanCP"></span>
-                <div class="form-group">
+            <div class="chat-create-footer" id="chatContractCounterpartyFooter">
+                <div id="counterpartyTypeBox">
+                    <span id="typingSpanCP"></span>
+                    <div class="form-group">
                     <textarea type="textarea" id="messageInputCP" placeholder="Type message here"
                               class="form-control"></textarea>
-                </div>
-                <div class="chat-footer-inner" id="chatFooterInnerCP">
-                    <button class="btn" id="btnGoToSameSideA">Go to same side</button>
-                    <div class="send-btn">
-                        <button class="btn-primary" id="btnSendCP"><img src="images/send-icon.svg" alt="">Send</button>
+                    </div>
+                    <div class="chat-footer-inner" id="chatFooterInnerCP">
+                        <button class="btn" id="btnGoToSameSideA">Go to same side</button>
+                        <div class="send-btn">
+                            <button class="btn-primary" id="btnSendCP"><img src="images/send-icon.svg" alt="">Send
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="bottom-popup">
+        <div class="invite-users-popup d-none" id="inviteUserPopup">
+            <div class="invite-users-inner">
+                <img src="images/invite-user-icon.svg" alt="Invite Users">
+                <h3 id="allUserInvitedMessage" class="d-none">All the users are selected</h3>
+                <h3 id="noUserInviteListMessage" class="d-none">There are no Users to select. You need to add Users
+                    from the contract dashboard first</h3>
+                <h3 id="partiallyInvitedUserListMessage" class="d-none">Add a user to this clause</h3>
+                <div class="select-user-table d-none" id="inviteUserTable">
+                </div>
+                <div class="confirmation-form">
+                    <div class="submit-btn">
+                        <button type="submit" class="btn btn-secondary" id="goBackToScreen">Back</button>
+                        <button type="submit" class="btn btn-primary d-none" id="sendInviteUsers" disabled>Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="invite-teams-popup d-none" id="inviteTeamPopup">
+            <div class="invite-users-inner">
+                <img src="images/invite-user-icon.svg" alt="Invite Users">
+                <h3 id="allTeamInvitedMessage" class="d-none">All the teams are selected</h3>
+                <h3 id="noTeamInviteListMessage" class="d-none">There are no teams to select. You need to add teams
+                    from the contract dashboard first</h3>
+                <h3 id="partiallyInvitedTeamListMessage" class="d-none">Add a team to this clause</h3>
+                <div class="select-user-table d-none" id="inviteTeamTable">
+                </div>
+                <div class="confirmation-form">
+                    <div class="submit-btn">
+                        <button type="submit" class="btn btn-secondary" id="goBackToScreenA">Back</button>
+                        <button type="submit" class="btn btn-primary d-none" id="sendInviteTeams" disabled>Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="position-confirmation-popup d-none" id="sendPositionConfirmationPopup">
+            <div class="invite-users-inner">
+                <img src="images/position_confirmation.svg" alt="Send For Position Confirmation">
+                <h3>Send For Position Confirmation</h3>
+                <div class="confirmation-form">
+                    <form id="frmSendPositionConfirmation" method="get" action>
+                        <div class="form-group">
+                            <label class="form-label">Contract Description</label>
+                            <textarea class="form-control" name="contract-description"
+                                      id="inputSendPositionConfirmation"
+                                      placeholder="Contract Description" required></textarea>
+                        </div>
+                        <div class="submit-btn">
+                            <button type="button" class="btn btn-secondary" id="goBackToScreenB">Back</button>
+                            <button type="submit" class="btn btn-primary pull-right" id="sendPositionConfirmation">
+                                Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="position-confirmation-popup d-none" id="reconfirmPositionPopup">
+            <div class="invite-users-inner">
+                <img src="images/position_confirmation.svg" alt="Send For Position Confirmation">
+                <h3>Position Confirmation</h3>
+                <div class="confirmation-form">
+                    <form id="frmReconfirmPosition" method="get" action>
+                        <input type="hidden" id="approvePositionMessageId" value=""/>
+                        <div class="form-group">
+                            <label class="form-label">Position to be confirmed</label>
+                            <textarea class="form-control" name="contract-description" id="inputPositionReason"
+                                      placeholder="Position Reason" required></textarea>
+                        </div>
+                        <div class="accordion-header">
+                            <div class="accordion-head">
+                                <label>
+                                    <input type="checkbox" name="myCheckbox" id="sendToTeamForDraft">
+                                    Send to a team member for drafting?
+                                </label>
+                            </div>
+                        </div>
+                        <div id="divDraftingBox" class="d-none">
+                            <input type="hidden" id="assignDraftRequestUserIdB" value=""/>
+                            <div class="form-group">
+                                <input type="text" class="form-control invite-users-input" id="assignDraftRequestInputB"
+                                       placeholder="Select user" readonly>
+                                <div class="filter-box invite-users-box d-none" id="assignDraftRequestBoxB">
+                                    <div class="accordion" id="accordionExampleB">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header">
+                                                <button class="accordion-button collapsed" id="btncollapseUsersB"
+                                                        type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#collapseUsersB"
+                                                        aria-expanded="false" aria-controls="collapseUsersB">
+                                                    Users
+                                                </button>
+                                            </h2>
+                                            <div id="collapseUsersB" class="accordion-collapse collapse"
+                                                 data-bs-parent="#accordionExampleB">
+                                                <div class="accordion-body" id="accordionBodyUsersB">
+                                                    <p class="text-left" id="usersNoteFoundMessageB">
+                                                        There are no users to select. You need to add them from the
+                                                        contract
+                                                        dashboard first.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="submit-btn">
+                            <button type="button" class="btn btn-secondary" id="goBackToScreenD">Back</button>
+                            <button type="submit" class="btn btn-primary pull-right" id="sendReconfirmPosition">Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="position-confirmation-popup d-none" id="rejectPositionPopup">
+            <div class="invite-users-inner">
+                <img src="images/position_confirmation.svg" alt="Send For Position Confirmation">
+                <h3>Reject Position</h3>
+                <div class="confirmation-form">
+                    <form id="frmRejectPosition" method="get" action>
+                        <input type="hidden" id="rejectPositionMessageId" value=""/>
+                        <div class="form-group">
+                            <label class="form-label">Rejection Reason</label>
+                            <textarea class="form-control" name="contract-description" id="inputRejectPositionReason"
+                                      placeholder="Rejection Reason" required></textarea>
+                        </div>
+                        <div class="submit-btn">
+                            <button type="button" class="btn btn-secondary" id="goBackToScreenE">Back</button>
+                            <button type="submit" class="btn btn-primary pull-right" id="sendRejectPosition">Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="position-confirmation-popup d-none" id="assignDraftRequestPopup">
+            <div class="invite-users-inner">
+                <img src="images/position_confirmation.svg" alt="Send For Position Confirmation">
+                <h3>Assign Draft Request</h3>
+                <div class="confirmation-form">
+                    <form id="frmAssignDraftRequest" method="get" action>
+                        <input type="hidden" id="assignDraftRequestMessageId" value=""/>
+                        <input type="hidden" id="assignDraftRequestUserId" value=""/>
+                        <div class="form-group">
+                            <input type="text" class="form-control invite-users-input" id="assignDraftRequestInput"
+                                   placeholder="Select user" readonly>
+                            <div class="filter-box invite-users-box d-none" id="assignDraftRequestBox">
+                                <div class="accordion" id="accordionExampleA">
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header">
+                                            <button class="accordion-button collapsed" id="btncollapseUsersA"
+                                                    type="button"
+                                                    data-bs-toggle="collapse" data-bs-target="#collapseUsersA"
+                                                    aria-expanded="false" aria-controls="collapseUsersA">
+                                                Users
+                                            </button>
+                                        </h2>
+                                        <div id="collapseUsersA" class="accordion-collapse collapse"
+                                             data-bs-parent="#accordionExampleA">
+                                            <div class="accordion-body" id="accordionBodyUsersA">
+                                                <p class="text-left" id="usersNoteFoundMessageA">
+                                                    There are no users to select. You need to add them from the contract
+                                                    dashboard first.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="submit-btn">
+                            <button type="button" class="btn btn-secondary" id="goBackToScreenF">Back</button>
+                            <button type="submit" class="btn btn-primary pull-right" id="sendAssignDraftRequest"
+                                    disabled>Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="position-confirmation-popup d-none" id="sendDraftConfirmationPopup">
+            <div class="invite-users-inner">
+                <img src="images/position_confirmation.svg" alt="Send For Draft Confirmation">
+                <h3>Send For Draft Confirmation</h3>
+                <div class="confirmation-form">
+                    <form id="frmSendDraftConfirmation" method="get" action>
+                        <div class="form-group">
+                            <label class="form-label">Draft to be confirmed</label>
+                            <textarea class="form-control" name="contract-description"
+                                      id="inputSendDraftConfirmation"
+                                      placeholder="Draft Confirmation Reason" required></textarea>
+                        </div>
+                        <div class="submit-btn">
+                            <button type="button" class="btn btn-secondary" id="goBackToScreenG">Back</button>
+                            <button type="submit" class="btn btn-primary pull-right" id="sendDraftConfirmation">
+                                Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="position-confirmation-popup d-none" id="rejectDarftRequestPopup">
+            <div class="invite-users-inner">
+                <img src="images/position_confirmation.svg" alt="Send For Position Confirmation">
+                <h3>Reject Draft Request</h3>
+                <div class="confirmation-form">
+                    <form id="frmRejectDarftRequest" method="get" action>
+                        <input type="hidden" id="rejectDraftRequestMessageId" value=""/>
+                        <div class="form-group">
+                            <label class="form-label">Rejection Reason</label>
+                            <textarea class="form-control" name="contract-description" id="inputRejectDraftRequestReason"
+                                      placeholder="Rejection Reason" required></textarea>
+                        </div>
+                        <div class="submit-btn">
+                            <button type="button" class="btn btn-secondary" id="goBackToScreenI">Back</button>
+                            <button type="submit" class="btn btn-primary pull-right" id="sendRejectDraftRequest">Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="position-confirmation-popup d-none" id="rejectDarftPopup">
+            <div class="invite-users-inner">
+                <img src="images/position_confirmation.svg" alt="Send For Position Confirmation">
+                <h3>Reject Draft</h3>
+                <div class="confirmation-form">
+                    <form id="frmRejectDraft" method="get" action>
+                        <input type="hidden" id="rejectDraftMessageId" value=""/>
+                        <div class="form-group">
+                            <label class="form-label">Rejection Reason</label>
+                            <textarea class="form-control" name="contract-description" id="inputRejectDraftReason"
+                                      placeholder="Rejection Reason" required></textarea>
+                        </div>
+                        <div class="submit-btn">
+                            <button type="button" class="btn btn-secondary" id="goBackToScreenH">Back</button>
+                            <button type="submit" class="btn btn-primary pull-right" id="sendRejectDraft">Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 </body>
 </html>
