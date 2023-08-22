@@ -11,9 +11,10 @@ li {list-style: none;}
 img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 
 /* ======================================= Editor Css ======================================= */
-.btn {width: auto; display: inline-block; margin: 0; padding: 10px 18px; border: 0; font-size: 14px; color: #282756; font-weight: 400; font-family: 'Poppins', sans-serif; border-radius: 4px; min-width: 86px; text-align: center;}
+.btn {width: auto; display: inline-block; margin: 0;  padding: 10px 18px; border: 0; font-size: 14px; color: #282756;  font-weight: 400; font-family: 'Poppins', sans-serif;  border-radius: 4px; min-width: 86px; text-align: center; box-shadow: none !important; outline: none !important; }
 .btn-secondary {background: #E5E5E5;}
-.btn-primary { background: #282756; color: #fff !important; }
+.btn-primary { color: #ffffff !important; border: 1px solid !important; background: #282756 !important; }
+.btn-primary:hover { background-color: transparent !important; border-color: #282756 !important; color: #282756 !important; }
 .form-group {width: 100%; margin: 0 0 20px 0; padding: 0; float: left;}
 .form-group label { font-size: 12px; font-weight: 500; color: #282756; display: flex; margin: 0 0 6px 0; padding: 0; width: 100%;}
 .form-group label.error { font-weight: 400 !important; color: red; }
@@ -61,7 +62,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .contract-list .contract-search .form-group .btn { position: absolute; right: 0; top: 0; width: auto; min-width: auto; padding: 14px 12px; background: transparent;}
 
 .contract-list-items {width: 100%; float: left; margin: 0;  padding: 2px 0 12px; height: calc(100% - 60px); overflow-y: auto; overflow-x: hidden;}
-.contract-list-items .contract-item { width: 99.75%; margin: 0 0 10px 0; padding: 12px; float: left; background: #F7F7F7; border-radius: 6px;}
+.contract-list-items .contract-item { width: 99.75%; margin: 0 0 10px 0; padding: 12px 12px 7px 12px; float: left; background: #F7F7F7; border-radius: 6px;}
 .contract-list-items .contract-item a { width: 100%; margin: 0; padding: 0; float: left;}
 .contract-item .contract-top { width: 100%; margin: 0; padding: 0 0 10px 0; border-bottom: 1px solid #E4E4E4; float: left;}
 .contract-item .contract-top h3 { font-size: 14px; font-weight: 600; color: #282756; margin: 0 0 8px 0; padding: 0; width: 100%; display: block;}
@@ -76,9 +77,10 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .contract-foot-inner .contract-foot-item::after { content: ""; border-right: 1px solid #E4E4E4; width: 1px; height: 100%; position: absolute; top: 0; right: 10px;}
 .contract-foot-inner .contract-foot-item:last-child::after{display: none;}
 .contract-foot-inner .contract-foot-item h3 { font-size: 12px; color: #282756; font-weight: 600; margin: 0 0 6px; padding: 0;}
-.contract-foot-inner .contract-foot-item .contract-user {width: 100%; display: flex; align-items: center;  margin: 0; padding: 0;}
-.contract-foot-inner .contract-foot-item .contract-user img { width: 24px; height: 24px; border-radius: 50%; margin: 0 12px 0 0; padding: 0;}
-.contract-foot-inner .contract-foot-item .contract-user span { font-size: 12px; color: #282756; font-weight: 400; margin: 0; padding: 0; display: block; width: calc(100% - 27px);}
+.contract-foot-inner .contract-foot-item .contract-user {width: 100%; display: flex; align-items: center;  margin: 0; padding: 0; flex-wrap: wrap;}
+.contract-foot-inner .contract-foot-item .contract-user img { width: 24px; height: 24px; border-radius: 50%; margin: 0 4px 0 0; padding: 0;}
+.contract-foot-inner .contract-foot-item .contract-user span { font-size: 12px; color: #282756; font-weight: 400; margin: 0; padding: 0; display: block; width: calc(100% - 27px); white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+.contract-foot-inner .contract-foot-item .contract-user .approved-user-lists {display: flex; width: auto; margin: 0 7px 5px 0;}
 
 .create-contract{width: 100%; margin: 0; padding: 0; float: left;}
 .create-contract-header { background: #79D7FA; width: 100%; margin: 0; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between;}
@@ -155,10 +157,11 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .conversion-history .chat-footer-inner {justify-content: space-between;}
 .conversion-history .chat-footer-inner .btn { margin: 0;}
 .conversion-history .chat-footer-inner .send-btn { width: auto; display: inline-block; margin: 0; padding: 0;}
-.conversion-history .chat-footer-inner .send-btn .btn-primary { height: 43px; line-height: 43px; font-size: 14px; font-weight: 400; margin: 0 0 0 20px; background-color: #282756; color: #fff; border: 1px solid #282756; padding: 0 12px; border-radius: 5px;}
+.conversion-history .chat-footer-inner .send-btn .btn-primary {height: 43px; line-height: 43px; font-size: 14px; font-weight: 400; margin: 0 0 0 20px; background-color: #282756 !important; color: #fff !important; border: 1px solid #282756 !important; padding: 0 12px; border-radius: 5px;}
 .conversion-history .chat-footer-inner .send-btn .btn-primary img { margin: 0 6px 0 0;}
 .conversion-history .chat-footer-inner .send-btn .btn-primary.attach { width: 44px; height: 44px; padding: 0; line-height: normal;}
 .conversion-history .chat-footer-inner .send-btn .btn-primary.attach img { margin: auto;}
+.conversion-history .chat-footer-inner .send-btn .btn-primary:hover{opacity: 90%}
 .chat-body .chat-area .message-wrapper .message-content .delete-icon { position: absolute; right: -30px; top: 50%; transform: translate(0, -50%);}
 .request-row { width: 100%; margin: 8px 0 0 0; padding: 0 0 0 0px;}
 .request-row .request-content { width: auto; display: inline-block; text-align: left; max-width: 308px; background: #79D7FA; padding: 12px; border-radius: 5px 0px 5px 5px; margin: 0 0 0 0; min-width: 246px; position: relative;}
@@ -187,7 +190,8 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .invite-user-list ul li .invite-user-inner .invite-user-name h3 { font-size: 14px; font-weight: 400; color: #282756; margin: 0 0 4px; padding: 0; width: 100%; float: left;}
 .invite-user-list ul li .invite-user-inner .invite-user-name span { font-size: 10px; font-weight: 400; color: #282756; float: left; width: 100%; opacity: 50%;}
 .invite-user-list .invite-btn { width: 100%; float: left; padding: 0; text-align: center; margin: 8px 0 0;}
-.invite-user-list .invite-btn .btn-primary { padding: 8px 15px; font-size: 16px; font-weight: 400;}
+.invite-user-list .invite-btn .btn-primary {padding: 4px 15px; font-size: 14px; font-weight: 400; background: #282756 !important;  color: #fff !important; border: 1px solid !important;}
+.invite-user-list .invite-btn .btn-primary:hover{opacity: 90%}
 .d-none { display: none; }
 @media only screen and (max-width:375px){
     .chat-footer-inner .btn { margin: 0 4px;  padding: 10px 12px; min-width: auto;}
@@ -203,6 +207,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 
 }
 .btn-markup { border: 1px solid }
+.btn-markup:hover{background-color:#282756 !important; border-color: #282756 !important; color: #fff !important;}
 /* ======================================= Editor Css ======================================= */
 
 /* ===================================== Sanckbar CSS ======================================= */
@@ -226,12 +231,37 @@ div.div-selected { background: #d5d5d5 !important; }
 .crop-text { overflow:hidden; white-space:nowrap; text-overflow:ellipsis; width:103px; }
 p.nodata-info { text-align: center; font-size: 12px; color: #282756; }
 .btn.disabled, .btn:disabled, fieldset:disabled .btn { background-color: grey !important; color: white !important; border: none; }
-.btn-primary { color: #ffffff !important; border: 1px solid; }
-.btn-primary:hover { background-color: transparent !important; border-color: #282756 !important; color: #282756 !important; }
 span#typingSpanCP, span#typingSpan { font-size: 10px; }
 .invite-user-list #userTabContent, .invite-user-list #teamTabContent { padding: 0 8px }
 .invite-teams-popup, .invite-users-popup, .position-confirmation-popup { width: 100%; float: left; margin: 0; padding: 40px 12px; position: absolute; left: 0; right: 0; bottom: 0; background: #fff; z-index: 9; box-shadow: 0 -3px 10px #0000001a; border-radius: 10px 10px 4px 4px; }
-.invite-users-inner img { width: 48px; margin: 0 0 20px; }
 .select-user-table h4 { font-size: 1rem; }
 .contract-completed { opacity: .5!important; pointer-events: none!important; }
 .chat-body .chat-area .message-wrapper .message-content .message p { font-size: 12px; font-weight: 400; line-height: 17px; color: #282756; }
+
+
+
+/*==================================== 22-08-2023 ====================================*/
+.invite-users-inner { width: 100%; margin: 0; padding: 0; display: block;}
+.invite-users-inner img { width: 48px; margin: 0 auto 12px; display: block; }
+.invite-users-inner h3 {font-size: 18px; color: #282756; text-align: center; display: block; margin: 0 0 16px 0; padding: 0;}
+.chat-create-footer .chat-typing-area {width: 100%; margin: 0; padding: 0; display: block; text-align: center; }
+.chat-create-footer .chat-typing-area .position-text { font-size: 14px; color: #282756; font-weight: 400; margin: 0 auto 20px; max-width: 340px;}
+.select-user-table { width: 100%; margin: 0; padding: 0; display: block;}
+.select-user-table h4 { margin: 0 0 15px 0; padding: 0; display: block; width: 100%;}
+.select-user-table .table-responsive { width: 100%; margin: 0; padding: 0; }
+.select-user-table .table-responsive thead th {vertical-align: middle; font-size: 14px; font-weight: 500; margin: 0;}
+.select-user-table .table-responsive tbody td {vertical-align: middle; font-size: 14px; font-weight: 400; margin: 0;}
+.select-user-table .table-responsive .form-check {display: block; min-height: 0; padding-left: 0; margin-bottom: 0;}
+.confirmation-form .accordion-header input[type=checkbox],.select-user-table .table-responsive input[type=checkbox] {position: relative; border: 1px solid #282756; border-radius: 2px; cursor: pointer; line-height: 0; margin: 2px 0 0 0; outline: 0; padding: 0 !important; vertical-align: text-top; height: 18px;width: 18px; -webkit-appearance: none; opacity: 1; background-color: #fff; box-shadow: none !important; }
+.confirmation-form .accordion-header input[type=checkbox]:hover,.select-user-table .table-responsive input[type=checkbox]:hover {opacity: 1;}
+.confirmation-form .accordion-header input[type=checkbox]:checked,.select-user-table .table-responsive input[type=checkbox]:checked {background-color:#282756; opacity: 1;}
+.confirmation-form .accordion-header input[type=checkbox]:before,.select-user-table .table-responsive input[type=checkbox]:before { content: ''; position: absolute; right: 50%; top: 50%;  width: 6px; height: 10px; border: solid #FFF;  border-width: 0 2px 2px 0; margin: -1px -2px 0 -1px;  transform: rotate(45deg) translate(-50%, -50%); z-index: 2;}
+
+.confirmation-form { width: 100%; margin: 0; padding: 0; display: block;}
+.confirmation-form .accordion-header { width: 100%; display: block; clear: both; margin: 0 0 20px 0; padding: 0;}
+.filter-box {width: 100%; margin: 10px 0 0 0; padding: 0; display: block;}
+.filter-box .accordion-header { margin: 0;}
+.filter-box .filter-inner {width: 100%; margin: 0; padding: 0; display: block;}
+.filter-box .filter-inner li { margin: 0 0 15px 0;}
+.filter-box .filter-inner li:last-child {margin: 0;}
+/*==================================== 22-08-2023 ====================================*/

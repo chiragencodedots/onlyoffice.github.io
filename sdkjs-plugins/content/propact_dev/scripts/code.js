@@ -500,6 +500,15 @@
                     document.getElementById('sendPositionConfirmationPopup').classList.add(displayNoneClass);
                     document.getElementById('toggleInviteUserTeam').closest("li").classList.remove('active');
                     window.Asc.plugin.executeMethod("SelectContentControl", [tagLists[tagExists].InternalId]);
+
+                    // let actionSameSide = document.querySelectorAll('.action-sameside');
+                    // actionSameSide.forEach(function (element) {
+                    //     element.classList.remove(displayNoneClass);
+                    // });
+                    // let actionCounterparty = document.querySelectorAll('.action-counterparty');
+                    // actionCounterparty.forEach(function (element) {
+                    //     element.classList.remove(displayNoneClass);
+                    // });
                     let getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
                     if (getClauseDetails && getClauseDetails._id) {
                         await getSelectedContractSectionDetails();
@@ -1656,29 +1665,33 @@
                             '</div>';
                     }
                 } else if (data.messageType == "Notification" && data.confirmationType == "draft") {
-                    html += '<div class="message-wrapper red-color">\n' +
-                        '       <div class="profile-picture">\n' +
-                        '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
-                        '           <p class="name">' + data.actionperformedbyUser + '&nbsp;<small>(' + (data && data.actionperformedbyUserRole == 'Counterparty' ? 'Counterparty' : 'Same side') + ')</small>' + '</p>\n' +
-                        '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
-                        '       </div>\n' +
-                        '       <div class="request-row">\n' +
-                        '           <div class="message-content">\n' +
-                        '               <h4>Draft confirmation rejected</h4>\n' +
-                        '               <div class="message">' + data.message + '</div>\n' +
-                        '           </div>\n' +
-                        '       </div>\n' +
-                        '</div>';
-                    html += '<div class="message-wrapper grey-color ' + (data.with == "Counterparty" ? "light-gold-color" : "") + '">\n' +
-                        '       <div class="profile-picture">\n' +
-                        '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
-                        '           <p class="name">' + data.actionperformedbyUser + '&nbsp;<small>(' + (data && data.actionperformedbyUserRole == 'Counterparty' ? 'Counterparty' : 'Same side') + ')</small>' + '</p>\n' +
-                        '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
-                        '       </div>\n' +
-                        '       <div class="request-row">\n' +
-                        '           <strong>Draft confirmation request rejected by ' + data.actionperformedbyUser + '</strong>\n' +
-                        '       </div>\n' +
-                        '</div>';
+                    if (data.status == 'approved') {
+                        getSelectedContractSectionDetails();
+                    } else {
+                        html += '<div class="message-wrapper red-color">\n' +
+                            '       <div class="profile-picture">\n' +
+                            '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                            '           <p class="name">' + data.actionperformedbyUser + '&nbsp;<small>(' + (data && data.actionperformedbyUserRole == 'Counterparty' ? 'Counterparty' : 'Same side') + ')</small>' + '</p>\n' +
+                            '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                            '       </div>\n' +
+                            '       <div class="request-row">\n' +
+                            '           <div class="message-content">\n' +
+                            '               <h4>Draft confirmation rejected</h4>\n' +
+                            '               <div class="message">' + data.message + '</div>\n' +
+                            '           </div>\n' +
+                            '       </div>\n' +
+                            '</div>';
+                        html += '<div class="message-wrapper grey-color ' + (data.with == "Counterparty" ? "light-gold-color" : "") + '">\n' +
+                            '       <div class="profile-picture">\n' +
+                            '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                            '           <p class="name">' + data.actionperformedbyUser + '&nbsp;<small>(' + (data && data.actionperformedbyUserRole == 'Counterparty' ? 'Counterparty' : 'Same side') + ')</small>' + '</p>\n' +
+                            '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                            '       </div>\n' +
+                            '       <div class="request-row">\n' +
+                            '           <strong>Draft confirmation request rejected by ' + data.actionperformedbyUser + '</strong>\n' +
+                            '       </div>\n' +
+                            '</div>';
+                    }
                 } else if (data.messageType == "Notification" && data.confirmationType == "request_draft") {
                     if (data.sendTo) {
                         html += '<div class="message-wrapper grey-color ' + (data.with == "Counterparty" ? "light-gold-color" : "") + '">\n' +
@@ -2451,8 +2464,8 @@
                                 '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h3>Created by</h3>\n' +
                                 '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="contract-user">\n';
 
-                            html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="' + (ele && ele.createdByUserDetails && ele.createdByUserDetails.imageUrl ? ele.createdByUserDetails.imageUrl : 'images/no-profile-image.jpg') + '" alt="">\n' +
-                                '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>' + (ele && ele.createdByUserDetails ? ele.createdByUserDetails.firstName + ' ' + ele.createdByUserDetails.lastName : '') + '</span>\n';
+                            html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="approved-user-lists"><img src="' + (ele && ele.createdByUserDetails && ele.createdByUserDetails.imageUrl ? ele.createdByUserDetails.imageUrl : 'images/no-profile-image.jpg') + '" alt="">\n' +
+                                '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>' + (ele && ele.createdByUserDetails ? ele.createdByUserDetails.firstName + ' ' + ele.createdByUserDetails.lastName : '') + '</span></div>\n';
 
                             html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
                                 '\t\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
@@ -2462,8 +2475,8 @@
 
                             if (ele && ele.approvedByUserDetails && ele.approvedByUserDetails.length > 0) {
                                 ele.approvedByUserDetails.forEach((element) => {
-                                    html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img src="' + (element && element.userInfo && ele.userInfo?.imageUrl ? ele.userInfo?.imageUrl : 'images/no-profile-image.jpg') + '" alt="">\n' +
-                                        '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>' + (element && element.userInfo ? element.userInfo.firstName + ' ' + element.userInfo.lastName : '') + '</span>\n';
+                                    html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="approved-user-lists"><img src="' + (element && element.userInfo && ele.userInfo?.imageUrl ? ele.userInfo?.imageUrl : 'images/no-profile-image.jpg') + '" alt="">\n' +
+                                        '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>' + (element && element.userInfo ? element.userInfo.firstName + ' ' + element.userInfo.lastName : '') + '</span></div>\n';
                                 });
                             } else {
                                 html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>&mdash;</span>\n';
@@ -3869,14 +3882,14 @@
                         selectedContractSectionDetails = responseData.data;
                         document.getElementById('sameSideTypeBox').classList.remove(displayNoneClass);
                         document.getElementById('counterpartyTypeBox').classList.remove(displayNoneClass);
-                        // let actionSameSide = document.querySelectorAll('.action-sameside');
-                        // actionSameSide.forEach(function (element) {
-                        //     element.classList.remove(displayNoneClass);
-                        // });
-                        // let actionCounterparty = document.querySelectorAll('.action-counterparty');
-                        // actionCounterparty.forEach(function (element) {
-                        //     element.classList.remove(displayNoneClass);
-                        // });
+                        let actionSameSide = document.querySelectorAll('.action-sameside');
+                        actionSameSide.forEach(function (element) {
+                            element.classList.remove(displayNoneClass);
+                        });
+                        let actionCounterparty = document.querySelectorAll('.action-counterparty');
+                        actionCounterparty.forEach(function (element) {
+                            element.classList.remove(displayNoneClass);
+                        });
                         var draftConfirmCPElement = document.getElementById("draftConfirmCP");
                         if (draftConfirmCPElement) {
                             draftConfirmCPElement.parentNode.removeChild(draftConfirmCPElement);
@@ -3909,7 +3922,7 @@
 
                             htmlA = '<div class="chat-typing-area" id="draftConfirmSS">\n' +
                                 '   <div class="position-text">' + selectedContractSectionDetailsA.contractSectionData.draftConfirmMessage + " " + selectedContractSectionDetailsA.contractSectionData.confirmByCounterPartyId.firstName + " " + selectedContractSectionDetailsA.contractSectionData.confirmByCounterPartyId.lastName + " and " + selectedContractSectionDetailsA.contractSectionData.confirmByUserId.firstName + " " + selectedContractSectionDetailsA.contractSectionData.confirmByUserId.lastName + '</div>\n' +
-                                '   <div class="btn-box btn-box-re-open"><button class="btn-primary">Re-Open</button></div>\n' +
+                                '   <div class="btn-box btn-box-re-open"><button class="btn-primary btn">Re-Open</button></div>\n' +
                                 '</div>';
                             var contentDiv = document.getElementById("chatContractSameSideFooter");
                             var newElement = document.createElement("div");
@@ -4291,7 +4304,7 @@
 
                                 htmlA = '<div class="chat-typing-area" id="draftConfirmSS">\n' +
                                     '   <div class="position-text">Drafting has been confirmed by John Mark and Ketan Barad</div>\n' +
-                                    '   <div class="btn-box btn-box-re-open"><button class="btn-primary">Re-Open</button></div>\n' +
+                                    '   <div class="btn-box btn-box-re-open"><button class="btn btn-primary">Re-Open</button></div>\n' +
                                     '</div>';
                                 /*var contentDiv = document.getElementById("chatContractSameSideFooter");
                                 var newElement = document.createElement("div");
