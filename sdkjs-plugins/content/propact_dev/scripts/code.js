@@ -189,7 +189,7 @@
                 chatNextPage = 1;
                 chatHasNextPage = true;
                 await getContractSectionMessageList('our');
-                let chatRoomName = withType == 'Our Team' ? 'user_' + selectedCommentThereadID : "counter_" + selectedCommentThereadID;
+                let chatRoomName = getChatRoom(withType);
                 socket.emit('join_contract_section_chat_room', chatRoomName);
                 document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
                 document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
@@ -203,8 +203,7 @@
                 chatNextPage = 1;
                 chatHasNextPage = true;
                 await getContractSectionMessageList('Counterparty');
-                let chatRoomName = withType == 'Our Team' ? 'user_' + selectedCommentThereadID : "counter_" + selectedCommentThereadID;
-                console.log('chatRoomName', chatRoomName);
+                let chatRoomName = getChatRoom(withType);
                 socket.emit('join_contract_section_chat_room', chatRoomName);
                 document.getElementById('divContractCounterpartyChat').classList.remove(displayNoneClass);
                 document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
@@ -215,7 +214,7 @@
             const varMessageInput = document.getElementById('messageInput');
             varMessageInput?.addEventListener('keydown', function () {
                 var data = {
-                    chatRoomName: withType == 'Our Team' ? 'user_' + selectedCommentThereadID : "counter_" + selectedCommentThereadID,
+                    chatRoomName: getChatRoom(withType),
                     userName: loggedInUserDetails.firstName,
                     with: withType
                 }
@@ -225,7 +224,7 @@
             const varMessageInputCP = document.getElementById('messageInputCP');
             varMessageInputCP?.addEventListener('keydown', function () {
                 var data = {
-                    chatRoomName: withType == 'Our Team' ? 'user_' + selectedCommentThereadID : "counter_" + selectedCommentThereadID,
+                    chatRoomName: getChatRoom(withType),
                     userName: loggedInUserDetails.firstName,
                     with: withType
                 }
@@ -274,7 +273,7 @@
                 chatNextPage = 1;
                 chatHasNextPage = true;
                 await getContractSectionMessageList('our');
-                let chatRoomName = withType == 'Our Team' ? 'user_' + selectedCommentThereadID : "counter_" + selectedCommentThereadID;
+                let chatRoomName = getChatRoom(withType);
                 socket.emit('join_contract_section_chat_room', chatRoomName);
                 document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
                 document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
@@ -288,7 +287,7 @@
                 chatNextPage = 1;
                 chatHasNextPage = true;
                 await getContractSectionMessageList('Counterparty');
-                let chatRoomName = withType == 'Our Team' ? 'user_' + selectedCommentThereadID : "counter_" + selectedCommentThereadID;
+                let chatRoomName = getChatRoom(withType);
                 socket.emit('join_contract_section_chat_room', chatRoomName);
                 document.getElementById('divContractCounterpartyChat').classList.remove(displayNoneClass);
                 document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
@@ -500,6 +499,20 @@
                     document.getElementById('sendPositionConfirmationPopup').classList.add(displayNoneClass);
                     document.getElementById('toggleInviteUserTeam').closest("li").classList.remove('active');
                     window.Asc.plugin.executeMethod("SelectContentControl", [tagLists[tagExists].InternalId]);
+                    document.getElementById('btnGoToCounterparty').classList.remove(displayNoneClass);
+                    document.getElementById('btnGoToCounterpartyA').classList.remove(displayNoneClass);
+                    $('#toggleSendPositionConfirmation').parent().removeClass(displayNoneClass);
+                    $('#toggleSendPositionConfirmationA').parent().removeClass(displayNoneClass);
+                    $('#chatFooterInner').removeClass('justify-content-end');
+                    if (!openContractUserDetails.canCommunicateWithCounterparty) {
+                        document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
+                        document.getElementById('btnGoToCounterpartyA').classList.add(displayNoneClass);
+                        $('#chatFooterInner').addClass('justify-content-end');
+                    }
+                    if (!openContractUserDetails.canSendPositionConfirmation) {
+                        $('#toggleSendPositionConfirmation').parent().addClass(displayNoneClass);
+                        $('#toggleSendPositionConfirmationA').parent().addClass(displayNoneClass);
+                    }
 
                     // let actionSameSide = document.querySelectorAll('.action-sameside');
                     // actionSameSide.forEach(function (element) {
@@ -871,7 +884,7 @@
                         "actionperformedbyUserRole": loggedInUserDetails.role,
                         "actionperformedbyUserId": loggedInUserDetails._id,
                         "messageConfirmationFor": messageConfirmationFor,
-                        "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                        "chatRoomName": getChatRoom(withType),
                         "messageNumber": 0,
                         "chatWindow": withType
                     };
@@ -896,7 +909,7 @@
                         "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
                         "actionperformedbyUserRole": loggedInUserDetails.role,
                         "messageConfirmationFor": messageConfirmationFor,
-                        "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                        "chatRoomName": getChatRoom(withType),
                         "messageId": $('#rejectPositionMessageId').val(),
                         "messageNumber": 0,
                         "chatWindow": withType
@@ -923,7 +936,7 @@
                         "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
                         "actionperformedbyUserRole": loggedInUserDetails.role,
                         "messageConfirmationFor": 'Opposite Side',
-                        "chatRoomName": 'counter_' + selectedCommentThereadID,
+                        "chatRoomName": getChatRoom('Counterparty'),
                         "messageId": $('#approvePositionMessageId').val(),
                         "messageNumber": 0,
                         "chatWindow": withType
@@ -933,7 +946,7 @@
                         approveConfirmation.messageConfirmationFor = 'Same Side';
                         approveConfirmation.sendTo = $('#assignDraftRequestUserIdB').val();
                         approveConfirmation.sendToName = document.getElementById('assignDraftRequestInputB').placeholder;
-                        approveConfirmation.chatRoomName = 'user_' + selectedCommentThereadID
+                        approveConfirmation.chatRoomName = getChatRoom('Our Team')
                     }
                     updateContractSectionConfirmationStatus(approveConfirmation, socket, 'frmReconfirmPosition');
                     $('.reconfirm-approve[data-id="' + approveConfirmation.messageId + '"]').parent().addClass(displayNoneClass);
@@ -955,7 +968,7 @@
                         "messageConfirmationFor": messageConfirmationFor,
                         "messageId": $('#assignDraftRequestMessageId').val(),
                         "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
-                        "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                        "chatRoomName": getChatRoom(withType),
                         "sendTo": $('#assignDraftRequestUserId').val(),
                         "sendToName": document.getElementById('assignDraftRequestInput').placeholder,
                         "chatWindow": withType
@@ -984,7 +997,7 @@
                         "actionperformedbyUserRole": loggedInUserDetails.role,
                         "actionperformedbyUserId": loggedInUserDetails._id,
                         "messageConfirmationFor": messageConfirmationFor,
-                        "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                        "chatRoomName": getChatRoom(withType),
                         "messageNumber": 0,
                         "chatWindow": withType
                     };
@@ -1009,7 +1022,7 @@
                         "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
                         "actionperformedbyUserRole": loggedInUserDetails.role,
                         "messageConfirmationFor": messageConfirmationFor,
-                        "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                        "chatRoomName": getChatRoom(withType),
                         "messageId": $('#rejectDraftMessageId').val(),
                         "messageNumber": 0,
                         "chatWindow": withType
@@ -1036,7 +1049,7 @@
                         "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
                         "actionperformedbyUserRole": loggedInUserDetails.role,
                         "messageConfirmationFor": messageConfirmationFor,
-                        "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                        "chatRoomName": getChatRoom(withType),
                         "messageId": $('#rejectDraftRequestMessageId').val(),
                         "messageNumber": 0,
                         "chatWindow": withType
@@ -1062,7 +1075,7 @@
                     "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
                     "actionperformedbyUserRole": loggedInUserDetails.role,
                     "messageConfirmationFor": messageConfirmationFor,
-                    "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                    "chatRoomName": getChatRoom(withType),
                     "messageNumber": 0,
                     "chatWindow": withType
                 };
@@ -1085,7 +1098,7 @@
                     "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
                     "actionperformedbyUserRole": loggedInUserDetails.role,
                     "messageConfirmationFor": messageConfirmationFor,
-                    "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                    "chatRoomName": getChatRoom(withType),
                     "messageNumber": 0,
                     "chatWindow": withType
                 };
@@ -1107,7 +1120,7 @@
                     "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
                     "actionperformedbyUserRole": loggedInUserDetails.role,
                     "messageConfirmationFor": messageConfirmationFor,
-                    "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                    "chatRoomName": getChatRoom(withType),
                     "messageId": $(this).data('id'),
                     "messageNumber": 0,
                     "chatWindow": withType
@@ -1131,7 +1144,7 @@
                     "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
                     "actionperformedbyUserRole": loggedInUserDetails.role,
                     "messageConfirmationFor": messageConfirmationFor,
-                    "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                    "chatRoomName": getChatRoom(withType),
                     "messageId": $(this).data('id'),
                     "chatWindow": withType
                 };
@@ -1154,7 +1167,7 @@
                     "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
                     "actionperformedbyUserRole": loggedInUserDetails.role,
                     "messageConfirmationFor": messageConfirmationFor,
-                    "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                    "chatRoomName": getChatRoom(withType),
                     "messageId": $(this).data('id'),
                     "chatWindow": withType
                 };
@@ -1399,14 +1412,29 @@
         return formattedDate;
     }
 
+    /**
+     * @param withType
+     * @returns {string}
+     */
+    function getChatRoom(withType) {
+        return withType == 'Our Team' ? 'user_' + loggedInUserDetails.company._id + selectedCommentThereadID : "counter_" + selectedCommentThereadID;
+    }
+
     socket = io.connect(baseUrl,
         {auth: {authToken}}
     );
 
+    /**
+     * @param socket
+     * @param data
+     */
     function user_is_typing_contract_section(socket, data) {
         socket.emit('user_is_typing_contract_section', data);
     }
 
+    /**
+     * setup Socket
+     */
     function setupSocket() {
         /**============================== Socket Function Start ===============================*/
         /** Socket Emit: user typing on contract thread */
@@ -3700,7 +3728,7 @@
                             "actionperformedbyUserRole": loggedInUserDetails.role,
                             "messageConfirmationFor": messageConfirmationFor,
                             "invitedUserName": el.itemName,
-                            "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                            "chatRoomName": getChatRoom(withType),
                         };
                         socket.emit('contract_section_message', inviteMessage);
 
@@ -3798,7 +3826,7 @@
                             "actionperformedbyUserRole": loggedInUserDetails.role,
                             "messageConfirmationFor": messageConfirmationFor,
                             "invitedTeamName": el.itemName,
-                            "chatRoomName": withType == 'Our Team' ? 'user_' + selectedCommentThereadID : 'counter_' + selectedCommentThereadID,
+                            "chatRoomName": getChatRoom(withType),
                         };
                         socket.emit('contract_section_message', inviteMessage);
 
