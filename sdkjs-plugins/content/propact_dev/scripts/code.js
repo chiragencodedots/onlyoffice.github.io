@@ -38,7 +38,7 @@
     var selectedInvitedTeams = [];
     var inviteUserSelect = [];
     var inviteTeamSelect = [];
-    var baseUrl = 'https://propact.digitaldilemma.com.au:3000';
+    var baseUrl = 'http://192.168.1.40:3000';
     var apiBaseUrl = baseUrl + '/api/v1/app';
     var IMAGE_USER_PATH_LINK = 'https://propact.s3.amazonaws.com/';
     var clauseRecordLimit = 10;
@@ -89,7 +89,7 @@
             document.getElementById('btnCreateClause').classList.add(disabledClass);
             document.getElementById('btnMarkupMode').innerHTML = "Back to Contract";
         } else {
-            document.getElementById('btnMarkupMode').innerHTML = "Markup Mode";
+            document.getElementById('btnMarkupMode').innerHTML = "Select Markup Mode";
             if (text) {
                 document.getElementById('btnCreateClause').classList.remove(disabledClass);
             } else {
@@ -941,12 +941,12 @@
                         "messageNumber": 0,
                         "chatWindow": withType
                     };
-                    if ($('#assignDraftRequestUserIdB').val()) {
+                    if ($('#assignDraftRequestUserIdB').val() && document.getElementById('sendToTeamForDraft').checked) {
                         approveConfirmation.with = 'Our Team';
                         approveConfirmation.messageConfirmationFor = 'Same Side';
                         approveConfirmation.sendTo = $('#assignDraftRequestUserIdB').val();
                         approveConfirmation.sendToName = document.getElementById('assignDraftRequestInputB').placeholder;
-                        approveConfirmation.chatRoomName = getChatRoom('Our Team')
+                        approveConfirmation.chatRoomName = 'user_' + counterPartyCustomerDetail.company._id + selectedCommentThereadID
                     }
                     updateContractSectionConfirmationStatus(approveConfirmation, socket, 'frmReconfirmPosition');
                     $('.reconfirm-approve[data-id="' + approveConfirmation.messageId + '"]').parent().addClass(displayNoneClass);
@@ -1551,7 +1551,23 @@
                     html += '    </div>\n' +
                         '</div>\n';
                 } else if (data.messageType == 'Draft Confirmation') {
-
+                    html += '<div class="message-wrapper' + (data.with == "Counterparty" ? " dark-gold-color" : "") + '">\n' +
+                        '   <div class="profile-picture">\n' +
+                        '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                        '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                        '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                        '   </div>\n' +
+                        '   <div class="request-row">\n' +
+                        '      <div class="message-content">\n' +
+                        '         <h4>Draft confirmation request</h4>\n' +
+                        '         <div class="message">' + data.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
+                        '      </div>\n' +
+                        '      <div class="request-btn">\n' +
+                        '         <button class="btn btn-primary draft-approve" data-action="Approve" data-id="' + data._id + '">Approve</button>\n' +
+                        '         <button class="btn reject-btn  draft-reject " data-action="Reject" data-id="' + data._id + '">Reject</button>\n' +
+                        '      </div>\n' +
+                        '   </div>\n' +
+                        '</div>';
                 } else if (data.messageType == 'Notification') {
                     if (data.confirmationType == 'position') {
                         if (data.status == 'rejected') {
@@ -1601,7 +1617,7 @@
                         '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
                         '   </div>\n' +
                         '   <div class="message-content">\n' +
-                        '      <div class="message">' + data.message +
+                        '      <div class="message">' + data.message.replaceAll(/\n/g, '<br>') +
                         '      </div>\n' +
                         '   </div>\n' +
                         '</div>\n';
@@ -1666,7 +1682,7 @@
                             '       <div class="request-row">\n' +
                             '           <div class="message-content">\n' +
                             '               <h4>Position confirmation rejected</h4>\n' +
-                            '               <div class="message">' + data.message + '</div>\n' +
+                            '               <div class="message">' + data.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                             '           </div>\n' +
                             '       </div>\n' +
                             '</div>';
@@ -1695,6 +1711,7 @@
                 } else if (data.messageType == "Notification" && data.confirmationType == "draft") {
                     if (data.status == 'approved') {
                         getSelectedContractSectionDetails();
+                        getOpenContractUserDetails(socket, redirection = false);
                     } else {
                         html += '<div class="message-wrapper red-color">\n' +
                             '       <div class="profile-picture">\n' +
@@ -1705,7 +1722,7 @@
                             '       <div class="request-row">\n' +
                             '           <div class="message-content">\n' +
                             '               <h4>Draft confirmation rejected</h4>\n' +
-                            '               <div class="message">' + data.message + '</div>\n' +
+                            '               <div class="message">' + data.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                             '           </div>\n' +
                             '       </div>\n' +
                             '</div>';
@@ -1762,7 +1779,7 @@
                             '       <div class="request-row">\n' +
                             '           <div class="message-content">\n' +
                             '               <h4>Draft Request</h4>\n' +
-                            '               <div class="message">' + data.message + '</div>\n' +
+                            '               <div class="message">' + data.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                             '           </div>\n' +
                             '       </div>\n' +
                             '</div>';
@@ -1799,7 +1816,7 @@
                         '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
                         '   </div>\n' +
                         '   <div class="message-content">\n' +
-                        '      <div class="message">' + data.message +
+                        '      <div class="message">' + data.message.replaceAll(/\n/g, '<br>') +
                         '      </div>\n' +
                         '   </div>\n' +
                         '</div>\n';
@@ -1845,7 +1862,7 @@
                             '   </div>\n' +
                             '   <div class="message-content">\n' +
                             '      <h4>Sent a position confirmation <br> request</h4>\n' +
-                            '      <div class="message">' + data.message + '</div>\n' +
+                            '      <div class="message">' + data.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                             '   </div>\n' +
                             '</div>';
                     } else if (data.messageType == "Notification" && data.confirmationType == "position") {
@@ -1859,7 +1876,7 @@
                                 '       <div class="request-row">\n' +
                                 '           <div class="message-content">\n' +
                                 '               <h4>Position confirmation rejected</h4>\n' +
-                                '               <div class="message">' + data.message + '</div>\n' +
+                                '               <div class="message">' + data.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                                 '           </div>\n' +
                                 '       </div>\n' +
                                 '</div>';
@@ -1923,7 +1940,7 @@
                                 '       <div class="request-row">\n' +
                                 '           <div class="message-content">\n' +
                                 '               <h4>Draft Request</h4>\n' +
-                                '               <div class="message">' + data.message + '</div>\n' +
+                                '               <div class="message">' + data.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                                 '           </div>\n' +
                                 '       </div>\n' +
                                 '</div>';
@@ -1948,7 +1965,7 @@
                             '       <div class="request-row">\n' +
                             '           <div class="message-content">\n' +
                             '               <h4>Draft confirmation rejected</h4>\n' +
-                            '               <div class="message">' + data.message + '</div>\n' +
+                            '               <div class="message">' + data.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                             '           </div>\n' +
                             '       </div>\n' +
                             '</div>';
@@ -1986,7 +2003,7 @@
                             '       <div class="request-row">\n' +
                             '           <div class="message-content">\n' +
                             '               <h4>Draft confirmation request</h4>\n' +
-                            '               <div class="message">' + data.message + '</div>\n' +
+                            '               <div class="message">' + data.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                             '           </div>\n' +
                             '       </div>\n' +
                             '</div>';
@@ -1998,7 +2015,7 @@
                             '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
                             '   </div>\n' +
                             '   <div class="message-content">\n' +
-                            '      <div class="message">' + data.message +
+                            '      <div class="message">' + data.message.replaceAll(/\n/g, '<br>') +
                             '      </div>\n' +
                             '   </div>\n' +
                             '</div>\n';
@@ -2034,7 +2051,7 @@
                             '<div class="request-row">\n' +
                             '           <div class="request-content">\n' +
                             '                <h4>Sent a position confirmation <br> request</h4>' +
-                            '                <div class="content-message">' + data.message + '</div>\n' +
+                            '                <div class="content-message">' + data.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                             '       </div>\n' +
                             '    </div>\n' +
                             '</div>';
@@ -2049,7 +2066,7 @@
                                 '   <div class="request-row">\n' +
                                 '   <div class="request-content">\n' +
                                 '      <h4>Position confirmation rejected</h4>\n' +
-                                '      <div class="message">' + data.message +
+                                '      <div class="message">' + data.message.replaceAll(/\n/g, '<br>') +
                                 '      </div>\n' +
                                 '   </div>\n' +
                                 '   </div>\n' +
@@ -2086,7 +2103,7 @@
                             '   <div class="request-row">\n' +
                             '   <div class="request-content">\n' +
                             '      <h4>Draft confirmation rejected</h4>\n' +
-                            '      <div class="message">' + data.message +
+                            '      <div class="message">' + data.message.replaceAll(/\n/g, '<br>') +
                             '      </div>\n' +
                             '   </div>\n' +
                             '   </div>\n' +
@@ -2109,7 +2126,7 @@
                             '      <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                             '   </div>\n' +
                             '   <div class="message-content">\n' +
-                            '      <div class="message">' + data.message +
+                            '      <div class="message">' + data.message.replaceAll(/\n/g, '<br>') +
                             '      </div>\n' +
                             '   </div>\n' +
                             '</div>\n';
@@ -2519,7 +2536,7 @@
                         });
                         document.getElementById('contractListItemsDiv').innerHTML += html;
                     } else {
-                        let norecordhtml = '<p class="nodata-info">No clause available</p>';
+                        let norecordhtml = '<p class="nodata-info">No clauses available</p>';
                         document.getElementById('contractListItemsDiv').innerHTML = norecordhtml;
                     }
                 }
@@ -2764,7 +2781,7 @@
                             '      <img src="' + (postData.actionperformedbyUserImage ? postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                             '   </div>\n' +
                             '   <div class="message-content">\n' +
-                            '      <div class="message">' + postData.message +
+                            '      <div class="message">' + postData.message.replaceAll(/\n/g, '<br>') +
                             '      </div>\n' +
                             '   </div>\n' +
                             '</div>\n';
@@ -2896,7 +2913,7 @@
                                             '               <div class="' + (messageType == "Counterparty" ? "message" : "content-message") + '">' + chatMessage.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                                             '           </div>\n';
                                         if (messageType == 'Counterparty') {
-                                            if (chatMessage.from != loggedInUserDetails._id && chatMessage.companyId != loggedInUserDetails.company._id && chatMessage.messageStatus == 'None' && openContractUserDetails.canConfirmPosition) {
+                                            if (chatMessage.from != loggedInUserDetails._id && chatMessage.messageStatus == 'None' && openContractUserDetails.canConfirmPosition) {
                                                 html += '        <div class="request-btn">\n' +
                                                     '               <button class="btn reject-btn  reconfirm-reject " data-action="Reject"  data-id="' + chatMessage._id + '" >Reject</button>\n' +
                                                     '               <button class="btn btn-primary ' + (chatMessage.with != 'Counterparty' ? "approve-possition" : "reconfirm-approve") + '" data-action="Approve" data-id="' + chatMessage._id + '" >Approve</button>\n' +
@@ -3044,7 +3061,7 @@
                                             '               <div class="' + (chatMessage.with == "Counterparty" ? "message" : "content-message") + '">' + chatMessage.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                                             '           </div>\n';
                                         if (messageType == 'Counterparty') {
-                                            if (chatMessage.from != loggedInUserDetails._id && chatMessage.companyId != loggedInUserDetails.company._id && chatMessage.messageStatus == 'None' && openContractUserDetails.canConfirmPosition) {
+                                            if (chatMessage.from != loggedInUserDetails._id && chatMessage.messageStatus == 'None' && openContractUserDetails.canConfirmPosition) {
                                                 html += '        <div class="request-btn">\n' +
                                                     '               <button class="btn btn-primary ' + (chatMessage.with != 'Counterparty' ? "approve-possition" : "reconfirm-approve") + '" data-action="Approve" data-id="' + chatMessage._id + '">Approve</button>\n' +
                                                     '               <button class="btn reject-btn  reconfirm-reject "  data-action="Reject"  data-id="' + chatMessage._id + '">Reject</button>\n' +
@@ -3431,16 +3448,16 @@
                                         html += '       </div>\n' +
                                             '</div>\n';
                                     } else if (chatMessage.messageType == 'Draft Confirmation') {
-                                        html += '<div class="message-wrapper reverse ' + (messageType == "Counterparty" && chatMessage.messageStatus != 'Reject' ? "dark-gold-color" : "") + ' ' + (chatMessage.messageStatus == 'Reject' ? "red-color" : "") + '">\n' +
+                                        html += '<div class="message-wrapper reverse ' + (chatMessage.with == "Counterparty" && chatMessage.messageStatus != 'Reject' ? "dark-gold-color" : "") + ' ' + (chatMessage.messageStatus == 'Reject' ? "red-color" : "") + '">\n' +
                                             '       <div class="profile-picture">\n' +
                                             '           <p class="last-seen">' + formatDate(chatMessage.createdAt) + '</p>\n' +
                                             '           <p class="name">' + chatMessage.messageSenderUser.firstName + ' ' + chatMessage.messageSenderUser.lastName + '&nbsp;<small>(' + (chatMessage && chatMessage.messageSenderUser && chatMessage.messageSenderUser.role == 'Counterparty' ? 'Counterparty' : 'Same side') + ')</small>' + '</p>\n' +
                                             '           <img src="' + (chatMessage && chatMessage.messageSenderUser && chatMessage.messageSenderUser.imageUrl ? chatMessage.messageSenderUser.imageUrl : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                                             '       </div>\n' +
                                             '       <div class="request-row">\n' +
-                                            '           <div class="' + (messageType == "Counterparty" ? "message-content" : "request-content") + '">\n' +
+                                            '           <div class="' + (chatMessage.with == "Counterparty" ? "message-content" : "request-content") + '">\n' +
                                             '               <h4>' + (chatMessage.messageStatus == 'None' || chatMessage.messageStatus == 'Updated' ? 'Draft confirmation request' : (chatMessage.messageStatus == 'Approve' ? 'Draft confirmation approved' : 'Draft confirmation rejected')) + '</h4>\n' +
-                                            '               <div class="' + (messageType == "Counterparty" ? "message" : "content-message") + '">' + chatMessage.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
+                                            '               <div class="' + (chatMessage.with == "Counterparty" ? "message" : "content-message") + '">' + chatMessage.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                                             '           </div>\n';
                                         if (chatMessage.from != loggedInUserDetails._id && chatMessage.companyId != loggedInUserDetails.company._id && chatMessage.messageStatus == 'None' && openContractUserDetails.canConfirmPosition && (loggedInUserDetails.role == 'Contract Creator' || loggedInUserDetails.role == 'Counterparty')) {
                                             html += '        <div class="request-btn">\n' +
@@ -4186,7 +4203,7 @@
                                     '   <div class="request-row">\n' +
                                     '   <div class="request-content">\n' +
                                     '      <h4>Position confirmation rejected</h4>\n' +
-                                    '      <div class="message">' + postData.message +
+                                    '      <div class="message">' + postData.message.replaceAll(/\n/g, '<br>') +
                                     '      </div>\n' +
                                     '   </div>\n' +
                                     '   </div>\n' +
@@ -4251,7 +4268,7 @@
                                     '   <div class="request-row">\n' +
                                     '      <div class="message-content">\n' +
                                     '         <h4>Draft Request</h4>\n' +
-                                    '         <div class="message">' + postData.message + '</div>\n' +
+                                    '         <div class="message">' + postData.message.replaceAll(/\n/g, '<br>') + '</div>\n' +
                                     '      </div>\n' +
                                     '   </div>\n' +
                                     '</div>';
@@ -4322,22 +4339,7 @@
                                     element.classList.add(displayNoneClass);
                                 });
                                 getSelectedContractSectionDetails();
-                                html = '<div class="chat-typing-area" id="draftConfirmCP">\n' +
-                                    '   <div class="position-text">Drafting has been confirmed by John Mark and Ketan Barad</div>\n' +
-                                    '</div>';
-                                /*var contentDiv = document.getElementById("chatContractCounterpartyFooter");
-                                var newElement = document.createElement("div");
-                                newElement.innerHTML = html;
-                                contentDiv.appendChild(newElement);*/
-
-                                htmlA = '<div class="chat-typing-area" id="draftConfirmSS">\n' +
-                                    '   <div class="position-text">Drafting has been confirmed by John Mark and Ketan Barad</div>\n' +
-                                    '   <div class="btn-box btn-box-re-open"><button class="btn btn-primary">Re-Open</button></div>\n' +
-                                    '</div>';
-                                /*var contentDiv = document.getElementById("chatContractSameSideFooter");
-                                var newElement = document.createElement("div");
-                                newElement.innerHTML = htmlA;
-                                contentDiv.appendChild(newElement);*/
+                                getOpenContractUserDetails(socket, redirection = false);
                             } else {
                                 html += '<div class="message-wrapper reverse red-color">\n' +
                                     '   <div class="profile-picture">\n' +
@@ -4349,7 +4351,7 @@
                                     '      <div class="message-content">\n' +
                                     '         <h4>Draft confirmation rejected</h4>\n' +
                                     '         <div class="message">\n' +
-                                    '            <p>' + postData.message + '</p>\n' +
+                                    '            <p>' + postData.message.replaceAll(/\n/g, '<br>') + '</p>\n' +
                                     '         </div>\n' +
                                     '      </div>\n' +
                                     '   </div>\n' +
@@ -4385,7 +4387,7 @@
                                 '      <img src="' + (postData.actionperformedbyUserImage ? postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                                 '   </div>\n' +
                                 '   <div class="message-content">\n' +
-                                '      <div class="message">' + postData.message +'</div>\n' +
+                                '      <div class="message">' + postData.message.replaceAll(/\n/g, '<br>') +'</div>\n' +
                                 '   </div>\n' +
                                 '</div>\n';
                         }
