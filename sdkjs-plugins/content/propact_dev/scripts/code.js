@@ -2216,12 +2216,12 @@
                     if (selectedThreadID) {
                         let getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
                         if (openContractUserDetails && openContractUserDetails.openContractDetails && openContractUserDetails.openContractDetails.userWhoHasEditAccess == loggedInUserDetails._id && openContractUserDetails.canSendPositionConfirmation && getClauseDetails.isSectionInDraftMode) {
-                            $('#toggleSendPositionConfirmation').setAttribute('data-bs-title', 'Send for Draft Confirmation');
+                            $('#toggleSendPositionConfirmation').attr('data-bs-title', 'Send for Draft Confirmation');
                         } else {
-                            $('#toggleSendPositionConfirmation').setAttribute('data-bs-title', 'Send for Position Confirmation');
+                            $('#toggleSendPositionConfirmation').attr('data-bs-title', 'Send for Position Confirmation');
                         }
                     } else {
-                        $('#toggleSendPositionConfirmation').setAttribute('data-bs-title', 'Send for Position Confirmation');
+                        $('#toggleSendPositionConfirmation').attr('data-bs-title', 'Send for Position Confirmation');
                     }
                     document.title = "ProPact | " + openContractUserDetails.loggedInUserDetails.firstName + " " + openContractUserDetails.loggedInUserDetails.lastName + " " + openContractUserDetails.loggedInUserDetails.role;
                     if (responseData.data.invitationDetail && responseData.data.invitationDetail._id) {
