@@ -1067,48 +1067,54 @@
 
             $(document).on('click', '#btnSend', async function () {
                 chat_message = $('#messageInput').val();
-                const addNewContractMessageDetail = {
-                    "contractId": documentID,
-                    "contractSectionId": selectedThreadID,
-                    "message": chat_message,
-                    "with": withType,
-                    "messageType": 'Normal',
-                    "companyId": loggedInUserDetails.company._id,
-                    "oppositeCompanyId": counterPartyCustomerDetail.company._id,
-                    "threadID": selectedCommentThereadID,
-                    "status": 'send',
-                    "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
-                    "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
-                    "actionperformedbyUserRole": loggedInUserDetails.role,
-                    "messageConfirmationFor": messageConfirmationFor,
-                    "chatRoomName": getChatRoom(withType),
-                    "messageNumber": 0,
-                    "chatWindow": withType
-                };
-                await addContractSectionMessage(addNewContractMessageDetail, socket);
+                document.getElementById("messageInput").value = "";
+                if (chat_message) {
+                    const addNewContractMessageDetail = {
+                        "contractId": documentID,
+                        "contractSectionId": selectedThreadID,
+                        "message": chat_message,
+                        "with": withType,
+                        "messageType": 'Normal',
+                        "companyId": loggedInUserDetails.company._id,
+                        "oppositeCompanyId": counterPartyCustomerDetail.company._id,
+                        "threadID": selectedCommentThereadID,
+                        "status": 'send',
+                        "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+                        "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
+                        "actionperformedbyUserRole": loggedInUserDetails.role,
+                        "messageConfirmationFor": messageConfirmationFor,
+                        "chatRoomName": getChatRoom(withType),
+                        "messageNumber": 0,
+                        "chatWindow": withType
+                    };
+                    await addContractSectionMessage(addNewContractMessageDetail, socket);
+                }
             });
 
             $(document).on('click', '#btnSendCP', async function () {
                 chat_message = $('#messageInputCP').val();
-                const addNewContractMessageDetail = {
-                    "contractId": documentID,
-                    "contractSectionId": selectedThreadID,
-                    "message": chat_message,
-                    "with": withType,
-                    "messageType": 'Normal',
-                    "companyId": loggedInUserDetails.company._id,
-                    "oppositeCompanyId": counterPartyCustomerDetail.company._id,
-                    "threadID": selectedCommentThereadID,
-                    "status": 'send',
-                    "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
-                    "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
-                    "actionperformedbyUserRole": loggedInUserDetails.role,
-                    "messageConfirmationFor": messageConfirmationFor,
-                    "chatRoomName": getChatRoom(withType),
-                    "messageNumber": 0,
-                    "chatWindow": withType
-                };
-                await addContractSectionMessage(addNewContractMessageDetail, socket);
+                document.getElementById("messageInputCP").value = "";
+                if (chat_message) {
+                    const addNewContractMessageDetail = {
+                        "contractId": documentID,
+                        "contractSectionId": selectedThreadID,
+                        "message": chat_message,
+                        "with": withType,
+                        "messageType": 'Normal',
+                        "companyId": loggedInUserDetails.company._id,
+                        "oppositeCompanyId": counterPartyCustomerDetail.company._id,
+                        "threadID": selectedCommentThereadID,
+                        "status": 'send',
+                        "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+                        "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
+                        "actionperformedbyUserRole": loggedInUserDetails.role,
+                        "messageConfirmationFor": messageConfirmationFor,
+                        "chatRoomName": getChatRoom(withType),
+                        "messageNumber": 0,
+                        "chatWindow": withType
+                    };
+                    await addContractSectionMessage(addNewContractMessageDetail, socket);
+                }
             });
 
             $(document).on('click', '.approve-possition', function () {
