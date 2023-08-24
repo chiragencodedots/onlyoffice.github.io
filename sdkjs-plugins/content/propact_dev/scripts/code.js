@@ -127,6 +127,13 @@
             // Invite counterparty Form screen
             const varBtnRedirectInviteCounterpartyCancel = document.getElementById('btnRedirectInviteCounterpartyCancel');
             varBtnRedirectInviteCounterpartyCancel.addEventListener('click', function () {
+                document.getElementById("inviteForm").reset();
+                var apiError = document.getElementsByClassName("api-error");
+                for (var i = 0; i < apiError.length; i++) {
+                    var label = apiError[i];
+                    label.innerHTML = ""; // Remove content
+                    label.classList.remove("label"); // Remove class
+                }
                 document.getElementById('divInviteCounterparty').classList.remove(displayNoneClass);
                 document.getElementById('divInviteCounterpartyForm').classList.add(displayNoneClass);
             });
@@ -234,7 +241,6 @@
             const varInputInviteEmailAddress = document.getElementById('inviteEmailAddress');
             varInputInviteEmailAddress?.addEventListener('keydown', function () {
                 var apiError = document.getElementsByClassName("api-error");
-                // Loop through the elements and remove their content and class
                 for (var i = 0; i < apiError.length; i++) {
                     var label = apiError[i];
                     label.innerHTML = ""; // Remove content
@@ -2207,6 +2213,16 @@
                     }
                     flagInit = true;
                     openContractUserDetails = responseData.data;
+                    if (selectedThreadID) {
+                        let getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
+                        if (openContractUserDetails && openContractUserDetails.openContractDetails && openContractUserDetails.openContractDetails.userWhoHasEditAccess == loggedInUserDetails._id && openContractUserDetails.canSendPositionConfirmation && getClauseDetails.isSectionInDraftMode) {
+                            $('#toggleSendPositionConfirmation').setAttribute('data-bs-title', 'Send for Draft Confirmation');
+                        } else {
+                            $('#toggleSendPositionConfirmation').setAttribute('data-bs-title', 'Send for Position Confirmation');
+                        }
+                    } else {
+                        $('#toggleSendPositionConfirmation').setAttribute('data-bs-title', 'Send for Position Confirmation');
+                    }
                     document.title = "ProPact | " + openContractUserDetails.loggedInUserDetails.firstName + " " + openContractUserDetails.loggedInUserDetails.lastName + " " + openContractUserDetails.loggedInUserDetails.role;
                     if (responseData.data.invitationDetail && responseData.data.invitationDetail._id) {
                         document.getElementById('divInviteCounterparty').classList.add(displayNoneClass);
@@ -2982,7 +2998,7 @@
                                             '           </div>\n';
                                         if (chatMessage.with == 'Our Team' && chatMessage.messageStatus == 'None' && chatMessage.sendTo == null && (loggedInUserDetails.role == 'Contract Creator' || loggedInUserDetails.role == 'Counterparty')) {
                                             html += '        <div class="request-btn">\n' +
-                                                '               <button class="btn btn-primary assign-user" data-action="assign-user" data-id="' + chatMessage._id + '">Assign User</button>\n' +
+                                                '               <button class="btn btn-primary assign-user" data-action="assign-user" data-id="' + chatMessage._id + '">Assign for Drafting</button>\n' +
                                                 '           </div>\n';
                                         }
                                         html += '    </div>\n' +
@@ -3137,7 +3153,7 @@
                                             '           </div>\n';
                                         if (chatMessage.with == 'Our Team' && chatMessage.messageStatus == 'None' && chatMessage.sendTo == null && (loggedInUserDetails.role == 'Contract Creator' || loggedInUserDetails.role == 'Counterparty')) {
                                             html += '        <div class="request-btn">\n' +
-                                                '               <button class="btn btn-primary assign-user" data-action="assign-user" data-id="' + chatMessage._id + '">Assign User</button>\n' +
+                                                '               <button class="btn btn-primary assign-user" data-action="assign-user" data-id="' + chatMessage._id + '">Assign for Drafting</button>\n' +
                                                 '           </div>\n';
                                         }
                                         html += '       </div>\n' +
@@ -3481,7 +3497,7 @@
                                             '           </div>\n';
                                         if (chatMessage.with == 'Our Team' && chatMessage.messageStatus == 'None' && chatMessage.sendTo == null && (loggedInUserDetails.role == 'Contract Creator' || loggedInUserDetails.role == 'Counterparty')) {
                                             html += '        <div class="request-btn">\n' +
-                                                '               <button class="btn btn-primary assign-user" data-action="assign-user" data-id="' + chatMessage._id + '">Assign User</button>\n' +
+                                                '               <button class="btn btn-primary assign-user" data-action="assign-user" data-id$*="' + chatMessage._id + '">Assign for Drafting</button>\n' +
                                                 '           </div>\n';
                                         }
                                         html += '    </div>\n' +
