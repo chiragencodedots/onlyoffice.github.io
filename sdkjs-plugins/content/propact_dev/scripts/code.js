@@ -1643,7 +1643,7 @@
                     html += '    </div>\n' +
                         '</div>\n';
                 } else if (data.messageType == 'Draft Confirmation') {
-                    html += '<div class="message-wrapper' + (data.with == "Counterparty" ? " dark-gold-color" : "") + '">\n' +
+                    html += '<div class="message-wrapper' + (data.with == "Counterparty" ? " dark-gold-color" : " dudhiya-color") + '">\n' +
                         '   <div class="profile-picture">\n' +
                         '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                         '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
@@ -1698,10 +1698,45 @@
                                 '       <div class="request-row">\n' +
                                 '           <strong>Position approved by ' + data.actionperformedbyUser + '</strong>\n' +
                                 '       </div>\n' +
-                                '</div>'
+                                '</div>';
                         }
-                    } else if (data.confirmationType == "request_draft") {
-
+                    } else if (data.confirmationType == "draft") {
+                        if (data.status == 'approved') {
+                            html += '<div class="message-wrapper  ">\n' +
+                                '       <div class="profile-picture">\n' +
+                                '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                                '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                '       </div>\n' +
+                                '       <div class="request-row">\n' +
+                                '           <strong>Draft confirmation request approved by ' + data.actionperformedbyUser + '</strong>\n' +
+                                '       </div>\n' +
+                                '</div>';
+                        } else {
+                            html += '<div class="message-wrapper red-color">\n' +
+                                '       <div class="profile-picture">\n' +
+                                '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                                '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                '       </div>\n' +
+                                '       <div class="request-row">\n' +
+                                '           <div class="request-content">\n' +
+                                '               <h4>Draft confirmation rejected</h4>\n' +
+                                '               <div class="content-message">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
+                                '           </div>\n' +
+                                '       </div>\n' +
+                                '</div>';
+                            html += '<div class="message-wrapper  ">\n' +
+                                '       <div class="profile-picture">\n' +
+                                '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                                '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                '       </div>\n' +
+                                '       <div class="request-row">\n' +
+                                '           <strong>Draft confirmation request rejected by ' + data.actionperformedbyUser + '</strong>\n' +
+                                '       </div>\n' +
+                                '</div>';
+                        }
                     } else if (data.confirmationType == "assign_draft") {
                         html += '<div class="message-wrapper  ">\n' +
                             '       <div class="profile-picture">\n' +
@@ -1804,7 +1839,7 @@
                         '         <h4>Draft confirmation request</h4>\n' +
                         '         <div class="message">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
                         '      </div>';
-                    if (openContractUserDetails.canConfirmPosition) {
+                    if (chatMessage.companyId != loggedInUserDetails.company._id && openContractUserDetails.canConfirmPosition) {
                         html += '      <div class="request-btn">\n' +
                             '         <button class="btn btn-primary draft-approve" data-action="Approve" data-id="' + data._id + '">Approve</button>\n' +
                             '         <button class="btn reject-btn  draft-reject " data-action="Reject" data-id="' + data._id + '">Reject</button>\n' +
@@ -2395,10 +2430,8 @@
                 }
             });
 
-            socket.on('forward_new_clause_create', async function (data) {
+            socket.on('forward_invite_clause', async function (data) {
                 if (data) {
-                    console.log('forward_new_clause_create __data', data);
-                    tagLists.push(JSON.parse(data));
                     await getContractSectionList();
                 }
             });
@@ -3381,7 +3414,7 @@
                                             '               <h4>' + (chatMessage.messageStatus == 'None' || chatMessage.messageStatus == 'Updated' ? 'Draft confirmation request' : (chatMessage.messageStatus == 'Approve' ? 'Draft confirmation approved' : 'Draft confirmation rejected')) + '</h4>\n' +
                                             '               <div class="' + (chatMessage.with == "Counterparty" ? "message" : "content-message") + '">' + (chatMessage.message ? chatMessage.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
                                             '           </div>\n';
-                                        if (chatMessage.from != loggedInUserDetails._id && chatMessage.companyId != loggedInUserDetails.company._id && chatMessage.messageStatus == 'None' && openContractUserDetails.canConfirmPosition && (loggedInUserDetails.role == 'Contract Creator' || loggedInUserDetails.role == 'Counterparty')) {
+                                        if (chatMessage.from != loggedInUserDetails._id && chatMessage.messageStatus == 'None' && openContractUserDetails.canConfirmPosition && (loggedInUserDetails.role == 'Contract Creator' || loggedInUserDetails.role == 'Counterparty')) {
                                             html += '        <div class="request-btn">\n' +
                                                 '               <button class="btn btn-primary draft-approve" data-action="Approve" data-id="' + chatMessage._id + '" >Approve</button>\n' +
                                                 '               <button class="btn reject-btn  draft-reject " data-action="Reject"  data-id="' + chatMessage._id + '" >Reject</button>\n' +
@@ -4019,6 +4052,12 @@
                         generalChatData.chatRoomName = 'conversion_history_' + selectedCommentThereadID;
                         socket.emit('conversion_history_message', generalChatData);
 
+                        let data = {
+                            chatRoomName: documentID,
+                            usertype: withType
+                        };
+                        socket.emit('invite_clause', data);
+
                         let html = '';
                         html += '<strong class="message-wrapper reverse ' + (inviteMessage.with == "Counterparty" ? "light-gold-color" : "") + ' ">\n' +
                             '   <div class="profile-picture">\n' +
@@ -4625,18 +4664,30 @@
                             }
                         } else if (postData.messageType == 'Notification' && postData.confirmationType == 'draft') {
                             if (postData.status == 'approved') {
-                                document.getElementById('chatCPBodyID').classList.add('contract-completed');
-                                document.getElementById('chatBodyID').classList.add('contract-completed');
-                                document.getElementById('sameSideTypeBox').classList.add(displayNoneClass);
-                                document.getElementById('counterpartyTypeBox').classList.add(displayNoneClass);
-                                let actionSameSide = document.querySelectorAll('.action-sameside');
-                                actionSameSide.forEach(function (element) {
-                                    element.classList.add(displayNoneClass);
-                                });
-                                let actionCounterparty = document.querySelectorAll('.action-counterparty');
-                                actionCounterparty.forEach(function (element) {
-                                    element.classList.add(displayNoneClass);
-                                });
+                                if (postData.chatWindow !== "Our Team") {
+                                    document.getElementById('chatCPBodyID').classList.add('contract-completed');
+                                    document.getElementById('chatBodyID').classList.add('contract-completed');
+                                    document.getElementById('sameSideTypeBox').classList.add(displayNoneClass);
+                                    document.getElementById('counterpartyTypeBox').classList.add(displayNoneClass);
+                                    let actionSameSide = document.querySelectorAll('.action-sameside');
+                                    actionSameSide.forEach(function (element) {
+                                        element.classList.add(displayNoneClass);
+                                    });
+                                    let actionCounterparty = document.querySelectorAll('.action-counterparty');
+                                    actionCounterparty.forEach(function (element) {
+                                        element.classList.add(displayNoneClass);
+                                    });
+                                }
+                                html += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "light-gold-color" : "") + '">\n' +
+                                    '   <div class="profile-picture">\n' +
+                                    '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                    '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
+                                    '      <img src="' + (postData.actionperformedbyUserImage ? postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                    '   </div>\n' +
+                                    '   <div class="request-row">\n' +
+                                    '      <strong>Draft confirmation request approved by ' + postData.actionperformedbyUser + '</strong>\n' +
+                                    '   </div>\n' +
+                                    '</div>\n';
                                 getSelectedContractSectionDetails();
                                 getOpenContractUserDetails(socket, redirection = false);
                             } else {
