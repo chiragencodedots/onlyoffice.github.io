@@ -94,9 +94,11 @@
          * @desc If text is not selected or contract is in markup mode than disable the create clause button
          */
         if (documentMode == 'markup') {
-            document.getElementById('btnCreateClause').classList.add(disabledClass);
+            document.getElementById('btnCreateClause').classList.add(displayNoneClass);
             document.getElementById('btnMarkupMode').innerHTML = "Back to Contract";
         } else {
+            document.getElementById('btnCreateClause').classList.remove(displayNoneClass);
+            document.getElementById('btnCreateClause').classList.add(disabledClass);
             document.getElementById('btnMarkupMode').innerHTML = "Select Markup Mode";
             if (text) {
                 document.getElementById('btnCreateClause').classList.remove(disabledClass);
@@ -2457,7 +2459,7 @@
                     openContractUserDetails = responseData.data;
                     if (selectedThreadID) {
                         let getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
-                        if (openContractUserDetails && openContractUserDetails.openContractDetails && openContractUserDetails.canSendPositionConfirmation && getClauseDetails.isSectionInDraftMode) {
+                        if (openContractUserDetails && openContractUserDetails.openContractDetails && openContractUserDetails.canSendPositionConfirmation && getClauseDetails && getClauseDetails.isSectionInDraftMode) {
                             if (openContractUserDetails.openContractDetails.userWhoHasEditAccess == loggedInUserDetails._id || loggedInUserDetails.role == "Counterparty" || loggedInUserDetails.role == "Contract Creator") {
                                 document.getElementById('toggleSendPositionConfirmationA').setAttribute('title', 'Send for Draft Confirmation');
                             } else {
