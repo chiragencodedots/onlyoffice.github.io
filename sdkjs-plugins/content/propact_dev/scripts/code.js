@@ -72,6 +72,9 @@
     /**================================== Plugin Init Start ===============================*/
     window.Asc.plugin.init = function (text) {
 
+        var sDocumentEditingRestrictions = "readOnly";
+        window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+
         //event "init" for plugin
         window.Asc.plugin.executeMethod("ShowButton", ["back", false]);
         window.Asc.plugin.executeMethod("GetAllContentControls");
