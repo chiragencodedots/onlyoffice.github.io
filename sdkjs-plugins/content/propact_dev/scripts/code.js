@@ -24,6 +24,7 @@
     var flagSocketFunctionInit = false;
     var fClickLabel = false;
     var fClickBtnCur = false;
+    var flagRedirectFirst = false;
     let flagJSLoad = false;
     var displayNoneClass = "d-none";
     var disabledClass = "disabled";
@@ -80,7 +81,9 @@
         /**====================== Get & Set variables ======================*/
         documentID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
         documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
-        authToken = window.Asc.plugin.info.documentCallbackUrl.split('/').pop();
+        const splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
+        authToken = splitArray[splitArray.length - 2];
+        sectionID = splitArray[splitArray.length - 1];
         /**====================== Get & Set variables ======================*/
 
         if (!flagSocketInit) {
@@ -2972,6 +2975,10 @@
                                 '</div>';
                         });
                         document.getElementById('contractListItemsDiv').innerHTML += html;
+                        if (!flagRedirectFirst && sectionID) {
+                            $('.contract-item[data-id="' + sectionID + '"]').click();
+                            flagRedirectFirst = true;
+                        }
                     } else {
                         let norecordhtml = '<p class="nodata-info">No clauses available</p>';
                         document.getElementById('contractListItemsDiv').innerHTML = norecordhtml;
