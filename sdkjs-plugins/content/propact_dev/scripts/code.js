@@ -1990,6 +1990,8 @@
                             '           <strong>Draft confirmation request rejected by ' + data.actionperformedbyUser + '</strong>\n' +
                             '       </div>\n' +
                             '</div>';
+                        getSelectedContractSectionDetails();
+                        getOpenContractUserDetails(socket, redirection = false);
                     }
                 } else if (data.messageType == "Notification" && data.confirmationType == "request_draft") {
                     if (data.sendTo) {
@@ -2334,6 +2336,8 @@
                             '           <strong>Draft confirmation request rejected by ' + data.actionperformedbyUser + '</strong>\n' +
                             '       </div>\n' +
                             '</div>';
+                        getSelectedContractSectionDetails();
+                        getOpenContractUserDetails(socket, redirection = false);
                     } else if (data.messageType == "Notification" && data.confirmationType == "draft_approval") {
                         if (data.status == "approved") {
                             htmlHistory += '<div class="message-wrapper grey-color light-gold-color">\n' +
@@ -2481,6 +2485,8 @@
                             '       <strong>Draft confirmation request rejected by ' + data.actionperformedbyUser + '</strong>\n' +
                             '   </div>\n' +
                             '</div>'
+                        getSelectedContractSectionDetails();
+                        getOpenContractUserDetails(socket, redirection = false);
                     } else if (data.messageType == "Notification" && data.confirmationType == "Reopen") {
                         htmlHistory += '<div class="message-wrapper reverse ">\n' +
                             '       <div class="profile-picture">\n' +
@@ -4810,6 +4816,9 @@
                                     '      <strong>Draft confirmation request rejected by ' + postData.actionperformedbyUser + '</strong>\n' +
                                     '   </div>\n' +
                                     '</div>\n';
+
+                                getSelectedContractSectionDetails();
+                                getOpenContractUserDetails(socket, redirection = false);
                             }
                         } else if (postData.messageType == 'Notification' && postData.confirmationType == 'assign_draft') {
                             html += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "light-gold-color" : "") + '">\n' +
