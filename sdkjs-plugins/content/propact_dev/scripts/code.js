@@ -1366,7 +1366,7 @@
      */
     function getDocumentID(url) {
         const urlArr = url.split('/');
-        return urlArr[urlArr.length - 4];
+        return urlArr[urlArr.length - 5];
     }
 
     /**
@@ -1375,7 +1375,7 @@
      */
     function getDocumentMode(url) {
         const urlArr = url.split('/');
-        return urlArr[urlArr.length - 2];
+        return urlArr[urlArr.length - 3];
     }
 
     /**
