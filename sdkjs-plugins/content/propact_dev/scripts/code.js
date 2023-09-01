@@ -83,9 +83,9 @@
         documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
         const splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
         authToken = splitArray[11];
-        if (splitArray.length == 13) {
+        /*if (splitArray.length == 13) {
             sectionID = splitArray[12];
-        }
+        }*/
         /**====================== Get & Set variables ======================*/
 
         if (!flagSocketInit) {
@@ -2977,10 +2977,10 @@
                                 '</div>';
                         });
                         document.getElementById('contractListItemsDiv').innerHTML += html;
-                        if (!flagRedirectFirst && sectionID) {
+                        /*if (!flagRedirectFirst && sectionID) {
                             $('.contract-item[data-id="' + sectionID + '"]').click();
                             flagRedirectFirst = true;
-                        }
+                        }*/
                     } else {
                         let norecordhtml = '<p class="nodata-info">No clauses available</p>';
                         document.getElementById('contractListItemsDiv').innerHTML = norecordhtml;
