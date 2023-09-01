@@ -82,8 +82,7 @@
         documentID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
         documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
         const splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
-        authToken = splitArray[splitArray.length - 2];
-        sectionID = splitArray[splitArray.length - 1];
+        authToken = splitArray[splitArray.length - 1];
         /**====================== Get & Set variables ======================*/
 
         if (!flagSocketInit) {
@@ -827,7 +826,6 @@
             document.getElementById('toggleScheduleMeeting').addEventListener('click', function () {
                 let meetingData = {
                     contractId: documentID,
-                    contractSectionId: selectedThreadID,
                     contractSectionThreadId: selectedCommentThereadID,
                     chatRoomName: loggedInUserDetails.userWebId + "_" + documentID
                 };
@@ -837,7 +835,6 @@
             document.getElementById('toggleScheduleMeetingA').addEventListener('click', function () {
                 let meetingData = {
                     contractId: documentID,
-                    contractSectionId: selectedThreadID,
                     contractSectionThreadId: selectedCommentThereadID,
                     chatRoomName: loggedInUserDetails.userWebId + "_" + documentID
                 };
@@ -1366,7 +1363,7 @@
      */
     function getDocumentID(url) {
         const urlArr = url.split('/');
-        return urlArr[urlArr.length - 5];
+        return urlArr[urlArr.length - 4];
     }
 
     /**
@@ -1375,7 +1372,7 @@
      */
     function getDocumentMode(url) {
         const urlArr = url.split('/');
-        return urlArr[urlArr.length - 3];
+        return urlArr[urlArr.length - 2];
     }
 
     /**
