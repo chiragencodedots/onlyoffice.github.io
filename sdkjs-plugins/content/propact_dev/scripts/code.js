@@ -69,6 +69,8 @@
     let socket = '';
     let openContractUserDetails;
     let selectedContractSectionDetails;
+    let sectionID;
+    let chatWindow;
 
 
     /**================================== Plugin Init Start ===============================*/
@@ -84,8 +86,11 @@
         documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
         const splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
         authToken = splitArray[11];
-        if (splitArray.length == 13) {
+        if (splitArray.length >= 13) {
             sectionID = splitArray[12];
+        }
+        if (splitArray.length >= 14) {
+            chatWindow = splitArray[13];
         }
         /**====================== Get & Set variables ======================*/
 
@@ -562,6 +567,14 @@
 
             $(document).on('click', '.contract-item', async function () {
                 fClickLabel = true;
+                let actionSameSide = document.querySelectorAll('.action-sameside');
+                actionSameSide.forEach(function (element) {
+                    element.classList.remove(displayNoneClass);
+                });
+                let actionCounterparty = document.querySelectorAll('.action-counterparty');
+                actionCounterparty.forEach(function (element) {
+                    element.classList.remove(displayNoneClass);
+                });
                 var elementID = $(this).attr('id');
                 let tagExists = tagLists.findIndex((ele) => +ele.Id == +elementID);
                 if (tagExists > -1) {
@@ -608,15 +621,6 @@
                         document.getElementById('toggleSendPositionConfirmation').closest("li").classList.add(displayNoneClass);
                         document.getElementById('toggleSendPositionConfirmationA').closest("li").classList.add(displayNoneClass);
                     }
-
-                    // let actionSameSide = document.querySelectorAll('.action-sameside');
-                    // actionSameSide.forEach(function (element) {
-                    //     element.classList.remove(displayNoneClass);
-                    // });
-                    // let actionCounterparty = document.querySelectorAll('.action-counterparty');
-                    // actionCounterparty.forEach(function (element) {
-                    //     element.classList.remove(displayNoneClass);
-                    // });
                     let getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
                     if (getClauseDetails && getClauseDetails._id) {
                         await getSelectedContractSectionDetails();
@@ -3072,6 +3076,11 @@
                         if (!flagRedirectFirst && sectionID) {
                             setTimeout(function() {
                                 $('.contract-item[data-id="' + sectionID + '"]').click();
+                                if (chatWindow == 'SS') {
+                                    $('#btnGoToSameSideChat').click();
+                                } else {
+                                    $('#btnGoToCounterparty').click();
+                                }
                                 flagRedirectFirst = true;
                             }, 500);
                         }
