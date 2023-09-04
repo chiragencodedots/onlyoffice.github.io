@@ -3070,8 +3070,10 @@
                         });
                         document.getElementById('contractListItemsDiv').innerHTML += html;
                         if (!flagRedirectFirst && sectionID) {
-                            $('.contract-item[data-id="' + sectionID + '"]').click();
-                            flagRedirectFirst = true;
+                            setTimeout(function() {
+                                $('.contract-item[data-id="' + sectionID + '"]').click();
+                                flagRedirectFirst = true;
+                            }, 500);
                         }
                     } else {
                         let norecordhtml = '<p class="nodata-info">No clauses available</p>';
