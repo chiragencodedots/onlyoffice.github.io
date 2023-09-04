@@ -102,12 +102,6 @@
         if (documentMode == 'markup') {
             document.getElementById('btnCreateClause').classList.add(displayNoneClass);
             document.getElementById('btnMarkupMode').innerHTML = "Back to Contract";
-
-            if (!fDisableWhenPluginLoading) {
-                var sDocumentEditingRestrictions = "none";
-                window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-                fDisableWhenPluginLoading = true;
-            }
         } else {
             document.getElementById('btnCreateClause').classList.remove(displayNoneClass);
             document.getElementById('btnCreateClause').classList.add(disabledClass);
@@ -119,9 +113,11 @@
                     document.getElementById('btnCreateClause').classList.add(disabledClass);
                 }
             }
-            var sDocumentEditingRestrictions = "readOnly";
-            window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-            fDisableWhenPluginLoading = true;
+            if (!fDisableWhenPluginLoading) {
+                var sDocumentEditingRestrictions = "readOnly";
+                window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                fDisableWhenPluginLoading = true;
+            }
         }
 
         /**
