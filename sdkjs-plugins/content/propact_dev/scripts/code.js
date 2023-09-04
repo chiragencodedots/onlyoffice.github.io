@@ -84,9 +84,9 @@
         documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
         const splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
         authToken = splitArray[11];
-        /*if (splitArray.length == 13) {
+        if (splitArray.length == 13) {
             sectionID = splitArray[12];
-        }*/
+        }
         /**====================== Get & Set variables ======================*/
 
         if (!flagSocketInit) {
