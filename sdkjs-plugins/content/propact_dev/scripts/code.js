@@ -102,11 +102,6 @@
         /**
          * @desc If text is not selected or contract is in markup mode than disable the create clause button
          */
-        if (!fDisableWhenPluginLoading) {
-            var sDocumentEditingRestrictions = "none";
-            window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-            fDisableWhenPluginLoading = true;
-        }
         if (documentMode == 'markup') {
             document.getElementById('btnCreateClause').classList.add(displayNoneClass);
             document.getElementById('btnMarkupMode').innerHTML = "Back to Contract";
