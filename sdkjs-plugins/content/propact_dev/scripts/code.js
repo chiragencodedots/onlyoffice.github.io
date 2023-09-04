@@ -3069,10 +3069,10 @@
                                 '</div>';
                         });
                         document.getElementById('contractListItemsDiv').innerHTML += html;
-                        /*if (!flagRedirectFirst && sectionID) {
-                    $('.contract-item[data-id="' + sectionID + '"]').click();
-                    flagRedirectFirst = true;
-                }*/
+                        if (!flagRedirectFirst && sectionID) {
+                            $('.contract-item[data-id="' + sectionID + '"]').click();
+                            flagRedirectFirst = true;
+                        }
                     } else {
                         let norecordhtml = '<p class="nodata-info">No clauses available</p>';
                         document.getElementById('contractListItemsDiv').innerHTML = norecordhtml;
@@ -3268,7 +3268,7 @@
                             tagData: JSON.stringify(nContentControlProperties)
                         };
                         socket.emit('new_clause_created', data);
-                        location.reload(true);
+                        // location.reload(true);
                         document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
                         document.getElementById('divContractCreate').classList.add(displayNoneClass);
                         document.getElementById('divContractLists').classList.remove(displayNoneClass);
