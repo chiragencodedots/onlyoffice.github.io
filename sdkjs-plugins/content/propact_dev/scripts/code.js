@@ -79,9 +79,6 @@
         window.Asc.plugin.executeMethod("GetAllContentControls");
         fBtnGetAll = true;
 
-        var sDocumentEditingRestrictions = "readOnly";
-        window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-
         /**====================== Get & Set variables ======================*/
         documentID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
         documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
@@ -122,6 +119,8 @@
                     document.getElementById('btnCreateClause').classList.add(disabledClass);
                 }
             }
+            var sDocumentEditingRestrictions = "readOnly";
+            window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
             fDisableWhenPluginLoading = true;
         }
 
