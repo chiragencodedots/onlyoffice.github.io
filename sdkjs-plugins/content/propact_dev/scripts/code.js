@@ -23,7 +23,7 @@
     var flagSocketInit = false;
     var flagSocketFunctionInit = false;
     var fClickLabel = false;
-    var fClickBtnCur = false;
+    var fDisableWhenPluginLoading = false;
     var flagRedirectFirst = false;
     let flagJSLoad = false;
     var displayNoneClass = "d-none";
@@ -78,6 +78,9 @@
         window.Asc.plugin.executeMethod("ShowButton", ["back", false]);
         window.Asc.plugin.executeMethod("GetAllContentControls");
         fBtnGetAll = true;
+
+        var sDocumentEditingRestrictions = "readOnly";
+        window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
 
         /**====================== Get & Set variables ======================*/
         documentID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
@@ -2699,6 +2702,11 @@
                 // Handle the response data
                 const responseData = data;
                 if (responseData && responseData.status == true && responseData.code == 200 && responseData.data) {
+                    if (!fDisableWhenPluginLoading) {
+                        var sDocumentEditingRestrictions = "none";
+                        window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                        fDisableWhenPluginLoading = true;
+                    }
                     if (responseData.data.openContractDetails && responseData.data.openContractDetails.counterPartyInviteStatus == 'Accepted') {
                         if (documentMode !== 'markup') {
                             var sDocumentEditingRestrictions = "readOnly";
