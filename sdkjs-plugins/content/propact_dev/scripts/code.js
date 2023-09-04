@@ -102,9 +102,20 @@
         /**
          * @desc If text is not selected or contract is in markup mode than disable the create clause button
          */
+        if (!fDisableWhenPluginLoading) {
+            var sDocumentEditingRestrictions = "none";
+            window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+            fDisableWhenPluginLoading = true;
+        }
         if (documentMode == 'markup') {
             document.getElementById('btnCreateClause').classList.add(displayNoneClass);
             document.getElementById('btnMarkupMode').innerHTML = "Back to Contract";
+
+            if (!fDisableWhenPluginLoading) {
+                var sDocumentEditingRestrictions = "none";
+                window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                fDisableWhenPluginLoading = true;
+            }
         } else {
             document.getElementById('btnCreateClause').classList.remove(displayNoneClass);
             document.getElementById('btnCreateClause').classList.add(disabledClass);
@@ -116,6 +127,7 @@
                     document.getElementById('btnCreateClause').classList.add(disabledClass);
                 }
             }
+            fDisableWhenPluginLoading = true;
         }
 
         /**
@@ -2702,11 +2714,6 @@
                 // Handle the response data
                 const responseData = data;
                 if (responseData && responseData.status == true && responseData.code == 200 && responseData.data) {
-                    if (!fDisableWhenPluginLoading) {
-                        var sDocumentEditingRestrictions = "none";
-                        window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-                        fDisableWhenPluginLoading = true;
-                    }
                     if (responseData.data.openContractDetails && responseData.data.openContractDetails.counterPartyInviteStatus == 'Accepted') {
                         if (documentMode !== 'markup') {
                             var sDocumentEditingRestrictions = "readOnly";
