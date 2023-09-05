@@ -255,6 +255,7 @@
                 socket.emit('join_contract_section_chat_room', chatRoomName);
                 document.getElementById("messageInput").value = "";
                 document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
+                document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
                 document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
             });
 
@@ -270,6 +271,7 @@
                 socket.emit('join_contract_section_chat_room', chatRoomName);
                 document.getElementById("messageInputCP").value = "";
                 document.getElementById('divContractCounterpartyChat').classList.remove(displayNoneClass);
+                document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
                 document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
             });
             // Contract chat history screen
