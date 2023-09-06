@@ -3080,7 +3080,7 @@
                                 $('.contract-item[data-id="' + sectionID + '"]').click();
                                 if (chatWindow == 'SS') {
                                     $('#btnGoToSameSideChat').click();
-                                } else {
+                                } else if (chatWindow == 'CP') { {
                                     $('#btnGoToCounterparty').click();
                                 }
                                 flagRedirectFirst = true;
