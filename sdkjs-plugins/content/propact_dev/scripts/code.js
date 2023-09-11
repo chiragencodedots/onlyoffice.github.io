@@ -3074,7 +3074,11 @@
                                 '\t\t\t</a>\n' +
                                 '</div>';
                         });
-                        document.getElementById('contractListItemsDiv').innerHTML += html;
+                        if (clauseNextPage == 1) {
+                            document.getElementById('contractListItemsDiv').innerHTML += html;
+                        } else {
+                            document.getElementById('contractListItemsDiv').insertAdjacentElement("beforeend", html);
+                        }
                         if (!flagRedirectFirst && sectionID) {
                             setTimeout(function() {
                                 $('.contract-item[data-id="' + sectionID + '"]').click();
