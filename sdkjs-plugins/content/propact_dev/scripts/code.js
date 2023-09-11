@@ -3076,7 +3076,9 @@
                         if (clauseNextPage == 1) {
                             document.getElementById('contractListItemsDiv').innerHTML += html;
                         } else {
-                            document.getElementById('contractListItemsDiv').insertAdjacentElement("beforeend", html);
+                            var newElement = document.createElement("div");
+                            newElement.innerHTML = html;
+                            document.getElementById('contractListItemsDiv').insertAdjacentElement("beforeend", newElement);
                         }
                         if (!flagRedirectFirst && sectionID) {
                             setTimeout(function() {
