@@ -3013,11 +3013,8 @@
                     const resData = responseData.data;
                     document.getElementById('contractListItemsDiv').innerHTML = '';
                     if (resData.data.length > 0) {
-                        clauseHasNextPage = resData.hasNextPage;
-                        clauseNextPage = resData.nextPage;
                         var result = resData.data;
                         var html = '';
-                        var html1 = '';
                         result.forEach((ele) => {
                             clauseLists.push(ele);
                             let commentID = ele.commentId;
@@ -3090,6 +3087,8 @@
                                 flagRedirectFirst = true;
                             }, 500);
                         }
+                        clauseHasNextPage = resData.hasNextPage;
+                        clauseNextPage = resData.nextPage;
                     } else {
                         let norecordhtml = '<p class="nodata-info">No clauses available</p>';
                         document.getElementById('contractListItemsDiv').innerHTML = norecordhtml;
