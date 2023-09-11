@@ -3011,7 +3011,9 @@
                 const responseData = data;
                 if (responseData && responseData.data) {
                     const resData = responseData.data;
-                    document.getElementById('contractListItemsDiv').innerHTML = '';
+                    if (clauseNextPage == 1) {
+                        document.getElementById('contractListItemsDiv').innerHTML = '';
+                    }
                     if (resData.data.length > 0) {
                         var result = resData.data;
                         var html = '';
