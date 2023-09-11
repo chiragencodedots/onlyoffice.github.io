@@ -2213,6 +2213,26 @@
                         '      <div class="message">Contract section Re-Opened by ' + data.actionperformedbyUser + '</div>\n' +
                         '   </div>\n' +
                         '</div>\n';
+                    document.getElementById('chatBodyID').classList.remove('contract-completed');
+                    document.getElementById('chatCPBodyID').classList.remove('contract-completed');
+                    document.getElementById('sameSideTypeBox').classList.remove(displayNoneClass);
+                    document.getElementById('counterpartyTypeBox').classList.remove(displayNoneClass);
+                    let actionSameSide = document.querySelectorAll('.action-sameside');
+                    actionSameSide.forEach(function (element) {
+                        element.classList.remove(displayNoneClass);
+                    });
+                    let actionCounterparty = document.querySelectorAll('.action-counterparty');
+                    actionCounterparty.forEach(function (element) {
+                        element.classList.remove(displayNoneClass);
+                    });
+                    var draftConfirmCPElement = document.getElementById("draftConfirmCP");
+                    if (draftConfirmCPElement) {
+                        draftConfirmCPElement.parentNode.removeChild(draftConfirmCPElement);
+                    }
+                    var draftConfirmSSElement = document.getElementById("draftConfirmSS");
+                    if (draftConfirmSSElement) {
+                        draftConfirmSSElement.parentNode.removeChild(draftConfirmSSElement);
+                    }
                 } else if (data.messageType == "Meeting") {
                     html += '<div class="scheduled-meeting" data-id="'+data.meetingId+'">\n' +
                         '          <div class="scheduled-meeting-inner">\n' +
@@ -2456,6 +2476,26 @@
                             '           <strong>Contract section Re-Opened by ' + data.actionperformedbyUser + '</strong>\n' +
                             '       </div>\n' +
                             '</div>';
+                        document.getElementById('chatBodyID').classList.remove('contract-completed');
+                        document.getElementById('chatCPBodyID').classList.remove('contract-completed');
+                        document.getElementById('sameSideTypeBox').classList.remove(displayNoneClass);
+                        document.getElementById('counterpartyTypeBox').classList.remove(displayNoneClass);
+                        let actionSameSide = document.querySelectorAll('.action-sameside');
+                        actionSameSide.forEach(function (element) {
+                            element.classList.remove(displayNoneClass);
+                        });
+                        let actionCounterparty = document.querySelectorAll('.action-counterparty');
+                        actionCounterparty.forEach(function (element) {
+                            element.classList.remove(displayNoneClass);
+                        });
+                        var draftConfirmCPElement = document.getElementById("draftConfirmCP");
+                        if (draftConfirmCPElement) {
+                            draftConfirmCPElement.parentNode.removeChild(draftConfirmCPElement);
+                        }
+                        var draftConfirmSSElement = document.getElementById("draftConfirmSS");
+                        if (draftConfirmSSElement) {
+                            draftConfirmSSElement.parentNode.removeChild(draftConfirmSSElement);
+                        }
                     } else if (data.messageType == "Draft Confirmation") {
                         htmlHistory += '<div class="message-wrapper dark-gold-color">\n' +
                             '       <div class="profile-picture">\n' +
