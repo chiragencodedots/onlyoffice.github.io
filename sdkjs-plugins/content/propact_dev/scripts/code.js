@@ -233,7 +233,7 @@
             // Contract chat history screen
             const varBtnRedirectClauseListsA = document.getElementById('btnRedirectClauseListsA');
             varBtnRedirectClauseListsA.addEventListener('click', async function () {
-                selectedCommentThereadID = ''; 
+                selectedCommentThereadID = '';
                 $('.div-selected').removeClass('div-selected');
                 clauseNextPage = 1;
                 clauseHasNextPage = true;
@@ -4383,6 +4383,7 @@
                         }
                     });
                     // Handle the response data
+                    $('toggleInviteUserTeam').click();
                     document.getElementById('inviteUserPopup').classList.add(displayNoneClass);
                     getSelectedContractSectionDetails();
                     inviteUserSelect = [];
@@ -4492,6 +4493,7 @@
                         }
                     });
                     // Handle the response data
+                    $('toggleInviteUserTeam').click();
                     document.getElementById('inviteTeamPopup').classList.add(displayNoneClass);
                     getSelectedContractSectionDetails();
                     inviteTeamSelect = [];
