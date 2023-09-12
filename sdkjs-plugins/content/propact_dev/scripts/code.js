@@ -233,7 +233,7 @@
             // Contract chat history screen
             const varBtnRedirectClauseListsA = document.getElementById('btnRedirectClauseListsA');
             varBtnRedirectClauseListsA.addEventListener('click', async function () {
-                selectedCommentThereadID = '';
+                selectedCommentThereadID = ''; 
                 $('.div-selected').removeClass('div-selected');
                 clauseNextPage = 1;
                 clauseHasNextPage = true;
