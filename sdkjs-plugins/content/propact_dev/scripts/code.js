@@ -4383,7 +4383,7 @@
                         }
                     });
                     // Handle the response data
-                    $('toggleInviteUserTeam').click();
+                    document.getElementById('toggleInviteUserTeam').closest("li").classList.remove('active');
                     document.getElementById('inviteUserPopup').classList.add(displayNoneClass);
                     getSelectedContractSectionDetails();
                     inviteUserSelect = [];
@@ -4493,7 +4493,7 @@
                         }
                     });
                     // Handle the response data
-                    $('toggleInviteUserTeam').click();
+                    document.getElementById('toggleInviteUserTeam').closest("li").classList.remove('active');
                     document.getElementById('inviteTeamPopup').classList.add(displayNoneClass);
                     getSelectedContractSectionDetails();
                     inviteTeamSelect = [];
