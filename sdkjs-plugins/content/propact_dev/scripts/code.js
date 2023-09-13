@@ -117,6 +117,10 @@
                 if (!document.getElementById('btnCreateClause').classList.contains(disabledClass)) {
                     document.getElementById('btnCreateClause').classList.add(disabledClass);
                 }
+                if (!document.getElementById('divContractCreate').classList.contains('d-none')) {
+                    document.getElementById('divContractCreate').classList.add(disabledClass);
+                    document.getElementById('divContractLists').classList.add(disabledClass);
+                }
             }
             if (!fDisableWhenPluginLoading) {
                 var sDocumentEditingRestrictions = "readOnly";
