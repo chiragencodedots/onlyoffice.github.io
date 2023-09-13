@@ -119,7 +119,7 @@
                 }
                 if (!document.getElementById('divContractCreate').classList.contains('d-none')) {
                     document.getElementById('divContractCreate').classList.add(disabledClass);
-                    document.getElementById('divContractLists').classList.add(disabledClass);
+                    document.getElementById('divContractLists').classList.remove(disabledClass);
                 }
             }
             if (!fDisableWhenPluginLoading) {
