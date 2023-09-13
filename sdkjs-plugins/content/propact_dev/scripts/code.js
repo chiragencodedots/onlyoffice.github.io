@@ -4566,6 +4566,31 @@
                         document.getElementById('chatBodyID').classList.remove('contract-completed');
                         document.getElementById('chatCPBodyID').classList.remove('contract-completed');
                         let selectedContractSectionDetailsA = responseData.data;
+                        if (responseData.data.contractAssignedUsers && responseData.data.contractAssignedUsers.length > 0) {
+                            document.getElementById('toggleSendPositionConfirmation').closest("li").classList.remove(displayNoneClass);
+                            let iHtml = '<ul>';
+                            responseData.data.contractAssignedUsers.forEach((ele) => {
+                                iHtml += '<li>\n' +
+                                    '\t\t\t\t<div class="invite-user-inner">\n' +
+                                    '\t\t\t\t\t\t\t\t<div class="invite-user-icon">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t<img src="' + (ele.userId && ele.userId.userImage ? IMAGE_USER_PATH_LINK + ele.userId.userImage : 'images/no-profile-image.jpg') + '" alt="">\n' +
+                                    '\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t<div class="invite-user-name">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t<h3>' + ele.userId.firstName + ' ' + ele.userId.lastName + '</h3>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t<span>' + ele.userRole + '</span>\n' +
+                                    '\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t</div>\n' +
+                                    '</li>';
+                            });
+                            iHtml += '</ul>';
+                            document.getElementById('userTabContent').innerHTML = iHtml;
+                        } else {
+                            document.getElementById('toggleSendPositionConfirmation').closest("li").classList.add(displayNoneClass);
+                            let html = '<ul>' +
+                                '<li><p>No user selected</p></li>' +
+                                '</ul>';
+                            document.getElementById('userTabContent').innerHTML = html;
+                        }
                         if (selectedContractSectionDetailsA && selectedContractSectionDetailsA.contractSectionData && selectedContractSectionDetailsA.contractSectionData.contractStatus == "Completed") {
                             document.getElementById('sameSideTypeBox').classList.add(displayNoneClass);
                             document.getElementById('counterpartyTypeBox').classList.add(displayNoneClass);
@@ -4599,31 +4624,6 @@
 
                             document.getElementById('chatBodyID').classList.add('contract-completed');
                             document.getElementById('chatCPBodyID').classList.add('contract-completed');
-                        }
-                        if (responseData.data.contractAssignedUsers && responseData.data.contractAssignedUsers.length > 0) {
-                            document.getElementById('toggleSendPositionConfirmation').closest("li").classList.remove(displayNoneClass);
-                            let iHtml = '<ul>';
-                            responseData.data.contractAssignedUsers.forEach((ele) => {
-                                iHtml += '<li>\n' +
-                                    '\t\t\t\t<div class="invite-user-inner">\n' +
-                                    '\t\t\t\t\t\t\t\t<div class="invite-user-icon">\n' +
-                                    '\t\t\t\t\t\t\t\t\t\t\t\t<img src="' + (ele.userId && ele.userId.userImage ? IMAGE_USER_PATH_LINK + ele.userId.userImage : 'images/no-profile-image.jpg') + '" alt="">\n' +
-                                    '\t\t\t\t\t\t\t\t</div>\n' +
-                                    '\t\t\t\t\t\t\t\t<div class="invite-user-name">\n' +
-                                    '\t\t\t\t\t\t\t\t\t\t\t\t<h3>' + ele.userId.firstName + ' ' + ele.userId.lastName + '</h3>\n' +
-                                    '\t\t\t\t\t\t\t\t\t\t\t\t<span>' + ele.userRole + '</span>\n' +
-                                    '\t\t\t\t\t\t\t\t</div>\n' +
-                                    '\t\t\t\t</div>\n' +
-                                    '</li>';
-                            });
-                            iHtml += '</ul>';
-                            document.getElementById('userTabContent').innerHTML = iHtml;
-                        } else {
-                            document.getElementById('toggleSendPositionConfirmation').closest("li").classList.add(displayNoneClass);
-                            let html = '<ul>' +
-                                '<li><p>No user selected</p></li>' +
-                                '</ul>';
-                            document.getElementById('userTabContent').innerHTML = html;
                         }
 
                         if (responseData.data.contractAssignedTeams && responseData.data.contractAssignedTeams.length > 0) {
