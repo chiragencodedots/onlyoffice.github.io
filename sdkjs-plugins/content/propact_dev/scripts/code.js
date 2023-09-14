@@ -5424,7 +5424,7 @@
         try {
             document.getElementById('mainLoader').classList.remove(displayNoneClass);
             var data = JSON.stringify({
-                contractSectionId: selectedCommentThereadID
+                contractSectionId: selectedThreadID
             });
             const unreadMessageThreadUrl = apiBaseUrl + '/contractSection/updateUnreadMessageStatus/';
             const headers = {
