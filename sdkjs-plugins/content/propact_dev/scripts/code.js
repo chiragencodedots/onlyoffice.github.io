@@ -138,6 +138,10 @@
 
         const varBtnCreateClause = document.getElementById('btnCreateClause');
         varBtnCreateClause.addEventListener('click', function () {
+            if (!document.getElementById('inviteUsersBox').classList.contains(displayNoneClass)) {
+                document.getElementById('inviteUsersBox').classList.add(displayNoneClass);
+                toggleInviteUsersDivShow = false;
+            }
             if (text) {
                 document.getElementById('divContractLists').classList.add(displayNoneClass);
                 document.getElementById('divContractCreate').classList.remove(displayNoneClass);
