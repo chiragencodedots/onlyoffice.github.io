@@ -621,7 +621,7 @@
                         draftConfirmCPElement.parentNode.removeChild(draftConfirmCPElement);
                     }
                     await redirectToMessageScreen();
-
+                    await unreadMessageForThread();
                     document.getElementById('sendPositionConfirmationPopup').classList.add(displayNoneClass);
                     document.getElementById('toggleInviteUserTeam').closest("li").classList.remove('active');
                     window.Asc.plugin.executeMethod("SelectContentControl", [tagLists[tagExists].InternalId]);
@@ -3176,43 +3176,50 @@
      * @desc Invite the counterparty
      */
     function inviteCounterparties() {
-        var form = document.getElementById('inviteForm');
-        var data = JSON.stringify({
-            firstName: form.elements['firstName'].value,
-            lastName: form.elements['lastName'].value,
-            email: form.elements['email'].value,
-            organizationName: form.elements['organisationName'].value
-        });
-        const inviteCounterpartiesUrl = apiBaseUrl + '/contract/inviteCounterPartyUser/' + documentID;
-        const headers = {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + authToken
-        };
-        const requestOptions = {
-            method: 'POST',
-            headers: headers,
-            body: data
-        };
-        fetch(inviteCounterpartiesUrl, requestOptions)
-            .then(response => response.json())
-            .then(data => {
-                // Handle the response data
-                document.getElementById('mainLoader').classList.add(displayNoneClass);
-                const responseData = data;
-                if (responseData && responseData.status == true && responseData.code == 200) {
-                    document.getElementById("inviteForm").reset();
-                    document.getElementById('divInviteCounterpartyPending').classList.remove(displayNoneClass);
-                    document.getElementById('divInviteCounterpartyForm').classList.add(displayNoneClass);
-                    getOpenContractUserDetails();
-                } else if (responseData && responseData.status == false && responseData.message) {
-                    $('#inviteEmailAddress').parent().append('<label class="error api-error">' + responseData.message + '</label>');
-                }
-            })
-            .catch(error => {
-                // Handle any errors
-                console.error('Error:', error);
-                document.getElementById('mainLoader').classList.add(displayNoneClass);
+        try {
+            document.getElementById('mainLoader').classList.remove(displayNoneClass);
+            var form = document.getElementById('inviteForm');
+            var data = JSON.stringify({
+                firstName: form.elements['firstName'].value,
+                lastName: form.elements['lastName'].value,
+                email: form.elements['email'].value,
+                organizationName: form.elements['organisationName'].value
             });
+            const inviteCounterpartiesUrl = apiBaseUrl + '/contract/inviteCounterPartyUser/' + documentID;
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + authToken
+            };
+            const requestOptions = {
+                method: 'POST',
+                headers: headers,
+                body: data
+            };
+            fetch(inviteCounterpartiesUrl, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response data
+                    document.getElementById('mainLoader').classList.remove(displayNoneClass);
+                    const responseData = data;
+                    if (responseData && responseData.status == true && responseData.code == 200) {
+                        document.getElementById('mainLoader').classList.add(displayNoneClass);
+                        document.getElementById("inviteForm").reset();
+                        document.getElementById('divInviteCounterpartyPending').classList.remove(displayNoneClass);
+                        document.getElementById('divInviteCounterpartyForm').classList.add(displayNoneClass);
+                        getOpenContractUserDetails();
+                    } else if (responseData && responseData.status == false && responseData.message) {
+                        $('#inviteEmailAddress').parent().append('<label class="error api-error">' + responseData.message + '</label>');
+                        document.getElementById('mainLoader').classList.add(displayNoneClass);
+                    }
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error:', error);
+                    document.getElementById('mainLoader').classList.add(displayNoneClass);
+                });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
 
     /**
@@ -3220,6 +3227,7 @@
      */
     function cancelInvitation() {
         try {
+            document.getElementById('mainLoader').classList.remove(displayNoneClass);
             const cancelInvitationsUrl = apiBaseUrl + '/contract/cancelInvitationEmail/' + documentID;
             const headers = {
                 'Content-Type': 'application/json',
@@ -3261,6 +3269,7 @@
      */
     function resendCounterpartyInvitation() {
         try {
+            document.getElementById('mainLoader').classList.remove(displayNoneClass);
             const resendCounterpartyInvitationUrl = apiBaseUrl + '/contract/resendInvitationEmail/' + documentID;
             const headers = {
                 'Content-Type': 'application/json',
@@ -3303,6 +3312,7 @@
      */
     function createClauseSection(socket) {
         try {
+            document.getElementById('mainLoader').classList.remove(displayNoneClass);
             var randomNumber = Math.floor(Math.random() * (1000000 - 1 + 1)) + 1;
             var commentID = Date.now() + '-' + randomNumber;
             var form = document.getElementById('clauseForm');
@@ -5401,6 +5411,49 @@
                         });
                 }
             }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            document.getElementById('mainLoader').classList.add(displayNoneClass);
+        }
+    }
+
+    /**
+     * @returns {Promise<void>}
+     */
+    async function unreadMessageForThread() {
+        try {
+            document.getElementById('mainLoader').classList.remove(displayNoneClass);
+            var data = JSON.stringify({
+                contractSectionId: selectedCommentThereadID
+            });
+            const unreadMessageThreadUrl = apiBaseUrl + '/contractSection/updateUnreadMessageStatus/';
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + authToken
+            };
+            const requestOptions = {
+                method: 'POST',
+                headers: headers,
+                body: data
+            };
+            fetch(unreadMessageThreadUrl, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    // Handle the response data
+                    document.getElementById('mainLoader').classList.add(displayNoneClass);
+                    const responseData = data;
+                    if (responseData && responseData.status == true && responseData.code == 200) {
+                        return true;
+                    } else {
+                        console.error('Error fetching data:', responseData);
+                    }
+                    return true;
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error:', error);
+                    document.getElementById('mainLoader').classList.add(displayNoneClass);
+                });
         } catch (error) {
             console.error('Error fetching data:', error);
             document.getElementById('mainLoader').classList.add(displayNoneClass);
