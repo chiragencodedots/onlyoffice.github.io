@@ -3085,9 +3085,11 @@
                             clauseLists.push(ele);
                             let commentID = ele.commentId;
                             html += '<div class="contract-item" data-id="' + ele._id + '" data-commentid="' + commentID + '" id="' + commentID.split('-').pop() + '">\n' +
-                                '\t\t\t<a href="#">\n' +
-                                '\t\t\t\t\t\t<span class="notification-no"></span>\n'+
-                                '\t\t\t\t\t\t<div class="contract-top">\n' +
+                                '\t\t\t<a href="#">\n';
+                            if (ele.hasUnreadMessage) {
+                                html += '\t\t\t\t\t\t<span class="notification-no"></span>';
+                            }
+                            html +=  '\t\t\t\t\t\t<div class="contract-top">\n' +
                                 '\t\t\t\t\t\t\t\t\t<h3>' + ele.contractSection + '</h3>\n' +
                                 '\t\t\t\t\t\t\t\t\t<p>' + ele.contractDescription + '</p>\n';
                             let contractStatusColorCode = 'active-color';
