@@ -5512,13 +5512,9 @@
                                 console.log('getAttribute', element.dataset.id);
                                 var clauseItemTemp = resData.data.filter((ele) => ele._id === element.dataset.id);
                                 if (clauseItemTemp && clauseItemTemp.hasUnreadMessage) {
-                                    element.querySelectorAll('notification-no').forEach(function (child) {
-                                        child.classList.remove(displayNoneClass)
-                                    });
+                                    element.querySelector('.notification-no').classList.remove(displayNoneClass);
                                 } else {
-                                    element.querySelectorAll('notification-no').forEach(function (child) {
-                                        child.classList.add(displayNoneClass)
-                                    });
+                                    element.querySelector('.notification-no').classList.add(displayNoneClass);
                                 }
                             });
                         }
