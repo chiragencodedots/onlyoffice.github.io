@@ -38,7 +38,7 @@
     var selectedInvitedTeams = [];
     var inviteUserSelect = [];
     var inviteTeamSelect = [];
-    var baseUrl = 'https://propact.digitaldilemma.com.au:3000';
+    var baseUrl = 'http://localhost:3000';
     var apiBaseUrl = baseUrl + '/api/v1/app';
     var IMAGE_USER_PATH_LINK = 'https://propact.s3.amazonaws.com/';
     var clauseRecordLimit = 10;
@@ -156,6 +156,7 @@
             // Invite counterparty screen
             var varBtnRedirectInviteCounterpartyForm = document.getElementById('btnRedirectInviteCounterpartyForm');
             varBtnRedirectInviteCounterpartyForm.addEventListener('click', function () {
+                document.getElementById('divContractLists').classList.add(displayNoneClass);
                 document.getElementById('divInviteCounterparty').classList.add(displayNoneClass);
                 document.getElementById('divInviteCounterpartyForm').classList.remove(displayNoneClass);
             });
@@ -172,6 +173,7 @@
                     label.classList.remove("label"); // Remove class
                 }
                 document.getElementById('divInviteCounterparty').classList.remove(displayNoneClass);
+                document.getElementById('divContractLists').classList.remove(displayNoneClass);
                 document.getElementById('divInviteCounterpartyForm').classList.add(displayNoneClass);
             });
             // Invite counterparty Form screen
@@ -2824,6 +2826,17 @@
                         document.getElementById('divInviteCounterpartyPending').classList.remove(displayNoneClass);
                         document.getElementById('organizationName').textContent = responseData.data.invitationDetail.organizationName;
                         document.getElementById('counterpartyName').textContent = responseData.data.invitationDetail.firstName + " " + responseData.data.invitationDetail.lastName;
+                        setupSocket();
+                        document.getElementById('btnMarkupMode').classList.add(displayNoneClass);
+                        $('#btnMarkupMode').parent().addClass('justify-content-end');
+                        document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                        if (documentMode != 'markup') {
+                            getContractTeamAndUserList();
+                        }
+                        clauseNextPage = 1;
+                        clauseHasNextPage = true;
+                        clauseLists = [];
+                        getContractSectionList();
                     } else if (responseData.data.oppositeUser && responseData.data.oppositeUser._id) {
                         counterPartyCustomerDetail = responseData.data.oppositeUser;
                         if (redirection == true) {
@@ -2856,10 +2869,21 @@
                         setupSocket();
                     } else if ((responseData.data.openContractDetails && responseData.data.openContractDetails.counterPartyInviteStatus && responseData.data.openContractDetails.counterPartyInviteStatus == 'Pending') || responseData.data.counterPartyInviteStatus == 'Pending') {
                         setupSocket();
+                        document.getElementById('btnMarkupMode').classList.add(displayNoneClass);
+                        $('#btnMarkupMode').parent().addClass('justify-content-end');
+                        document.getElementById('divContractLists').classList.remove(displayNoneClass);
                         document.getElementById('divInviteCounterparty').classList.remove(displayNoneClass);
                         if (!loggedInUserDetails.isCustomer) {
                             document.getElementById('btnRedirectInviteCounterpartyForm').classList.add('disabled');
                         }
+                        if (documentMode != 'markup') {
+                            getContractTeamAndUserList();
+                        }
+                        clauseNextPage = 1;
+                        clauseHasNextPage = true;
+                        clauseLists = [];
+                        getContractSectionList();
+                        setupSocket();
                     }
                 }
             })
