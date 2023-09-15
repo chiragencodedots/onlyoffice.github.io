@@ -152,7 +152,7 @@
         if (!flagJSLoad) {
 
             setInterval(function () {
-                await checkNewMessageAppear()
+                checkNewMessageAppear()
             }, 15000);
 
             // Invite counterparty screen
