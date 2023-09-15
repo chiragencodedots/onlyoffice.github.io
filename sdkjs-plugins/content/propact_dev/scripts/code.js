@@ -5466,6 +5466,9 @@
         }
     }
 
+    /**
+     * @returns {Promise<void>}
+     */
     function checkNewMessageAppear()
     {
         try {
@@ -5508,7 +5511,7 @@
                             // Use forEach to iterate over the elements and apply a class
                             divElements.forEach(function(element) {
                                 // Perform an action on each element, e.g., adding a new class
-                                console.log('getAttribute', element.data('id'));
+                                console.log('getAttribute', element.dataset.id);
                             });
                         }
                     })
