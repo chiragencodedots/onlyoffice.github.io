@@ -5508,9 +5508,7 @@
                             console.log('resData', resData);
                             var divElements = document.querySelectorAll('.contract-item');
 
-                            // Use forEach to iterate over the elements and apply a class
                             divElements.forEach(function(element) {
-                                // Perform an action on each element, e.g., adding a new class
                                 console.log('getAttribute', element.dataset.id);
                             });
                         }
