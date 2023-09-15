@@ -5472,7 +5472,7 @@
     function checkNewMessageAppear()
     {
         try {
-            if (!document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
+            if (!document.getElementById('divContractLists').classList.contains(displayNoneClass) && document.querySelectorAll('.contract-item').length > 0) {
                 var limit = clauseRecordLimit * clauseRecordLimit;
                 var getContractSectionListUrl = apiBaseUrl + '/contractSection/getSelectedStatusContractSection/all/' + documentID;
                 //?filter[description]=Test&sort[createdAt]=-1&page=1&limit=6
