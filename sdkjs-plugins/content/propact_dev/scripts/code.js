@@ -5466,7 +5466,7 @@
         }
     }
 
-    checkNewMessageAppear()
+    function checkNewMessageAppear()
     {
         try {
             if (!document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
