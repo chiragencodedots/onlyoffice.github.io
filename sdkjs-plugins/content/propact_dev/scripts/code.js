@@ -1756,7 +1756,9 @@
             socket.on('receive_contract_section_message', data => {
                 console.log('receive_contract_section_message', data);
                 var html = '';
-                unreadMessageForThread()
+                if (!document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
+                    unreadMessageForThread()
+                }
                 if (data.messageType == "Invite") {
                     if (data.invitedUserName) {
                         html += '<strong class="message-wrapper grey-color">\n' +
@@ -1986,7 +1988,9 @@
             /** Socket On: user message get for same side */
             socket.on('receive_counter_contract_section_message', data => {
                 console.log('receive_counter_contract_section_message', data);
-                unreadMessageForThread()
+                if (!document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
+                    unreadMessageForThread()
+                }
                 var html = '';
                 if (data.messageType == 'Position Confirmation') {
                     html += '<div class="message-wrapper ' + (data.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
@@ -2302,7 +2306,9 @@
 
             /** Socket On: user message get for conversion history */
             socket.on('receive_conversion_history_message', data => {
-                unreadMessageForThread()
+                if (!document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
+                    unreadMessageForThread()
+                }
                 console.log('receive_conversion_history_message', data);
                 if (loggedInUserDetails.isCounterPartyCustomer == true || loggedInUserDetails.isCounterPartyUser == true) {
                     var conversionTypeArr = ['OTCP'];
