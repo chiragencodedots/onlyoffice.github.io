@@ -5512,16 +5512,12 @@
                                 console.log('getAttribute', element.dataset.id);
                                 var clauseItemTemp = resData.data.filter((ele) => ele._id === element.dataset.id);
                                 if (clauseItemTemp && clauseItemTemp.hasUnreadMessage) {
-                                    element.children.forEach((ele) => {
-                                        if (ele.classList.contains('notification-no')) {
-                                            ele.classList.remove(displayNoneClass);
-                                        }
+                                    element.querySelectorAll('notification-no').forEach(function (child) {
+                                        child.classList.remove(displayNoneClass)
                                     });
                                 } else {
-                                    element.children.forEach((ele) => {
-                                        if (ele.classList.contains('notification-no')) {
-                                            ele.classList.remove(displayNoneClass);
-                                        }
+                                    element.querySelectorAll('notification-no').forEach(function (child) {
+                                        child.classList.add(displayNoneClass)
                                     });
                                 }
                             });
