@@ -1755,10 +1755,10 @@
             /** Socket On: user message get for same side */
             socket.on('receive_contract_section_message', data => {
                 console.log('receive_contract_section_message', data);
-                var html = '';
-                if (!document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
+                if (document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
                     unreadMessageForThread()
                 }
+                var html = '';
                 if (data.messageType == "Invite") {
                     if (data.invitedUserName) {
                         html += '<strong class="message-wrapper grey-color">\n' +
@@ -1988,7 +1988,7 @@
             /** Socket On: user message get for same side */
             socket.on('receive_counter_contract_section_message', data => {
                 console.log('receive_counter_contract_section_message', data);
-                if (!document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
+                if (document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
                     unreadMessageForThread()
                 }
                 var html = '';
@@ -2306,10 +2306,10 @@
 
             /** Socket On: user message get for conversion history */
             socket.on('receive_conversion_history_message', data => {
-                if (!document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
+                console.log('receive_conversion_history_message', data);
+                if (document.getElementById('divContractLists').classList.contains(displayNoneClass)) {
                     unreadMessageForThread()
                 }
-                console.log('receive_conversion_history_message', data);
                 if (loggedInUserDetails.isCounterPartyCustomer == true || loggedInUserDetails.isCounterPartyUser == true) {
                     var conversionTypeArr = ['OTCP'];
                     if (openContractUserDetails && openContractUserDetails.canCommunicateWithCounterparty) {
