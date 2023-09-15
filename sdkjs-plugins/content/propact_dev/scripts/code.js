@@ -5511,7 +5511,7 @@
                             divElements.forEach(function(element) {
                                 console.log('getAttribute', element.dataset.id);
                                 var clauseItemTemp = resData.data.filter((ele) => ele._id === element.dataset.id);
-                                if (clauseItemTemp && clauseItemTemp.hasUnreadMessage) {
+                                if (clauseItemTemp && clauseItemTemp.length > 0 && clauseItemTemp[0].hasUnreadMessage) {
                                     element.querySelector('.notification-no').classList.remove(displayNoneClass);
                                 } else {
                                     element.querySelector('.notification-no').classList.add(displayNoneClass);
