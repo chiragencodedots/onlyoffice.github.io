@@ -2871,6 +2871,9 @@
                         clauseLists = [];
                         getContractSectionList();
                         setupSocket();
+                        document.getElementById('btnGoToCounterparty').classList.remove(displayNoneClass);
+                        document.getElementById('btnGoToCounterpartyA').classList.remove(displayNoneClass);
+                        $('#chatFooterInner').removeClass('justify-content-end');
                     } else if ((responseData.data.openContractDetails && responseData.data.openContractDetails.counterPartyInviteStatus && responseData.data.openContractDetails.counterPartyInviteStatus == 'Pending') || responseData.data.counterPartyInviteStatus == 'Pending') {
                         setupSocket();
                         document.getElementById('divInviteCounterparty').classList.remove(displayNoneClass);
