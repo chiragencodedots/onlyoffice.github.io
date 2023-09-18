@@ -1244,7 +1244,7 @@
                         "with": withType,
                         "messageType": 'Normal',
                         "companyId": loggedInUserDetails.company._id,
-                        "oppositeCompanyId": counterPartyCustomerDetail.company._id,
+                        "oppositeCompanyId": counterPartyCustomerDetail.company._id ?? null,
                         "threadID": selectedCommentThereadID,
                         "status": 'send',
                         "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
