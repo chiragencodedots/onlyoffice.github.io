@@ -2843,7 +2843,8 @@
                         document.getElementById('divInviteCounterparty').classList.add(displayNoneClass);
                         document.getElementById('divInviteCounterpartyPending').classList.remove(displayNoneClass);
                         document.getElementById('organizationName').textContent = responseData.data.invitationDetail.organizationName;
-                        document.getElementById('counterpartyName').textContent = responseData.data.invitationDetail.firstName + " " + responseData.data.invitationDetail.lastName;
+                        document.getElementById('counterpartyName').textContent = responseData.data.invitationDetail.firstName + " " + responseData.data.invitationDetail.lastName + " - Counterparty";
+                        document.getElementById('counterpartyEmail').textContent = responseData.data.invitationDetail.email;
                         if (redirection) {
                             document.getElementById('btnMarkupMode').classList.add(displayNoneClass);
                             $('#btnMarkupMode').parent().addClass('justify-content-end');
