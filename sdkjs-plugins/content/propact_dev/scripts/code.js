@@ -625,7 +625,9 @@
                     if (draftConfirmCPElement) {
                         draftConfirmCPElement.parentNode.removeChild(draftConfirmCPElement);
                     }
-                    await redirectToMessageScreen();
+                    if (chatWindow !== 'SS' && chatWindow !== 'CP') {
+                        await redirectToMessageScreen();
+                    }
                     await unreadMessageForThread();
                     document.getElementById('sendPositionConfirmationPopup').classList.add(displayNoneClass);
                     document.getElementById('toggleInviteUserTeam').closest("li").classList.remove('active');
