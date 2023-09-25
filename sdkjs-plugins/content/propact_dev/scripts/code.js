@@ -3412,7 +3412,7 @@
                     if (responseData && responseData.status == true && responseData.code == 200) {
                         var sDocumentEditingRestrictions = "none";
                         window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-                        var nContentControlType = 1;
+                        var nContentControlType = 2;
                         var color = {
                             R: 104,
                             G: 215,
