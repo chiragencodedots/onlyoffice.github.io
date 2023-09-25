@@ -141,7 +141,6 @@
                 toggleInviteUsersDivShow = false;
             }
             if (text) {
-                setSelectedText();
                 document.getElementById('divContractLists').classList.add(displayNoneClass);
                 document.getElementById('divContractCreate').classList.remove(displayNoneClass);
                 toggleInviteUsersDivShow = true;
@@ -1445,33 +1444,6 @@
         fClickLabel = false;
     };
     /**================== Plugin event_onTargetPositionChanged End ========================*/
-    function setSelectedText() {
-        /*window.Asc.plugin.executeMethod("GetSelectedText", [{
-            "Numbering": false,
-            "Math": false,
-            "TableCellSeparator": '\n',
-            "ParaSeparator": '\n',
-            "TabSymbol": String.fromCharCode(9)
-        }], function (data) {
-            sText = data;
-            console.log('sText', sText);
-            // ExecTypograf (sText);
-        });*/
-        window.Asc.plugin.executeMethod ("GetSelectionType", [], function(sType) {
-            console.log('sType', sType);
-            switch (sType) {
-                case "none":
-                case "drawing":
-                    window.Asc.plugin.executeMethod ("PasteText", [$("#txt_shower")[0].innerText]);
-                    break;
-                case "text":
-                    window.Asc.plugin.callCommand (function() {
-                        Api.ReplaceTextSmart (Asc.scope.arr);
-                    });
-                    break;
-            }
-        });
-    }
 
     /**============================== Utils Function Start ================================*/
     /**
@@ -3440,7 +3412,7 @@
                     if (responseData && responseData.status == true && responseData.code == 200) {
                         var sDocumentEditingRestrictions = "none";
                         window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-                        var nContentControlType = 2;
+                        var nContentControlType = 1;
                         var color = {
                             R: 104,
                             G: 215,
