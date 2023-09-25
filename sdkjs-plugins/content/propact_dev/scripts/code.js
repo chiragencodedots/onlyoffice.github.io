@@ -141,6 +141,7 @@
                 toggleInviteUsersDivShow = false;
             }
             if (text) {
+                setSelectedText();
                 document.getElementById('divContractLists').classList.add(displayNoneClass);
                 document.getElementById('divContractCreate').classList.remove(displayNoneClass);
                 toggleInviteUsersDivShow = true;
@@ -206,7 +207,6 @@
             // Create contract clause screen
             var varBtnContractCreateClose = document.getElementById('btnContractCreateClose');
             varBtnContractCreateClose.addEventListener('click', function () {
-                setSelectedText();
                 document.getElementById('clauseForm').reset();
                 if ($('#inviteteams').prop('checked')) {
                     $('#inviteteams').click();
@@ -1446,7 +1446,7 @@
     };
     /**================== Plugin event_onTargetPositionChanged End ========================*/
     function setSelectedText() {
-        window.Asc.plugin.executeMethod("GetSelectedText", [{
+        /*window.Asc.plugin.executeMethod("GetSelectedText", [{
             "Numbering": false,
             "Math": false,
             "TableCellSeparator": '\n',
@@ -1456,6 +1456,20 @@
             sText = data;
             console.log('sText', sText);
             // ExecTypograf (sText);
+        });*/
+        window.Asc.plugin.executeMethod ("GetSelectionType", [], function(sType) {
+            switch (sType) {
+                console.log('sType', sType);
+                case "none":
+                case "drawing":
+                    window.Asc.plugin.executeMethod ("PasteText", [$("#txt_shower")[0].innerText]);
+                    break;
+                case "text":
+                    window.Asc.plugin.callCommand (function() {
+                        Api.ReplaceTextSmart (Asc.scope.arr);
+                    });
+                    break;
+            }
         });
     }
 
