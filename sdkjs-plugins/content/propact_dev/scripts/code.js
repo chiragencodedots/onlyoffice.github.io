@@ -69,6 +69,7 @@
     var selectedContractSectionDetails;
     var sectionID;
     var chatWindow;
+    var splitArray;
 
 
     /**================================== Plugin Init Start ===============================*/
@@ -82,7 +83,7 @@
         /**====================== Get & Set variables ======================*/
         documentID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
         documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
-        var splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
+        splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
         authToken = splitArray[11];
         if (splitArray.length >= 13) {
             sectionID = splitArray[12];
@@ -5452,30 +5453,26 @@
                                 } else {
                                     document.getElementById('mainLoader').classList.add(displayNoneClass);
                                     getContractSectionMessageHistory();
-                                    if (splitArray.length >= 14) {
-                                        if (chatWindow == 'SS') {
-                                            document.getElementById('divContractLists').classList.add(displayNoneClass);
-                                            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-                                            document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
-                                            document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
-                                        } else if (chatWindow == 'CP') {
-                                            document.getElementById('divContractLists').classList.add(displayNoneClass);
-                                            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-                                            document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
-                                            document.getElementById('divContractCounterpartyChat').classList.remove(displayNoneClass);
-                                        } else {
-                                            document.getElementById('divContractLists').classList.add(displayNoneClass);
-                                            document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
-                                            document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
-                                            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-                                        }
+                                    if (chatWindow == 'SS') {
+                                        document.getElementById('divContractLists').classList.add(displayNoneClass);
+                                        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+                                        document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
+                                        document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
+                                    } else if (chatWindow == 'CP') {
+                                        document.getElementById('divContractLists').classList.add(displayNoneClass);
+                                        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+                                        document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
+                                        document.getElementById('divContractCounterpartyChat').classList.remove(displayNoneClass);
                                     } else {
                                         if (sectionID) {
                                             $('.contract-item[data-id="' + sectionID + '"]').click();
+                                        } else {
+                                            document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                                            document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
+                                            document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
+                                            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
                                         }
                                     }
-
-
                                 }
                             } else {
                                 document.getElementById('mainLoader').classList.add(displayNoneClass);
