@@ -206,6 +206,7 @@
             // Create contract clause screen
             var varBtnContractCreateClose = document.getElementById('btnContractCreateClose');
             varBtnContractCreateClose.addEventListener('click', function () {
+                setSelectedText();
                 document.getElementById('clauseForm').reset();
                 if ($('#inviteteams').prop('checked')) {
                     $('#inviteteams').click();
@@ -1444,12 +1445,19 @@
         fClickLabel = false;
     };
     /**================== Plugin event_onTargetPositionChanged End ========================*/
-
-    window.Asc.plugin.executeMethod("GetSelectedText", [{"Numbering": false, "Math": false, "TableCellSeparator": '\n', "ParaSeparator": '\n', "TabSymbol": String.fromCharCode(9)}], function (data) {
-        sText = data;
-        console.log('sText', sText);
-        // ExecTypograf (sText);
-    });
+    function setSelectedText() {
+        window.Asc.plugin.executeMethod("GetSelectedText", [{
+            "Numbering": false,
+            "Math": false,
+            "TableCellSeparator": '\n',
+            "ParaSeparator": '\n',
+            "TabSymbol": String.fromCharCode(9)
+        }], function (data) {
+            sText = data;
+            console.log('sText', sText);
+            // ExecTypograf (sText);
+        });
+    }
 
     /**============================== Utils Function Start ================================*/
     /**
