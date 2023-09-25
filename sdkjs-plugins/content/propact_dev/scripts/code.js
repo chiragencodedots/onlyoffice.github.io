@@ -625,9 +625,7 @@
                     if (draftConfirmCPElement) {
                         draftConfirmCPElement.parentNode.removeChild(draftConfirmCPElement);
                     }
-                    if (chatWindow !== 'SS' && chatWindow !== 'CP') {
-                        await redirectToMessageScreen();
-                    }
+                    await redirectToMessageScreen();
                     await unreadMessageForThread();
                     document.getElementById('sendPositionConfirmationPopup').classList.add(displayNoneClass);
                     document.getElementById('toggleInviteUserTeam').closest("li").classList.remove('active');
@@ -5454,8 +5452,17 @@
                                 } else {
                                     document.getElementById('mainLoader').classList.add(displayNoneClass);
                                     getContractSectionMessageHistory();
-                                    document.getElementById('divContractLists').classList.add(displayNoneClass);
-                                    document.getElementById('divContractChatHistory').classList.remove(displayNoneClass);
+                                    setTimeout(function () {
+                                        $('.contract-item[data-id="' + sectionID + '"]').click();
+                                        if (chatWindow == 'SS') {
+                                            $('#btnGoToSameSideChat').click();
+                                        } else if (chatWindow == 'CP') {
+                                            $('#btnGoToCounterparty').click();
+                                        }
+                                        // flagRedirectFirst = true;
+                                    }, 500);
+                                    // document.getElementById('divContractLists').classList.add(displayNoneClass);
+                                    // document.getElementById('divContractChatHistory').classList.remove(displayNoneClass);
                                 }
                             } else {
                                 document.getElementById('mainLoader').classList.add(displayNoneClass);
