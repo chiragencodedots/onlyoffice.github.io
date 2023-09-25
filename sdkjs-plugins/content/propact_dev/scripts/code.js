@@ -1458,8 +1458,8 @@
             // ExecTypograf (sText);
         });*/
         window.Asc.plugin.executeMethod ("GetSelectionType", [], function(sType) {
+            console.log('sType', sType);
             switch (sType) {
-                console.log('sType', sType);
                 case "none":
                 case "drawing":
                     window.Asc.plugin.executeMethod ("PasteText", [$("#txt_shower")[0].innerText]);
