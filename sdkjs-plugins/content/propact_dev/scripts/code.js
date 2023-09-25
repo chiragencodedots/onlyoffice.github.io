@@ -5452,21 +5452,27 @@
                                 } else {
                                     document.getElementById('mainLoader').classList.add(displayNoneClass);
                                     getContractSectionMessageHistory();
-                                    if (chatWindow == 'SS') {
-                                        document.getElementById('divContractLists').classList.add(displayNoneClass);
-                                        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-                                        document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
-                                        document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
-                                    } else if (chatWindow == 'CP') {
-                                        document.getElementById('divContractLists').classList.add(displayNoneClass);
-                                        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-                                        document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
-                                        document.getElementById('divContractCounterpartyChat').classList.remove(displayNoneClass);
+                                    if (splitArray.length >= 14) {
+                                        if (chatWindow == 'SS') {
+                                            document.getElementById('divContractLists').classList.add(displayNoneClass);
+                                            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+                                            document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
+                                            document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
+                                        } else if (chatWindow == 'CP') {
+                                            document.getElementById('divContractLists').classList.add(displayNoneClass);
+                                            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+                                            document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
+                                            document.getElementById('divContractCounterpartyChat').classList.remove(displayNoneClass);
+                                        } else {
+                                            document.getElementById('divContractLists').classList.add(displayNoneClass);
+                                            document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
+                                            document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
+                                            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+                                        }
                                     } else {
-                                        document.getElementById('divContractLists').classList.add(displayNoneClass);
-                                        document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
-                                        document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
-                                        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+                                        if (sectionID) {
+                                            $('.contract-item[data-id="' + sectionID + '"]').click();
+                                        }
                                     }
 
 
