@@ -5464,14 +5464,10 @@
                                         document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
                                         document.getElementById('divContractCounterpartyChat').classList.remove(displayNoneClass);
                                     } else {
-                                        if (sectionID) {
-                                            $('.contract-item[data-id="' + sectionID + '"]').click();
-                                        } else {
-                                            document.getElementById('divContractLists').classList.remove(displayNoneClass);
-                                            document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
-                                            document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
-                                            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-                                        }
+                                        document.getElementById('divContractLists').classList.add(displayNoneClass);
+                                        document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
+                                        document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
+                                        document.getElementById('divContractChatHistory').classList.remove(displayNoneClass);
                                     }
                                 }
                             } else {
