@@ -5444,7 +5444,7 @@
     }
 
     /**
-     * @returns {Promise<void>}
+     * @returns {Promise<void>} 
      */
     async function redirectToMessageScreen() {
         try {
