@@ -155,7 +155,7 @@
 
             setInterval(function () {
                 checkNewMessageAppear()
-            }, 15000);
+            }, 5000);
 
             // Invite counterparty screen
             var varBtnRedirectInviteCounterpartyForm = document.getElementById('btnRedirectInviteCounterpartyForm');
@@ -608,6 +608,7 @@
                 if (tagExists > -1 || 1) {
                     selectedCommentThereadID = $(this).data('commentid');
                     selectedThreadID = $(this).data('id');
+                    chatWindow = $(this).data('chatwindow');
                     chatHistoryNextPage = 1;
                     chatHistoryHasNextPage = true;
                     getSelectedContractSectionDetails();
@@ -5444,7 +5445,7 @@
     }
 
     /**
-     * @returns {Promise<void>} 
+     * @returns {Promise<void>}
      */
     async function redirectToMessageScreen() {
         try {
