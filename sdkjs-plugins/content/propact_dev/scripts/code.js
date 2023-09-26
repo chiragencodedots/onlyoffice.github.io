@@ -669,6 +669,11 @@
                         document.getElementById('toggleSendPositionConfirmation').closest("li").classList.add(displayNoneClass);
                         document.getElementById('toggleSendPositionConfirmationA').closest("li").classList.add(displayNoneClass);
                     }
+                    if (openContractUserDetails.openContractDetails.counterPartyInviteStatus != 'Accepted') {
+                        document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
+                        document.getElementById('btnGoToCounterpartyA').classList.add(displayNoneClass);
+                        $('#chatFooterInner').addClass('justify-content-end');
+                    }
                     var getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
                     if (getClauseDetails && getClauseDetails._id) {
                         await getSelectedContractSectionDetails();
@@ -3250,6 +3255,16 @@
                                 flagRedirectClauseCreate = true;
                                 $('.contract-item[data-commentid="' + commentThreadID + '"]').click();
                                 $('#btnGoToSameSideChat').click();
+                                if (!openContractUserDetails.canCommunicateWithCounterparty) {
+                                    document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
+                                    document.getElementById('btnGoToCounterpartyA').classList.add(displayNoneClass);
+                                    $('#chatFooterInner').addClass('justify-content-end');
+                                }
+                                if (openContractUserDetails.openContractDetails.counterPartyInviteStatus != 'Accepted') {
+                                    document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
+                                    document.getElementById('btnGoToCounterpartyA').classList.add(displayNoneClass);
+                                    $('#chatFooterInner').addClass('justify-content-end');
+                                }
                             }, 500);
                         }
                         clauseHasNextPage = resData.hasNextPage;
