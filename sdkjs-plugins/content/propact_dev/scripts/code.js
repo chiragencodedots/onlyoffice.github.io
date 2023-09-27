@@ -114,16 +114,17 @@
             document.getElementById('btnCreateClause').classList.remove(displayNoneClass);
             document.getElementById('btnCreateClause').classList.add(disabledClass);
             document.getElementById('btnMarkupMode').innerHTML = "Select Markup Mode";
+            $('#clauseText').val(text);
             if (text) {
                 document.getElementById('btnCreateClause').classList.remove(disabledClass);
-            // } else {
-            //     if (!document.getElementById('btnCreateClause').classList.contains(disabledClass)) {
-            //         document.getElementById('btnCreateClause').classList.add(disabledClass);
-            //     }
-            //     if (!document.getElementById('divContractCreate').classList.contains(displayNoneClass)) {
-            //         document.getElementById('divContractCreate').classList.add(displayNoneClass);
-            //         document.getElementById('divContractLists').classList.remove(displayNoneClass);
-            //     }
+            } else {
+                if (!document.getElementById('btnCreateClause').classList.contains(disabledClass)) {
+                    document.getElementById('btnCreateClause').classList.add(disabledClass);
+                }
+                /*if (!document.getElementById('divContractCreate').classList.contains(displayNoneClass)) {
+                    document.getElementById('divContractCreate').classList.add(displayNoneClass);
+                    document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                }*/
             }
             if (!fDisableWhenPluginLoading) {
                 var sDocumentEditingRestrictions = "readOnly";
@@ -1076,6 +1077,21 @@
 
             /** Clause create form submit */
             $("#clauseForm").validate({
+                ignore: "",
+                rules: {
+                    clauseText: {
+                        required: true
+                    }
+                },
+                messages: {
+                    clauseText: {
+                        required: "Please select the text from the document"
+                    }
+                },
+                errorClass: "error", // CSS class for error messages
+                errorPlacement: function(error, element) {
+                    error.insertAfter(element); // Place error messages after the element
+                },
                 submitHandler: function (form) {
                     document.getElementById('mainLoader').classList.remove(displayNoneClass);
                     createClauseSection(socket);
