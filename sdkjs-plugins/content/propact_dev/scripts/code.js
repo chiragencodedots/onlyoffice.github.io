@@ -158,6 +158,19 @@
                 checkNewMessageAppear()
             }, 5000);
 
+            document.addEventListener('click', function(e) {
+                var divInviteUserTabs = document.getElementById('inviteUserTabs');
+                var imgInviteUserTeam = document.getElementById('imgInviteUserTeam');
+
+                if (!divInviteUserTabs.contains(e.target) && e.target !== imgInviteUserTeam) {
+                    var toggleInviteUserTeam = document.getElementById('toggleInviteUserTeam');
+                    var closestLi = toggleInviteUserTeam.closest('li');
+                    if (closestLi) {
+                        closestLi.classList.remove('active');
+                    }
+                }
+            });
+
             // Invite counterparty screen
             var varBtnRedirectInviteCounterpartyForm = document.getElementById('btnRedirectInviteCounterpartyForm');
             varBtnRedirectInviteCounterpartyForm.addEventListener('click', function () {
