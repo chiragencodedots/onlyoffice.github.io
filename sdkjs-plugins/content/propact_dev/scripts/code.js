@@ -116,14 +116,14 @@
             document.getElementById('btnMarkupMode').innerHTML = "Select Markup Mode";
             if (text) {
                 document.getElementById('btnCreateClause').classList.remove(disabledClass);
-            } else {
-                if (!document.getElementById('btnCreateClause').classList.contains(disabledClass)) {
-                    document.getElementById('btnCreateClause').classList.add(disabledClass);
-                }
-                if (!document.getElementById('divContractCreate').classList.contains(displayNoneClass)) {
-                    document.getElementById('divContractCreate').classList.add(displayNoneClass);
-                    document.getElementById('divContractLists').classList.remove(displayNoneClass);
-                }
+            // } else {
+            //     if (!document.getElementById('btnCreateClause').classList.contains(disabledClass)) {
+            //         document.getElementById('btnCreateClause').classList.add(disabledClass);
+            //     }
+            //     if (!document.getElementById('divContractCreate').classList.contains(displayNoneClass)) {
+            //         document.getElementById('divContractCreate').classList.add(displayNoneClass);
+            //         document.getElementById('divContractLists').classList.remove(displayNoneClass);
+            //     }
             }
             if (!fDisableWhenPluginLoading) {
                 var sDocumentEditingRestrictions = "readOnly";
