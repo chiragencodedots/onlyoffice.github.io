@@ -3521,8 +3521,13 @@
                         };
                         tagLists.push(nContentControlProperties);
                         window.Asc.plugin.executeMethod("AddContentControl", [nContentControlType, nContentControlProperties]);
-                        var sDocumentEditingRestrictions = "readOnly";
-                        window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                        if (openContractUserDetails && openContractUserDetails.openContractDetails && openContractUserDetails.openContractDetails.userWhoHasEditAccess && openContractUserDetails.openContractDetails.userWhoHasEditAccess == openContractUserDetails.loggedInUserDetails._id && openContractUserDetails.contractCurrentState == 'Edit') {
+                            var sDocumentEditingRestrictions = "none";
+                            window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                        } else {
+                            var sDocumentEditingRestrictions = "readOnly";
+                            window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                        }
                         clauseNextPage = 1;
                         clauseHasNextPage = true;
                         clauseLists = [];
