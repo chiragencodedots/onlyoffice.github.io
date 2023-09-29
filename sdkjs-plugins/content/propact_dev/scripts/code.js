@@ -2794,6 +2794,17 @@
                 }
             });
 
+            socket.on('forward_refresh_clause_list', async function (data) {
+                if (data) {
+                    console.log('forward_refresh_clause_list __data', data);
+                    window.Asc.plugin.executeMethod("GetAllContentControls");
+                    clauseNextPage = 1;
+                    clauseHasNextPage = true;
+                    clauseLists = [];
+                    await getContractSectionList();
+                }
+            });
+
             socket.on('forward_invite_clause', async function (data) {
                 if (data) {
                     clauseNextPage = 1;
@@ -3574,6 +3585,15 @@
                             conversationType = 'OTCC';
                         } else if (loggedInUserDetails.company._id.toString() == openContractUserDetails.openContractDetails.counterPartyCompanyId.toString() && postData.with == "Our Team") {
                             conversationType = 'OTCP';
+                        }
+
+                        if (selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && selectedContractSectionDetails.contractSectionData.isVisibleToCounterparty == false) {
+                            getSelectedContractSectionDetails();
+                            var data = {
+                                chatRoomName: documentID,
+                                refreshClauseList: true
+                            };
+                            socket.emit('refresh_clause_list', data);
                         }
 
                         socket.emit('contract_section_message', postData);
