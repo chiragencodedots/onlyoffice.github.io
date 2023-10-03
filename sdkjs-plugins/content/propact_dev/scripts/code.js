@@ -466,11 +466,6 @@
 
             // Clause Lazyload functionality
             document.getElementById('contractListItemsDiv').onscroll = async function (e) {
-                if (document.getElementById('contractListItemsDiv').scrollHeight > document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight) {
-                    document.getElementById('scrollDownBtn').classList.remove(displayNoneClass);
-                } else {
-                    document.getElementById('scrollDownBtn').classList.add(displayNoneClass);
-                }
                 if (document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight >= (document.getElementById('contractListItemsDiv').scrollHeight - 1)) {
                     if (clauseHasNextPage) {
                         await getContractSectionList();
@@ -478,7 +473,12 @@
                         document.getElementById('scrollDownBtn').classList.add(displayNoneClass);
                     }
                 } else {
-                    document.getElementById('scrollDownBtn').classList.remove(displayNoneClass);
+                    if (document.getElementById('contractListItemsDiv').scrollHeight > document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight) {
+                        document.getElementById('scrollDownBtn').classList.remove(displayNoneClass);
+                    } else {
+                        document.getElementById('scrollDownBtn').classList.add(displayNoneClass);
+                    }
+                    // document.getElementById('scrollDownBtn').classList.remove(displayNoneClass);
                 }
             };
 
