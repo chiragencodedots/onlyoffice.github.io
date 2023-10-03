@@ -465,7 +465,7 @@
             });
 
             // Clause Lazyload functionality
-            if (document.getElementById('contractListItemsDiv').scrollHeight >= document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight) {
+            if (clauseLists && clauseLists.length > 2) {
                 document.getElementById('scrollDownBtn').classList.remove(displayNoneClass);
             } else {
                 document.getElementById('scrollDownBtn').classList.add(displayNoneClass);
@@ -478,7 +478,7 @@
                         document.getElementById('scrollDownBtn').classList.add(displayNoneClass);
                     }
                 } else {
-                    if (document.getElementById('contractListItemsDiv').scrollHeight >= document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight) {
+                    if (document.getElementById('contractListItemsDiv').scrollHeight >= document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight && clauseLists && clauseLists.length > 2) {
                         document.getElementById('scrollDownBtn').classList.remove(displayNoneClass);
                     } else {
                         document.getElementById('scrollDownBtn').classList.add(displayNoneClass);
