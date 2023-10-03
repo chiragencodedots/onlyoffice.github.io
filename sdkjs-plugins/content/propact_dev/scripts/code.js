@@ -465,6 +465,11 @@
             });
 
             // Clause Lazyload functionality
+            if (document.getElementById('contractListItemsDiv').scrollHeight > document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight) {
+                document.getElementById('scrollDownBtn').classList.remove(displayNoneClass);
+            } else {
+                document.getElementById('scrollDownBtn').classList.add(displayNoneClass);
+            }
             document.getElementById('contractListItemsDiv').onscroll = async function (e) {
                 if (document.getElementById('contractListItemsDiv').scrollTop + document.getElementById('contractListItemsDiv').offsetHeight >= (document.getElementById('contractListItemsDiv').scrollHeight - 1)) {
                     if (clauseHasNextPage) {
