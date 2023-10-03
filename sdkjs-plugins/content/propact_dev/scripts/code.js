@@ -483,7 +483,6 @@
                     } else {
                         document.getElementById('scrollDownBtn').classList.add(displayNoneClass);
                     }
-                    // document.getElementById('scrollDownBtn').classList.remove(displayNoneClass);
                 }
             };
 
