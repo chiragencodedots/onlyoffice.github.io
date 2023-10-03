@@ -3329,6 +3329,7 @@
                     } else {
                         var norecordhtml = '<p class="nodata-info">No clauses available</p>';
                         document.getElementById('contractListItemsDiv').innerHTML = norecordhtml;
+                        document.getElementById('scrollDownBtn').classList.add(displayNoneClass);
                     }
                 }
             })
