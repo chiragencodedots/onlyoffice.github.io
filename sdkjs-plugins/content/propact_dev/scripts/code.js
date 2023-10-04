@@ -1479,19 +1479,12 @@
         if (_plugin.info.methodName == "GetAllContentControls") {
             if (fBtnGetAll) {
                 fBtnGetAll = false;
-                for (var i = 0; i < returnValue.length; i++) {
-                    var tagExists = tagLists.findIndex((ele) => +ele.Id == +returnValue[i].Id);
-                    if (tagExists < 0) {
-                        tagLists.push(returnValue[i]);
-                    }
-                }
-            } else {
-                // document.getElementById("divG").innerHTML = "";
-                for (var i = 0; i < returnValue.length; i++) {
-                    var tagExists = tagLists.findIndex((ele) => +ele.Id == +returnValue[i].Id);
-                    if (tagExists < 0) {
-                        tagLists.push(returnValue[i]);
-                    }
+            }
+            // document.getElementById("divG").innerHTML = "";
+            for (var i = 0; i < returnValue.length; i++) {
+                var tagExists = tagLists.findIndex((ele) => +ele.Id == +returnValue[i].Id);
+                if (tagExists < 0) {
+                    tagLists.push(returnValue[i]);
                 }
             }
         } else if (_plugin.info.methodName == "GetCurrentContentControl") {
@@ -3540,6 +3533,7 @@
                         };
                         tagLists.push(nContentControlProperties);
                         window.Asc.plugin.executeMethod("AddContentControl", [nContentControlType, nContentControlProperties]);
+                        window.Asc.plugin.executeMethod("GetAllContentControls");
                         if (openContractUserDetails && openContractUserDetails.openContractDetails && openContractUserDetails.openContractDetails.userWhoHasEditAccess && openContractUserDetails.openContractDetails.userWhoHasEditAccess == openContractUserDetails.loggedInUserDetails._id && openContractUserDetails.contractCurrentState == 'Edit') {
                             var sDocumentEditingRestrictions = "none";
                             window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
