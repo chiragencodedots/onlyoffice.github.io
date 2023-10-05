@@ -88,10 +88,10 @@
         documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
         splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
         authToken = splitArray[11];
-        if (splitArray.length >= 13) {
+        if (splitArray.length >= 13 && splitArray[12] != '0') {
             sectionID = splitArray[12];
         }
-        if (splitArray.length >= 14) {
+        if (splitArray.length >= 14 && splitArray[13] != '0') {
             chatWindows = splitArray[13];
         }
         /**====================== Get & Set variables ======================*/
