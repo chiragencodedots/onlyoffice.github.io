@@ -2194,49 +2194,49 @@
                             '           <strong>' + data.actionperformedbyUser + ' has assigned a team member to draft this contract section</strong>\n' +
                             '       </div>\n' +
                             '</div>';
-                        if (data.messageConfirmationFor != 'Same Side') {
-                            html += '<div class="message-wrapper ' + (data.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
-                                '       <div class="profile-picture">\n' +
-                                '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
-                                '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
-                                '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
-                                '       </div>\n' +
-                                '       <div class="request-row dudhiya-color">\n' +
-                                '           <div class="message-content">\n' +
-                                '               <h4>Draft contract request</h4>\n' +
-                                '               <div class="message">\n' +
-                                '                   <p>Draft Request: ' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
-                                '                   <p>Note: ' + data.actionperformedbyUser + ' has requested to give contract draft edit request to ' + data.sendToName + '.</p>\n' +
-                                '               </div>\n' +
-                                '           </div>';
-                            if (data.companyId != loggedInUserDetails.company._id && openContractUserDetails.canConfirmPosition) {
-                                html += '<div class="request-btn">\n' +
-                                    '   <button class="btn btn-primary draft-request-approve" data-action="Approve" data-id="' + data._id + '">Approve</button>\n' +
-                                    '   <button class="btn reject-btn  draft-request-reject " data-action="Reject"  data-id="' + data._id + '">Reject</button>\n' +
-                                    '</div>\n';
-                            }
-                        } else if (data.messageConfirmationFor == 'Same Side' && data.actionperformedbyUserRole == "Counterparty") {
-                            html += '<div class="message-wrapper ' + (data.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
-                                '       <div class="profile-picture">\n' +
-                                '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
-                                '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
-                                '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
-                                '       </div>\n' +
-                                '       <div class="request-row dudhiya-color">\n' +
-                                '           <div class="message-content">\n' +
-                                '               <h4>Draft contract request</h4>\n' +
-                                '               <div class="message">\n' +
-                                '                   <p>Draft Request: ' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
-                                '                   <p>Note: ' + data.actionperformedbyUser + ' has requested to give contract draft edit request to ' + data.sendToName + '.</p>\n' +
-                                '               </div>\n' +
-                                '           </div>';
-                            if (data.companyId != loggedInUserDetails.company._id && openContractUserDetails.canConfirmPosition) {
-                                html += '<div class="request-btn">\n' +
-                                    '   <button class="btn btn-primary draft-request-approve" data-action="Approve" data-id="' + data._id + '">Approve</button>\n' +
-                                    '   <button class="btn reject-btn  draft-request-reject " data-action="Reject"  data-id="' + data._id + '">Reject</button>\n' +
-                                    '</div>\n';
-                            }
-                        }
+                        // if (data.messageConfirmationFor != 'Same Side') {
+                        //     html += '<div class="message-wrapper ' + (data.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
+                        //         '       <div class="profile-picture">\n' +
+                        //         '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                        //         '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                        //         '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                        //         '       </div>\n' +
+                        //         '       <div class="request-row dudhiya-color">\n' +
+                        //         '           <div class="message-content">\n' +
+                        //         '               <h4>Draft contract request</h4>\n' +
+                        //         '               <div class="message">\n' +
+                        //         '                   <p>Draft Request: ' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
+                        //         '                   <p>Note: ' + data.actionperformedbyUser + ' has requested to give contract draft edit request to ' + data.sendToName + '.</p>\n' +
+                        //         '               </div>\n' +
+                        //         '           </div>';
+                        //     if (data.companyId != loggedInUserDetails.company._id && openContractUserDetails.canConfirmPosition) {
+                        //         html += '<div class="request-btn">\n' +
+                        //             '   <button class="btn btn-primary draft-request-approve" data-action="Approve" data-id="' + data._id + '">Approve</button>\n' +
+                        //             '   <button class="btn reject-btn  draft-request-reject " data-action="Reject"  data-id="' + data._id + '">Reject</button>\n' +
+                        //             '</div>\n';
+                        //     }
+                        // } else if (data.messageConfirmationFor == 'Same Side' && data.actionperformedbyUserRole == "Counterparty") {
+                        //     html += '<div class="message-wrapper ' + (data.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
+                        //         '       <div class="profile-picture">\n' +
+                        //         '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                        //         '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                        //         '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                        //         '       </div>\n' +
+                        //         '       <div class="request-row dudhiya-color">\n' +
+                        //         '           <div class="message-content">\n' +
+                        //         '               <h4>Draft contract request</h4>\n' +
+                        //         '               <div class="message">\n' +
+                        //         '                   <p>Draft Request: ' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
+                        //         '                   <p>Note: ' + data.actionperformedbyUser + ' has requested to give contract draft edit request to ' + data.sendToName + '.</p>\n' +
+                        //         '               </div>\n' +
+                        //         '           </div>';
+                        //     if (data.companyId != loggedInUserDetails.company._id && openContractUserDetails.canConfirmPosition) {
+                        //         html += '<div class="request-btn">\n' +
+                        //             '   <button class="btn btn-primary draft-request-approve" data-action="Approve" data-id="' + data._id + '">Approve</button>\n' +
+                        //             '   <button class="btn reject-btn  draft-request-reject " data-action="Reject"  data-id="' + data._id + '">Reject</button>\n' +
+                        //             '</div>\n';
+                        //     }
+                        // }
                         getOpenContractUserDetails(socket, redirection = false);
                         html += '</div>\n' +
                             '</div>';
@@ -4205,7 +4205,7 @@
                             var setLastHeight = document.getElementById('chatHistoryArea').scrollHeight;
                             result.forEach((chatMessage) => {
                                 var html = '';
-                                if (chatMessage.chatWindow == 'Counterparty') {
+                                if (chatMessage.conversationType == 'OTM') {
                                     if (chatMessage.messageType == 'Normal') {
                                         html += '<div class="message-wrapper light-gold-color">\n' +
                                             '       <div class="profile-picture">\n' +
@@ -4386,16 +4386,16 @@
                                         html += '    </div>\n' +
                                             '</div>\n';
                                     } else if (chatMessage.messageType == 'Draft Request') {
-                                        html += '<div class="message-wrapper reverse ' + (messageType == "Counterparty" && chatMessage.messageStatus != 'Reject' ? "dark-gold-color" : "") + ' ' + (chatMessage.messageStatus == 'Reject' ? "red-color" : "") + '">\n' +
+                                        html += '<div class="message-wrapper reverse ' + (chatMessage.messageType == "Counterparty" && chatMessage.messageStatus != 'Reject' ? "dark-gold-color" : "") + ' ' + (chatMessage.messageStatus == 'Reject' ? "red-color" : "") + '">\n' +
                                             '       <div class="profile-picture">\n' +
                                             '           <p class="last-seen">' + formatDate(chatMessage.createdAt) + '</p>\n' +
                                             '           <p class="name">' + chatMessage.messageSenderUser.firstName + ' ' + chatMessage.messageSenderUser.lastName + '&nbsp;<small>(' + (chatMessage && chatMessage.companyId === loggedInUserDetails.company._id ? 'Same side' : 'Counterparty') + ')</small>' + '</p>\n' +
                                             '           <img src="' + (chatMessage && chatMessage.messageSenderUser && chatMessage.messageSenderUser.imageUrl ? chatMessage.messageSenderUser.imageUrl : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                                             '       </div>\n' +
                                             '       <div class="request-row">\n' +
-                                            '           <div class="' + (messageType == "Counterparty" ? "message-content" : "request-content") + '">\n' +
+                                            '           <div class="' + (chatMessage.messageType == "Counterparty" ? "message-content" : "request-content") + '">\n' +
                                             '               <h4>Draft Request</h4>\n' +
-                                            '               <div class="' + (messageType == "Counterparty" ? "message" : "content-message") + '">' + (chatMessage.message ? chatMessage.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
+                                            '               <div class="' + (chatMessage.messageType == "Counterparty" ? "message" : "content-message") + '">' + (chatMessage.message ? chatMessage.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
                                             '           </div>\n';
                                         if (chatMessage.with == 'Our Team' && chatMessage.messageStatus == 'None' && chatMessage.sendTo == null && (loggedInUserDetails.role == 'Contract Creator' || loggedInUserDetails.role == 'Counterparty')) {
                                             html += '        <div class="request-btn">\n' +
@@ -4419,7 +4419,7 @@
                                         } else {
                                             notificationMessage = chatMessage.message + ' ' + userName.trim();
                                         }
-                                        html += '<div class="message-wrapper reverse ' + (chatMessage.chatWindow == "Counterparty" ? "light-gold-color" : "") + '">\n' +
+                                        html += '<div class="message-wrapper reverse ' + (chatMessage.conversationType == 'OTM' ? "light-gold-color" : "") + '">\n' +
                                             '       <div class="profile-picture">\n' +
                                             '           <p class="last-seen">' + formatDate(chatMessage.createdAt) + '</p>\n' +
                                             '           <p class="name">' + chatMessage.messageSenderUser.firstName + ' ' + chatMessage.messageSenderUser.lastName + '&nbsp;<small>(' + (chatMessage && chatMessage.companyId === loggedInUserDetails.company._id ? 'Same side' : 'Counterparty') + ')</small>' + '</p>\n' +
