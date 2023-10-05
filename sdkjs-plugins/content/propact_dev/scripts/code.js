@@ -277,7 +277,7 @@
                     document.getElementById('inviteTeamPopup').classList.add(displayNoneClass);
                     document.getElementById('meetingPopup').classList.add(displayNoneClass);
                 } else {
-                    location.reload();
+                    location.reload(true);
                 }
             });
 
@@ -434,7 +434,7 @@
                     document.getElementById('rejectDarftPopup').classList.add(displayNoneClass);
                     document.getElementById('meetingPopup').classList.add(displayNoneClass);
                 } else {
-                    location.reload();
+                    location.reload(true);
                 }
             });
 
@@ -460,7 +460,7 @@
                     document.getElementById('rejectDarftPopup').classList.add(displayNoneClass);
                     document.getElementById('meetingPopup').classList.add(displayNoneClass);
                 } else {
-                    location.reload();
+                    location.reload(true);
                 }
             });
             // Contract sameside chat screen
