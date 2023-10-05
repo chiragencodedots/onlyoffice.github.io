@@ -82,7 +82,6 @@
         //event "init" for plugin
         window.Asc.plugin.executeMethod("ShowButton", ["back", false]);
         window.Asc.plugin.executeMethod("GetAllContentControls");
-        fBtnGetAll = true;
 
         /**====================== Get & Set variables ======================*/
         documentID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
@@ -265,17 +264,21 @@
             // Contract chat history screen
             var varBtnRedirectClauseListsA = document.getElementById('btnRedirectClauseListsA');
             varBtnRedirectClauseListsA.addEventListener('click', async function () {
-                selectedCommentThereadID = '';
-                $('.div-selected').removeClass('div-selected');
-                clauseNextPage = 1;
-                clauseHasNextPage = true;
-                clauseLists = [];
-                await getContractSectionList();
-                document.getElementById('divContractLists').classList.remove(displayNoneClass);
-                document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
-                document.getElementById('inviteUserPopup').classList.add(displayNoneClass);
-                document.getElementById('inviteTeamPopup').classList.add(displayNoneClass);
-                document.getElementById('meetingPopup').classList.add(displayNoneClass);
+                if (sectionID) {
+                    selectedCommentThereadID = '';
+                    $('.div-selected').removeClass('div-selected');
+                    clauseNextPage = 1;
+                    clauseHasNextPage = true;
+                    clauseLists = [];
+                    await getContractSectionList();
+                    document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                    document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+                    document.getElementById('inviteUserPopup').classList.add(displayNoneClass);
+                    document.getElementById('inviteTeamPopup').classList.add(displayNoneClass);
+                    document.getElementById('meetingPopup').classList.add(displayNoneClass);
+                } else {
+                    location.reload();
+                }
             });
 
             var varBtnGoToSameSideChat = document.getElementById('btnGoToSameSideChat');
@@ -411,46 +414,54 @@
 
             var varBtnRedirectClauseListsB = document.getElementById('btnRedirectClauseListsB');
             varBtnRedirectClauseListsB.addEventListener('click', async function () {
-                selectedCommentThereadID = '';
-                $('.div-selected').removeClass('div-selected');
-                clauseNextPage = 1;
-                clauseHasNextPage = true;
-                clauseLists = [];
-                await getContractSectionList();
-                document.getElementById('divContractLists').classList.remove(displayNoneClass);
-                document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
-                document.getElementById('inviteUserPopup').classList.add(displayNoneClass);
-                document.getElementById('inviteTeamPopup').classList.add(displayNoneClass);
-                document.getElementById('sendPositionConfirmationPopup').classList.add(displayNoneClass);
-                document.getElementById('reconfirmPositionPopup').classList.add(displayNoneClass);
-                document.getElementById('rejectPositionPopup').classList.add(displayNoneClass);
-                document.getElementById('assignDraftRequestPopup').classList.add(displayNoneClass);
-                document.getElementById('sendDraftConfirmationPopup').classList.add(displayNoneClass);
-                document.getElementById('rejectDarftRequestPopup').classList.add(displayNoneClass);
-                document.getElementById('rejectDarftPopup').classList.add(displayNoneClass);
-                document.getElementById('meetingPopup').classList.add(displayNoneClass);
+                if (sectionID) {
+                    selectedCommentThereadID = '';
+                    $('.div-selected').removeClass('div-selected');
+                    clauseNextPage = 1;
+                    clauseHasNextPage = true;
+                    clauseLists = [];
+                    await getContractSectionList();
+                    document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                    document.getElementById('divContractSameSideChat').classList.add(displayNoneClass);
+                    document.getElementById('inviteUserPopup').classList.add(displayNoneClass);
+                    document.getElementById('inviteTeamPopup').classList.add(displayNoneClass);
+                    document.getElementById('sendPositionConfirmationPopup').classList.add(displayNoneClass);
+                    document.getElementById('reconfirmPositionPopup').classList.add(displayNoneClass);
+                    document.getElementById('rejectPositionPopup').classList.add(displayNoneClass);
+                    document.getElementById('assignDraftRequestPopup').classList.add(displayNoneClass);
+                    document.getElementById('sendDraftConfirmationPopup').classList.add(displayNoneClass);
+                    document.getElementById('rejectDarftRequestPopup').classList.add(displayNoneClass);
+                    document.getElementById('rejectDarftPopup').classList.add(displayNoneClass);
+                    document.getElementById('meetingPopup').classList.add(displayNoneClass);
+                } else {
+                    location.reload();
+                }
             });
 
             var varBtnRedirectClauseListsC = document.getElementById('btnRedirectClauseListsC');
             varBtnRedirectClauseListsC.addEventListener('click', async function () {
-                selectedCommentThereadID = '';
-                $('.div-selected').removeClass('div-selected');
-                clauseNextPage = 1;
-                clauseHasNextPage = true;
-                clauseLists = [];
-                await getContractSectionList();
-                document.getElementById('divContractLists').classList.remove(displayNoneClass);
-                document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
-                document.getElementById('inviteUserPopup').classList.add(displayNoneClass);
-                document.getElementById('inviteTeamPopup').classList.add(displayNoneClass);
-                document.getElementById('sendPositionConfirmationPopup').classList.add(displayNoneClass);
-                document.getElementById('reconfirmPositionPopup').classList.add(displayNoneClass);
-                document.getElementById('rejectPositionPopup').classList.add(displayNoneClass);
-                document.getElementById('assignDraftRequestPopup').classList.add(displayNoneClass);
-                document.getElementById('sendDraftConfirmationPopup').classList.add(displayNoneClass);
-                document.getElementById('rejectDarftRequestPopup').classList.add(displayNoneClass);
-                document.getElementById('rejectDarftPopup').classList.add(displayNoneClass);
-                document.getElementById('meetingPopup').classList.add(displayNoneClass);
+                if (sectionID) {
+                    selectedCommentThereadID = '';
+                    $('.div-selected').removeClass('div-selected');
+                    clauseNextPage = 1;
+                    clauseHasNextPage = true;
+                    clauseLists = [];
+                    await getContractSectionList();
+                    document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                    document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
+                    document.getElementById('inviteUserPopup').classList.add(displayNoneClass);
+                    document.getElementById('inviteTeamPopup').classList.add(displayNoneClass);
+                    document.getElementById('sendPositionConfirmationPopup').classList.add(displayNoneClass);
+                    document.getElementById('reconfirmPositionPopup').classList.add(displayNoneClass);
+                    document.getElementById('rejectPositionPopup').classList.add(displayNoneClass);
+                    document.getElementById('assignDraftRequestPopup').classList.add(displayNoneClass);
+                    document.getElementById('sendDraftConfirmationPopup').classList.add(displayNoneClass);
+                    document.getElementById('rejectDarftRequestPopup').classList.add(displayNoneClass);
+                    document.getElementById('rejectDarftPopup').classList.add(displayNoneClass);
+                    document.getElementById('meetingPopup').classList.add(displayNoneClass);
+                } else {
+                    location.reload();
+                }
             });
             // Contract sameside chat screen
 
@@ -1113,27 +1124,31 @@
 
             $("#frmSendPositionConfirmation").validate({
                 submitHandler: function (form, event) {
-                    var sendPositionConfirmation = {
-                        "contractId": documentID,
-                        "contractSectionId": selectedThreadID,
-                        "message": $('#inputSendPositionConfirmation').val(),
-                        "with": withType,
-                        "messageType": 'Position Confirmation',
-                        "companyId": loggedInUserDetails.company._id,
-                        "oppositeCompanyId": counterPartyCustomerDetail && counterPartyCustomerDetail.company._id ? counterPartyCustomerDetail.company._id : null,
-                        "threadID": selectedCommentThereadID,
-                        "status": 'send',
-                        "messageStatus": 'None',
-                        "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
-                        "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
-                        "actionperformedbyUserRole": loggedInUserDetails.role,
-                        "actionperformedbyUserId": loggedInUserDetails._id,
-                        "messageConfirmationFor": messageConfirmationFor,
-                        "chatRoomName": getChatRoom(withType),
-                        "messageNumber": 0,
-                        "chatWindow": withType
-                    };
-                    submitPositionConfirmation(sendPositionConfirmation, socket);
+                    chat_message = $('#inputSendPositionConfirmation').val();
+                    document.getElementById("inputSendPositionConfirmation").value = "";
+                    if (chat_message) {
+                        var sendPositionConfirmation = {
+                            "contractId": documentID,
+                            "contractSectionId": selectedThreadID,
+                            "message": chat_message,
+                            "with": withType,
+                            "messageType": 'Position Confirmation',
+                            "companyId": loggedInUserDetails.company._id,
+                            "oppositeCompanyId": counterPartyCustomerDetail && counterPartyCustomerDetail.company._id ? counterPartyCustomerDetail.company._id : null,
+                            "threadID": selectedCommentThereadID,
+                            "status": 'send',
+                            "messageStatus": 'None',
+                            "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+                            "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
+                            "actionperformedbyUserRole": loggedInUserDetails.role,
+                            "actionperformedbyUserId": loggedInUserDetails._id,
+                            "messageConfirmationFor": messageConfirmationFor,
+                            "chatRoomName": getChatRoom(withType),
+                            "messageNumber": 0,
+                            "chatWindow": withType
+                        };
+                        submitPositionConfirmation(sendPositionConfirmation, socket);
+                    }
                 }
             });
 
@@ -1227,27 +1242,31 @@
 
             $("#frmSendDraftConfirmation").validate({
                 submitHandler: function (form) {
-                    var sendDraftConfirmation = {
-                        "contractId": documentID,
-                        "contractSectionId": selectedThreadID,
-                        "message": $('#inputSendDraftConfirmation').val(),
-                        "with": withType,
-                        "messageType": 'Draft Confirmation',
-                        "companyId": loggedInUserDetails.company._id,
-                        "oppositeCompanyId": counterPartyCustomerDetail.company._id,
-                        "threadID": selectedCommentThereadID,
-                        "status": 'send',
-                        "messageStatus": 'None',
-                        "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
-                        "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
-                        "actionperformedbyUserRole": loggedInUserDetails.role,
-                        "actionperformedbyUserId": loggedInUserDetails._id,
-                        "messageConfirmationFor": messageConfirmationFor,
-                        "chatRoomName": getChatRoom(withType),
-                        "messageNumber": 0,
-                        "chatWindow": withType
-                    };
-                    submitPositionConfirmation(sendDraftConfirmation, socket);
+                    chat_message = $('#inputSendDraftConfirmation').val();
+                    document.getElementById("inputSendDraftConfirmation").value = "";
+                    if (chat_message) {
+                        var sendDraftConfirmation = {
+                            "contractId": documentID,
+                            "contractSectionId": selectedThreadID,
+                            "message": chat_message,
+                            "with": withType,
+                            "messageType": 'Draft Confirmation',
+                            "companyId": loggedInUserDetails.company._id,
+                            "oppositeCompanyId": counterPartyCustomerDetail.company._id,
+                            "threadID": selectedCommentThereadID,
+                            "status": 'send',
+                            "messageStatus": 'None',
+                            "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+                            "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
+                            "actionperformedbyUserRole": loggedInUserDetails.role,
+                            "actionperformedbyUserId": loggedInUserDetails._id,
+                            "messageConfirmationFor": messageConfirmationFor,
+                            "chatRoomName": getChatRoom(withType),
+                            "messageNumber": 0,
+                            "chatWindow": withType
+                        };
+                        submitPositionConfirmation(sendDraftConfirmation, socket);
+                    }
                 }
             });
 
@@ -1477,10 +1496,6 @@
         //event return for completed methods
         var _plugin = window.Asc.plugin;
         if (_plugin.info.methodName == "GetAllContentControls") {
-            if (fBtnGetAll) {
-                fBtnGetAll = false;
-            }
-            // document.getElementById("divG").innerHTML = "";
             for (var i = 0; i < returnValue.length; i++) {
                 var tagExists = tagLists.findIndex((ele) => +ele.Id == +returnValue[i].Id);
                 if (tagExists < 0) {
