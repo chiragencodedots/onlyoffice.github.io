@@ -950,7 +950,7 @@
 
             document.getElementById('toggleSendPositionConfirmation').addEventListener('click', function () {
                 var getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
-                if (openContractUserDetails && openContractUserDetails.openContractDetails && openContractUserDetails.openContractDetails.userWhoHasEditAccess == loggedInUserDetails._id && openContractUserDetails.canSendPositionConfirmation && getClauseDetails.isSectionInDraftMode) {
+                if (openContractUserDetails && openContractUserDetails.openContractDetails && openContractUserDetails.openContractDetails.userWhoHasEditAccess == loggedInUserDetails._id && openContractUserDetails.canSendPositionConfirmation && getClauseDetails && getClauseDetails.isSectionInDraftMode) {
                     document.getElementById('sendDraftConfirmationPopup').classList.remove(displayNoneClass);
                 } else if (openContractUserDetails.canSendPositionConfirmation) {
                     document.getElementById('sendPositionConfirmationPopup').classList.remove(displayNoneClass);
@@ -960,7 +960,7 @@
             document.getElementById('toggleSendPositionConfirmationA').addEventListener('click', function () {
                 getOpenContractUserDetails(socket, redirection = false);
                 var getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
-                if (openContractUserDetails && openContractUserDetails.openContractDetails && openContractUserDetails.canSendPositionConfirmation && getClauseDetails.isSectionInDraftMode) {
+                if (openContractUserDetails && openContractUserDetails.openContractDetails && openContractUserDetails.canSendPositionConfirmation && getClauseDetails && getClauseDetails.isSectionInDraftMode) {
                     if (openContractUserDetails.openContractDetails.userWhoHasEditAccess == loggedInUserDetails._id || loggedInUserDetails.role == "Counterparty" || loggedInUserDetails.role == "Contract Creator") {
                         document.getElementById('sendDraftConfirmationPopup').classList.remove(displayNoneClass);
                     } else {
