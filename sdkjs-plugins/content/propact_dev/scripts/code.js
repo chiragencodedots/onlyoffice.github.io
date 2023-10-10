@@ -4948,7 +4948,9 @@
                                 '</li>';
                         }
                         if (responseData.data.contractAssignedUsers && responseData.data.contractAssignedUsers.length > 0) {
-                            document.getElementById('toggleSendPositionConfirmation').closest("li").classList.remove(displayNoneClass);
+                            if (openContractUserDetails.canSendPositionConfirmation == true) {
+                                document.getElementById('toggleSendPositionConfirmation').closest("li").classList.remove(displayNoneClass);
+                            }
                             responseData.data.contractAssignedUsers.forEach((ele) => {
                                 iHtml += '<li>\n' +
                                     '\t\t\t\t<div class="invite-user-inner">\n' +
