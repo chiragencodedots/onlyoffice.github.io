@@ -808,17 +808,13 @@
                 if (getClauseDetails) {
                     var isAllInvited = [];
                     if (loggedInUserDetails.role == 'Counterparty' || loggedInUserDetails.role == 'Contract Creator') {
-                        if (inviteUserListIDs.length !== selectedContractSectionDetails.contractAssignedUsers.length) {
-                            isAllInvited.push(false);
-                        } else {
-                            inviteUserListIDs.forEach((el) => {
-                                if (!(selectedContractSectionDetails.contractAssignedUsers.findIndex((ele) => ele.userId._id == el.itemId) > -1)) {
-                                    isAllInvited.push(false);
-                                } else {
-                                    isAllInvited.push(true);
-                                }
-                            });
-                        }
+                        inviteUserListIDs.forEach((el) => {
+                            if (!(selectedContractSectionDetails.contractAssignedUsers.findIndex((ele) => ele.userId._id == el.itemId) > -1)) {
+                                isAllInvited.push(false);
+                            } else {
+                                isAllInvited.push(true);
+                            }
+                        });
                     } else {
                         inviteUserListIDs.forEach((el) => {
                             // if (!getClauseDetails.assignedUser.includes(el.itemId)) {
