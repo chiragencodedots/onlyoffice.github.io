@@ -3353,15 +3353,15 @@
                             document.getElementById('contractListItemsDiv').insertAdjacentElement("beforeend", newElement);
                         }
                         if (!flagRedirectFirst && sectionID && sectionID != "0") {
-                            setTimeout(function () {
-                                $('.contract-item[data-id="' + sectionID + '"]').click();
-                                if (chatWindows == 'SS') {
-                                    $('#btnGoToSameSideChat').click();
-                                } else if (chatWindows == 'CP') {
-                                    $('#btnGoToCounterparty').click();
-                                }
-                                flagRedirectFirst = true;
-                            }, 500);
+                            // setTimeout(function () {
+                            //     $('.contract-item[data-id="' + sectionID + '"]').click();
+                            //     if (chatWindows == 'SS') {
+                            //         $('#btnGoToSameSideChat').click();
+                            //     } else if (chatWindows == 'CP') {
+                            //         $('#btnGoToCounterparty').click();
+                            //     }
+                            //     flagRedirectFirst = true;
+                            // }, 500);
                         } else if (commentThreadID) {
                             setTimeout(function () {
                                 flagRedirectClauseCreate = true;
