@@ -3776,6 +3776,11 @@
             fetch(getContractSectionMessageListUrl, requestOptions)
                 .then(response => response.json())
                 .then(data => {
+                    if (chatNextPage == 1) {
+                        if (messageType == 'our') {
+                            document.getElementById('chatArea').innerHTML = '';
+                        }
+                    }
                     // Handle the response data
                     var responseData = data;
                     if (responseData && responseData.status == true && responseData.code == 200 && responseData.data) {
