@@ -677,19 +677,21 @@
                     if (!flagRedirectClauseCreate) {
                         await redirectToMessageScreen();
                     } else {
-                        withType = 'Our Team';
-                        messageConfirmationFor = 'Same Side';
-                        document.getElementById('chatArea').innerHTML = '';
-                        chatNextPage = 1;
-                        chatHasNextPage = true;
-                        await getContractSectionMessageList('our');
-                        var chatRoomName = getChatRoom(withType);
-                        socket.emit('join_contract_section_chat_room', chatRoomName);
-                        document.getElementById("messageInput").value = "";
-                        document.getElementById('divContractLists').classList.add(displayNoneClass);
-                        document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
-                        document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
-                        document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+                        if (chatWindows != 0) {
+                            withType = 'Our Team';
+                            messageConfirmationFor = 'Same Side';
+                            document.getElementById('chatArea').innerHTML = '';
+                            chatNextPage = 1;
+                            chatHasNextPage = true;
+                            await getContractSectionMessageList('our');
+                            var chatRoomName = getChatRoom(withType);
+                            socket.emit('join_contract_section_chat_room', chatRoomName);
+                            document.getElementById("messageInput").value = "";
+                            document.getElementById('divContractLists').classList.add(displayNoneClass);
+                            document.getElementById('divContractSameSideChat').classList.remove(displayNoneClass);
+                            document.getElementById('divContractCounterpartyChat').classList.add(displayNoneClass);
+                            document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+                        }
                     }
                     document.getElementById('sendPositionConfirmationPopup').classList.add(displayNoneClass);
                     document.getElementById('toggleInviteUserTeam').closest("li").classList.remove('active');
