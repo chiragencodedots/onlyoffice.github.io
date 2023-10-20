@@ -3352,16 +3352,18 @@
                             newElement.innerHTML = html;
                             document.getElementById('contractListItemsDiv').insertAdjacentElement("beforeend", newElement);
                         }
+                        clauseHasNextPage = resData.hasNextPage;
+                        clauseNextPage = resData.nextPage;
                         if (!flagRedirectFirst && sectionID && sectionID != "0") {
-                            // setTimeout(function () {
-                            //     $('.contract-item[data-id="' + sectionID + '"]').click();
-                            //     if (chatWindows == 'SS') {
-                            //         $('#btnGoToSameSideChat').click();
-                            //     } else if (chatWindows == 'CP') {
-                            //         $('#btnGoToCounterparty').click();
-                            //     }
-                            //     flagRedirectFirst = true;
-                            // }, 500);
+                            setTimeout(function () {
+                                $('.contract-item[data-id="' + sectionID + '"]').click();
+                                if (chatWindows == 'SS') {
+                                    $('#btnGoToSameSideChat').click();
+                                } else if (chatWindows == 'CP') {
+                                    $('#btnGoToCounterparty').click();
+                                }
+                                flagRedirectFirst = true;
+                            }, 500);
                         } else if (commentThreadID) {
                             setTimeout(function () {
                                 flagRedirectClauseCreate = true;
@@ -3379,8 +3381,6 @@
                                 }
                             }, 500);
                         }
-                        clauseHasNextPage = resData.hasNextPage;
-                        clauseNextPage = resData.nextPage;
                     } else {
                         var norecordhtml = '<p class="nodata-info">No clauses available</p>';
                         document.getElementById('contractListItemsDiv').innerHTML = norecordhtml;
