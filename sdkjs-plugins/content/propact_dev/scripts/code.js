@@ -1485,7 +1485,7 @@
                     "messageType": 'Notification',
                     "with": withType,
                     "companyId": loggedInUserDetails.company._id,
-                    "oppositeCompanyId": counterPartyCustomerDetail.company._id,
+                    "oppositeCompanyId": counterPartyCustomerDetail && counterPartyCustomerDetail.company._id ? counterPartyCustomerDetail.company._id : null,
                     "threadID": selectedCommentThereadID,
                     "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
                     "actionperformedbyUserImage": loggedInUserDetails.imageUrl,
