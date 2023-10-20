@@ -677,7 +677,7 @@
                     if (!flagRedirectClauseCreate) {
                         await redirectToMessageScreen();
                     } else {
-                        if (chatWindows != 0) {
+                        if (!(chatWindows == 'SS' || chatWindows == 'CP')) {
                             withType = 'Our Team';
                             messageConfirmationFor = 'Same Side';
                             document.getElementById('chatArea').innerHTML = '';
@@ -3360,6 +3360,7 @@
                             setTimeout(function () {
                                 flagRedirectClauseCreate = true;
                                 $('.contract-item[data-id="' + sectionID + '"]').click();
+                                document.getElementById('divContractLists').classList.add(displayNoneClass);
                                 if (chatWindows == 'SS') {
                                     $('#btnGoToSameSideChat').click();
                                 } else if (chatWindows == 'CP') {
@@ -5719,10 +5720,10 @@
                         var generalChatData = postData;
                         var conversationType = 'OTM';
                         /*if (loggedInUserDetails.company._id.toString() == openContractUserDetails.openContractDetails.companyId.toString()) {
-                conversationType = 'OTCC';
-            } else if (loggedInUserDetails.company._id.toString() == openContractUserDetails.openContractDetails.counterPartyCompanyId.toString()) {
-                conversationType = 'OTCP';
-            }*/
+            conversationType = 'OTCC';
+        } else if (loggedInUserDetails.company._id.toString() == openContractUserDetails.openContractDetails.counterPartyCompanyId.toString()) {
+            conversationType = 'OTCP';
+        }*/
                         generalChatData.chatRoomName = 'conversion_history_' + selectedCommentThereadID;
                         generalChatData.conversationType = conversationType;
                         socket.emit('conversion_history_message', generalChatData);
