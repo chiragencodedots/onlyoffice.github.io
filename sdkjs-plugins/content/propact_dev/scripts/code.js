@@ -3356,6 +3356,7 @@
                         clauseNextPage = resData.nextPage;
                         if (!flagRedirectFirst && sectionID && sectionID != "0") {
                             setTimeout(function () {
+                                flagRedirectClauseCreate = true;
                                 $('.contract-item[data-id="' + sectionID + '"]').click();
                                 if (chatWindows == 'SS') {
                                     $('#btnGoToSameSideChat').click();
