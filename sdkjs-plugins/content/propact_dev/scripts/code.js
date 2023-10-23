@@ -2252,7 +2252,7 @@
                             '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
                             '       </div>\n' +
                             '       <div class="request-row">\n' +
-                            '           <strong>' + data.actionperformedbyUser + ' has assigned opposite side to draft this contract section</strong>\n' +
+                            '           <strong>' + data.actionperformedbyUser + ' has assigned '+(loggedInUserDetails.company._id !== data.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+' to draft this contract section</strong>\n' +
                             '       </div>\n' +
                             '</div>';
                     }
@@ -2568,7 +2568,7 @@
                                 '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
                                 '       </div>\n' +
                                 '       <div class="request-row">\n' +
-                                '           <strong>' + data.actionperformedbyUser + ' has assigned opposite side to draft this contract section</strong>\n' +
+                                '           <strong>' + data.actionperformedbyUser + ' has assigned "+(loggedInUserDetails.company._id == chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section</strong>\n' +
                                 '       </div>\n' +
                                 '</div>';
                         }
@@ -3925,7 +3925,7 @@
                                         var notificationMessage;
                                         var userName = chatMessage.messageSenderUser.firstName + " " + chatMessage.messageSenderUser.lastName;
                                         if (chatMessage.message == 'request_draft_counter') {
-                                            notificationMessage = userName.trim() + " has assigned opposite side to draft this contract section";
+                                            notificationMessage = userName.trim() + " has assigned "+(loggedInUserDetails.company._id == chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section";
                                         } else if (chatMessage.message == 'request_draft') {
                                             if (chatMessage && chatMessage.messageReceiverUser) {
                                                 var userReceiverName = chatMessage.messageReceiverUser.firstName + " " + chatMessage.messageReceiverUser.lastName;
@@ -4093,7 +4093,7 @@
                                         var notificationMessage = '';
                                         var userName = chatMessage.messageSenderUser.firstName + " " + chatMessage.messageSenderUser.lastName;
                                         if (chatMessage.message == 'request_draft_counter') {
-                                            notificationMessage = userName.trim() + " has assigned opposite side to draft this contract section";
+                                            notificationMessage = userName.trim() + " has assigned "+(loggedInUserDetails.company._id == chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section";
                                         } else if (chatMessage.message == 'request_draft') {
                                             if (chatMessage && chatMessage.messageReceiverUser) {
                                                 var userReceiverName = chatMessage.messageReceiverUser.firstName + " " + chatMessage.messageReceiverUser.lastName;
@@ -4314,7 +4314,8 @@
                                             var notificationMessage;
                                             var userName = chatMessage.messageSenderUser.firstName + " " + chatMessage.messageSenderUser.lastName;
                                             if (chatMessage.message == 'request_draft_counter') {
-                                                notificationMessage = userName.trim() + " has assigned opposite side to draft this contract section";
+                                                // console.log(loggedInUserDetails.company._id == chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName);
+                                                notificationMessage = userName.trim() + " has assigned "+(loggedInUserDetails.company._id == chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section";
                                             } else if (chatMessage.message == 'request_draft') {
                                                 if (chatMessage && chatMessage.messageReceiverUser) {
                                                     var userReceiverName = chatMessage.messageReceiverUser.firstName + " " + chatMessage.messageReceiverUser.lastName;
@@ -4490,18 +4491,13 @@
                                             '               <h4>Draft Request</h4>\n' +
                                             '               <div class="' + (chatMessage.messageType == "Counterparty" ? "message" : "content-message") + '">' + (chatMessage.message ? chatMessage.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
                                             '           </div>\n';
-                                        if (chatMessage.with == 'Our Team' && chatMessage.messageStatus == 'None' && chatMessage.sendTo == null && (loggedInUserDetails.role == 'Contract Creator' || loggedInUserDetails.role == 'Counterparty')) {
-                                            html += '        <div class="request-btn">\n' +
-                                                '               <button class="btn btn-primary assign-user" data-action="assign-user" data-id$*="' + chatMessage._id + '">Assign for Drafting</button>\n' +
-                                                '           </div>\n';
-                                        }
                                         html += '    </div>\n' +
                                             '</div>\n';
                                     } else if (chatMessage.messageType == 'Notification') {
                                         var notificationMessage;
                                         var userName = chatMessage.messageSenderUser.firstName + " " + chatMessage.messageSenderUser.lastName;
                                         if (chatMessage.message == 'request_draft_counter') {
-                                            notificationMessage = userName.trim() + " has assigned opposite side to draft this contract section";
+                                            notificationMessage = userName.trim() + " has assigned "+(loggedInUserDetails.company._id == chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section";
                                         } else if (chatMessage.message == 'request_draft') {
                                             if (chatMessage && chatMessage.messageReceiverUser) {
                                                 var userReceiverName = chatMessage.messageReceiverUser.firstName + " " + chatMessage.messageReceiverUser.lastName;
@@ -5455,7 +5451,7 @@
                                     '      <img src="' + (postData.actionperformedbyUserImage ? postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                                     '   </div>\n' +
                                     '   <div class="request-row">\n' +
-                                    '      <strong>' + postData.actionperformedbyUser + ' has assigned opposite side to draft this contract section</strong>\n' +
+                                    '      <strong>' + postData.actionperformedbyUser + ' has assigned '+(loggedInUserDetails.company._id == postData.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+' to draft this contract section</strong>\n' +
                                     '   </div>\n' +
                                     '</div>';
                             }
@@ -5720,10 +5716,10 @@
                         var generalChatData = postData;
                         var conversationType = 'OTM';
                         /*if (loggedInUserDetails.company._id.toString() == openContractUserDetails.openContractDetails.companyId.toString()) {
-            conversationType = 'OTCC';
-        } else if (loggedInUserDetails.company._id.toString() == openContractUserDetails.openContractDetails.counterPartyCompanyId.toString()) {
-            conversationType = 'OTCP';
-        }*/
+        conversationType = 'OTCC';
+    } else if (loggedInUserDetails.company._id.toString() == openContractUserDetails.openContractDetails.counterPartyCompanyId.toString()) {
+        conversationType = 'OTCP';
+    }*/
                         generalChatData.chatRoomName = 'conversion_history_' + selectedCommentThereadID;
                         generalChatData.conversationType = conversationType;
                         socket.emit('conversion_history_message', generalChatData);
