@@ -2264,7 +2264,7 @@
                                 '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
                                 '       </div>\n' +
                                 '       <div class="request-row">\n' +
-                                '           <strong>' + data.actionperformedbyUser + ' has assigned ' + (loggedInUserDetails.company._id !== data.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName) + ' to draft this contract section</strong>\n' +
+                                '           <strong>' + data.actionperformedbyUser + ' has assigned ' + (loggedInUserDetails.company._id == data.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName) + ' to draft this contract section</strong>\n' +
                                 '       </div>\n' +
                                 '</div>';
                         }
@@ -3939,7 +3939,7 @@
                                         var notificationMessage;
                                         var userName = chatMessage.messageSenderUser.firstName + " " + chatMessage.messageSenderUser.lastName;
                                         if (chatMessage.message == 'request_draft_counter') {
-                                            notificationMessage = userName.trim() + " has assigned "+(loggedInUserDetails.company._id == chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section";
+                                            notificationMessage = userName.trim() + " has assigned "+(loggedInUserDetails.company._id !== chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section";
                                         } else if (chatMessage.message == 'request_draft') {
                                             if (chatMessage && chatMessage.messageReceiverUser) {
                                                 var userReceiverName = chatMessage.messageReceiverUser.firstName + " " + chatMessage.messageReceiverUser.lastName;
@@ -4107,7 +4107,7 @@
                                         var notificationMessage = '';
                                         var userName = chatMessage.messageSenderUser.firstName + " " + chatMessage.messageSenderUser.lastName;
                                         if (chatMessage.message == 'request_draft_counter') {
-                                            notificationMessage = userName.trim() + " has assigned "+(loggedInUserDetails.company._id == chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section";
+                                            notificationMessage = userName.trim() + " has assigned "+(loggedInUserDetails.company._id !== chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section";
                                         } else if (chatMessage.message == 'request_draft') {
                                             if (chatMessage && chatMessage.messageReceiverUser) {
                                                 var userReceiverName = chatMessage.messageReceiverUser.firstName + " " + chatMessage.messageReceiverUser.lastName;
@@ -4329,7 +4329,7 @@
                                             var userName = chatMessage.messageSenderUser.firstName + " " + chatMessage.messageSenderUser.lastName;
                                             if (chatMessage.message == 'request_draft_counter') {
                                                 // console.log(loggedInUserDetails.company._id == chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName);
-                                                notificationMessage = userName.trim() + " has assigned "+(loggedInUserDetails.company._id == chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section";
+                                                notificationMessage = userName.trim() + " has assigned "+(loggedInUserDetails.company._id !== chatMessage.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+" to draft this contract section";
                                             } else if (chatMessage.message == 'request_draft') {
                                                 if (chatMessage && chatMessage.messageReceiverUser) {
                                                     var userReceiverName = chatMessage.messageReceiverUser.firstName + " " + chatMessage.messageReceiverUser.lastName;
@@ -5492,7 +5492,7 @@
                                         '      <img src="' + (postData.actionperformedbyUserImage ? postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                                         '   </div>\n' +
                                         '   <div class="request-row">\n' +
-                                        '      <strong>' + postData.actionperformedbyUser + ' has assigned '+(loggedInUserDetails.company._id == postData.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+' to draft this contract section</strong>\n' +
+                                        '      <strong>' + postData.actionperformedbyUser + ' has assigned '+(loggedInUserDetails.company._id !== postData.companyId ? loggedInUserDetails.company.companyName : openContractUserDetails.oppositeUser.company.companyName)+' to draft this contract section</strong>\n' +
                                         '   </div>\n' +
                                         '</div>';
                                 }
@@ -6263,7 +6263,6 @@
             console.error('Error fetching data:', error);
         }
     }
-
     /**================================ API Function End ==================================*/
 
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
