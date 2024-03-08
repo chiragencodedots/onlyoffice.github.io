@@ -39,7 +39,96 @@
 <body>
 <div id="mainLoader" class="page-loader d-none"></div>
 <div class="left-sidebar">
-    <h1>Plugin Load</h1>
+    <!--  Section: Invite Counterparty [divInviteCounterpartyForm]  -->
+    <div class="invite-counterpartie-form d-none" id="sectionInviteCounterparty">
+        <div class="invite-form">
+            <div class="invite-form-header">
+                <h3>Invite Counterparties</h3>
+            </div>
+            <div class="form-inner">
+                <form id="inviteForm" method="get" action>
+                    <div class="form-group">
+                        <label class="">First name</label>
+                        <input type="text" class="form-control" placeholder="First name" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="">Last Name</label>
+                        <input type="text" class="form-control" placeholder="Last name" name="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="">Email</label>
+                        <input type="email" class="form-control" placeholder="Email" name="email" required
+                               id="inviteEmailAddress">
+                    </div>
+                    <div class="form-group">
+                        <label class="">Organisation name</label>
+                        <input type="text" class="form-control" placeholder="Organisation name" name="organisationName"
+                               required>
+                    </div>
+                    <div class="submit-btn">
+                        <a class="btn btn-secondary" href="#" id="btnInviteCounterpartyCancel">Cancel</a>
+                        <button class="btn btn-primary" type="submit">Invite</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Section: Invite Counterparty [divInviteCounterpartyForm]  -->
+
+    <!--  Section: Contract Lists [divContractLists]  -->
+    <div class="contract-lists" id="sectionContractLists">
+        <div class="contract-drafting">
+            <div class="contract-header">
+                <a href="#" id="btnMarkupMode" class="btn btn-markup">
+                    Select Markup Mode
+                </a>
+                <a href="#" class="btn btn-primary" id="btnCreateClause">
+                    Review Clause
+                </a>
+            </div>
+            <div class="invite-counterpartie" id="divInviteCounterparty">
+                <a href="#" class="invite-button" id="btnInviteCounterpartyForm">
+                    <img src="images/plus.svg" alt="plus">
+                    Invite Counterparty
+                </a>
+            </div>
+            <div class="invite-counterpartie-pending d-none" id="divInviteCounterpartyPending">
+                <div class="invite-form">
+                    <div class="contract-section disabled" id="contractCounterpartySection">
+                        <div class="intellivision-inner">
+                            <img id="organizationImage" src="images/org-placeholder.png" alt="Organization">
+                            <h4 id="organizationName">Organization</h4>
+                        </div>
+                        <div class="contract-user-list">
+                            <div class="contract-user-inner">
+                                <div class="contract-user-icon">
+                                    <img id="counterpartyImage" src="images/no-profile-image.jpg" alt="Rio Mendoza">
+                                </div>
+                                <div class="contract-user-name">
+                                    <h4 id="counterpartyName">Counterparty User</h4>
+                                    <span id="counterpartyEmail">Counterparty Email</span>
+                                </div>
+                            </div>
+                            <p id="invitationActionPara"><a href="#" id="btnResendVerification">Click here</a> to resend
+                                invitation OR <a href="#" id="btnCancelInvitation">Cancel</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="contract-list">
+                <div class="contract-search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search" id="inputSearchbox">
+                        <button class="btn"><img src="images/icon-search.svg" alt="Icon Search"></button>
+                    </div>
+                </div>
+                <div class="contract-list-items" id="contractListItemsDiv">
+                </div>
+            </div>
+        </div>
+        <a href="#" class="scroll-down" id="scrollDownBtn" address="true"></a>
+    </div>
+    <!--  Section: Contract Lists [divContractLists]  -->
 </div>
 </body>
 </html>
