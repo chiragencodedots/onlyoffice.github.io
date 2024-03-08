@@ -1,7 +1,7 @@
 $(document).ready(function () {
 
     let displayNoneClass = 'd-none';
-    let baseUrl = 'http://localhost:3000';
+    let baseUrl = 'http://192.168.1.38:3003';
     let apiBaseUrl = baseUrl + '/api/v1/app';
     let documentID;
     let documentMode;
@@ -51,7 +51,7 @@ $(document).ready(function () {
             urlencoded.append("organisationName", $('input[name="organisationName"]').val());
 
             var inviteCounterpartiesUrl = apiBaseUrl + '/contract/invite-contract-counterparty';
-            
+
             var headers = {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': 'Bearer ' + authToken
