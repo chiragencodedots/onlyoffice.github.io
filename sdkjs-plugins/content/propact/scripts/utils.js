@@ -1,6 +1,31 @@
 $(document).ready(function () {
 
     let displayNoneClass = 'd-none';
+    let baseUrl = 'http://localhost:3000';
+    let apiBaseUrl = baseUrl + '/api/v1/app';
+    let documentID;
+    let documentMode;
+    let splitArray;
+    let authToken;
+    let sectionID;
+    let chatWindows;
+
+
+
+    window.Asc.plugin.init = function (text) {
+        /**====================== Get & Set variables ======================*/
+        documentID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
+        documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
+        splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
+        authToken = splitArray[11];
+        if (splitArray.length >= 13 && splitArray[12] != '0') {
+            sectionID = splitArray[12];
+        }
+        if (splitArray.length >= 14 && splitArray[13] != '0') {
+            chatWindows = splitArray[13];
+        }
+        /**====================== Get & Set variables ======================*/
+    }
 
     // Section Invite CounterParty
     /**
@@ -9,10 +34,70 @@ $(document).ready(function () {
     $("#inviteForm").validate({
         submitHandler: function (form) {
             // $(form).ajaxSubmit();
-            $('#mainLoader').removeClass(displayNoneClass);
-            // inviteCounterparties();
+            inviteCounterparties();
         }
     });
+
+    function inviteCounterparties() {
+        try {
+            $('#mainLoader').removeClass(displayNoneClass);
+
+            // Create an object to store form data
+            var formData = {
+                contractId: documentID,
+                firstName: $('input[name="firstName"]').val(),
+                lastName: $('input[name="lastName"]').val(),
+                email: $('input[name="email"]').val(),
+                organizationName: $('input[name="organisationName"]').val()
+            };
+
+            // Convert the object to a JSON string
+            var jsonData = JSON.stringify(formData);
+            var inviteCounterpartiesUrl = apiBaseUrl + '/contract/invite-contract-counterparty';
+            var headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + authToken
+            };
+            var requestOptions = {
+                method: 'POST',
+                headers: headers,
+                body: jsonData
+            };
+            console.log('requestOptions', requestOptions);
+            fetch(inviteCounterpartiesUrl, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('data', data);
+                    /*// Handle the response data
+                    document.getElementById('mainLoader').classList.remove(displayNoneClass);
+                    var responseData = data;
+                    if (responseData && responseData.status == true && responseData.code == 200) {
+                        document.getElementById('mainLoader').classList.add(displayNoneClass);
+                        document.getElementById("inviteForm").reset();
+                        document.getElementById('divInviteCounterpartyPending').classList.remove(displayNoneClass);
+                        document.getElementById('divInviteCounterpartyForm').classList.add(displayNoneClass);
+                        document.getElementById('contractListItemsDiv').classList.add('displayed-invitecp-pending');
+                        document.getElementById('contractListItemsDiv').classList.remove('displayed-invitecp');
+                        getOpenContractUserDetails();
+                    } else if (responseData && responseData.status == false && responseData.message) {
+                        $('#inviteEmailAddress').parent().append('<label class="error api-error">' + responseData.message + '</label>');
+                        document.getElementById('mainLoader').classList.add(displayNoneClass);
+                    }
+                    var data = {
+                        chatRoomName: loggedInUserDetails.userWebId + "_" + documentID,
+                        documentMode: documentMode
+                    }
+                    socket.emit('switch_document_mode', data);*/
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error:', error);
+                    document.getElementById('mainLoader').classList.add(displayNoneClass);
+                });
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
 
     /**
      * Invite Counterparties Cancel Button
