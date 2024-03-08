@@ -50,9 +50,8 @@ $(document).ready(function () {
             urlencoded.append("email", $('input[name="email"]').val());
             urlencoded.append("organisationName", $('input[name="organisationName"]').val());
 
-            // Convert the object to a JSON string
-            var jsonData = JSON.stringify(formData);
             var inviteCounterpartiesUrl = apiBaseUrl + '/contract/invite-contract-counterparty';
+            
             var headers = {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': 'Bearer ' + authToken
