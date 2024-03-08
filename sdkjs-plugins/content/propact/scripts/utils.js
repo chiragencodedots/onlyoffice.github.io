@@ -123,4 +123,24 @@ $(document).ready(function () {
     })
     // Section Contract Lists
 
+    // Common function
+    /**
+     * @param url
+     * @returns {*|string}
+     */
+    function getDocumentID(url) {
+        var urlArr = url.split('/');
+        return urlArr[8];
+    }
+
+    /**
+     * @param url
+     * @returns {*|string}
+     */
+    function getDocumentMode(url) {
+        var urlArr = url.split('/');
+        return urlArr[10];
+    }
+    // Common function
+
 });
