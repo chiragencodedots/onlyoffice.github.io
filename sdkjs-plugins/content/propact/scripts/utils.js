@@ -43,25 +43,24 @@ $(document).ready(function () {
             $('#mainLoader').removeClass(displayNoneClass);
 
             // Create an object to store form data
-            var formData = {
-                contractId: documentID,
-                firstName: $('input[name="firstName"]').val(),
-                lastName: $('input[name="lastName"]').val(),
-                email: $('input[name="email"]').val(),
-                organizationName: $('input[name="organisationName"]').val()
-            };
+            const urlencoded = new URLSearchParams();
+            urlencoded.append("contractId", documentID);
+            urlencoded.append("firstName", $('input[name="firstName"]').val());
+            urlencoded.append("lastName", $('input[name="lastName"]').val());
+            urlencoded.append("email", $('input[name="email"]').val());
+            urlencoded.append("organisationName", $('input[name="organisationName"]').val());
 
             // Convert the object to a JSON string
             var jsonData = JSON.stringify(formData);
             var inviteCounterpartiesUrl = apiBaseUrl + '/contract/invite-contract-counterparty';
             var headers = {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': 'Bearer ' + authToken
             };
             var requestOptions = {
                 method: 'POST',
                 headers: headers,
-                body: jsonData
+                body: urlencoded
             };
             console.log('requestOptions', requestOptions);
             fetch(inviteCounterpartiesUrl, requestOptions)
