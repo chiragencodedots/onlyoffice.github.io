@@ -1,19 +1,36 @@
 $(document).ready(function () {
 
     let displayNoneClass = 'd-none';
+    let disabledClass = 'disabled';
     let baseUrl = 'http://192.168.1.38:3003';
     let apiBaseUrl = baseUrl + '/api/v1/app';
-    let documentID;
+    let documentID = '65e1619244539624590d1516';
     let documentMode;
     let splitArray;
-    let authToken;
+    let authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGIiLCJjb21wYW55SWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGQiLCJjb21wYW55TmFtZSI6IkFCQyIsInVzZXJSb2xlIjoiQWRtaW4iLCJmaXJzdE5hbWUiOiJNaXJhbGkiLCJsYXN0TmFtZSI6IkNoYXVoYW4iLCJlbWFpbCI6Im1pcmFsaS5lbmNvZGVkb3RzQGdtYWlsLmNvbSIsImltYWdlS2V5IjoiYXBwL3Byb2ZpbGUvSUVKSFcyMDI0MDMwMTA0NDIwMy5wbmciLCJzdHJpcGVDdXN0b21lcklkIjoiY3VzX1Blbng4UkhibFlJamZmIiwidG9rZW5Gb3IiOiJhcHAiLCJpYXQiOjE3MDk4NzM4NjcsImV4cCI6MTcxMjQ2NTg2N30.u1o2_iI5ViWDx0WPZEp6TMX0Jh39yA1PewOUB1zuxU8';
     let sectionID;
     let chatWindows;
 
+    /**================ Section Contract Lists Start ========================*/
+    $('#btnInviteCounterpartyForm').on('click', function () {
+        $('#sectionContractLists').addClass(displayNoneClass);
+        $('#divInviteCounterparty').addClass(displayNoneClass);
+        $('#sectionInviteCounterparty').removeClass(displayNoneClass);
+    })
+
+    if (documentMode == 'markup') {
+        document.getElementById('btnCreateClause').classList.add(displayNoneClass);
+        document.getElementById('btnMarkupMode').innerHTML = "Back to Contract";
+    } else {
+        document.getElementById('btnCreateClause').classList.remove(displayNoneClass);
+        document.getElementById('btnCreateClause').classList.add(disabledClass);
+        document.getElementById('btnMarkupMode').innerHTML = "Select Markup Mode";
+    }
+    /**================ Section Contract Lists End ========================*/
 
 
-    window.Asc.plugin.init = function (text) {
-        /**====================== Get & Set variables ======================*/
+    /*window.Asc.plugin.init = function (text) {
+        /!**====================== Get & Set variables ======================*!/
         documentID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
         documentMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
         splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
@@ -24,8 +41,8 @@ $(document).ready(function () {
         if (splitArray.length >= 14 && splitArray[13] != '0') {
             chatWindows = splitArray[13];
         }
-        /**====================== Get & Set variables ======================*/
-    }
+        /!**====================== Get & Set variables ======================*!/
+    }*/
 
     // Section Invite CounterParty
     /**
@@ -101,6 +118,7 @@ $(document).ready(function () {
      * Invite Counterparties Cancel Button
      */
     $("#btnInviteCounterpartyCancel").click(function () {
+        $("#inviteForm").validate().resetForm();
         $("#inviteForm")[0].reset();
         let apiError = document.getElementsByClassName("api-error");
         for (var i = 0; i < apiError.length; i++) {
@@ -114,13 +132,6 @@ $(document).ready(function () {
     })
     // Section Invite CounterParty
 
-    // Section Contract Lists
-    $('#btnInviteCounterpartyForm').click(function () {
-        $('#sectionContractLists').addClass(displayNoneClass);
-        $('#divInviteCounterparty').addClass(displayNoneClass);
-        $('#sectionInviteCounterparty').removeClass(displayNoneClass);
-    })
-    // Section Contract Lists
 
     // Common function
     /**
@@ -140,6 +151,7 @@ $(document).ready(function () {
         var urlArr = url.split('/');
         return urlArr[10];
     }
+
     // Common function
 
 });
