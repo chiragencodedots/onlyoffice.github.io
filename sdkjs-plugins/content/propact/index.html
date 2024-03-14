@@ -59,12 +59,12 @@
                     Invite Counterparty
                 </a>
             </div>
-            <div class="invite-counterpartie-pending d-none" id="divInviteCounterpartyPending">
+            <div class="invite-counterpartie-pending d-none" id="divInviteCounterpartyInvited">
                 <div class="invite-form">
                     <div class="contract-section disabled" id="contractCounterpartySection">
                         <div class="intellivision-inner">
                             <img id="organizationImage" src="images/org-placeholder.png" alt="Organization">
-                            <h4 id="organizationName">Organization</h4>
+                            <h4 id="txtOrganizationName">Organization</h4>
                         </div>
                         <div class="contract-user-list">
                             <div class="contract-user-inner">
@@ -72,12 +72,15 @@
                                     <img id="counterpartyImage" src="images/no-profile-image.jpg" alt="Rio Mendoza">
                                 </div>
                                 <div class="contract-user-name">
-                                    <h4 id="counterpartyName">Counterparty User</h4>
-                                    <span id="counterpartyEmail">Counterparty Email</span>
+                                    <h4 id="txtCounterpartyName">Counterparty User</h4>
+                                    <span id="txtCounterpartyEmail">Counterparty Email</span>
                                 </div>
                             </div>
-                            <p id="invitationActionPara"><a href="#" id="btnResendVerification">Click here</a> to resend
-                                invitation OR <a href="#" id="btnCancelInvitation">Cancel</a></p>
+                            <p id="paragraphInvitationActions">
+                                <a href="#" id="btnResendInvitation">Click here</a>
+                                to resend invitation OR
+                                <a href="#" id="btnCancelInvitation">Cancel</a>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -89,7 +92,7 @@
                         <button class="btn"><img src="images/icon-search.svg" alt="Icon Search"></button>
                     </div>
                 </div>
-                <div class="contract-list-items" id="contractListItemsDiv">
+                <div class="contract-list-items" id="divContractListItems">
                 </div>
             </div>
         </div>
@@ -132,6 +135,10 @@
         </div>
     </div>
     <!--  Section: Invite Counterparty [divInviteCounterpartyForm]  -->
+
+    <!--  Section: Snackbar  -->
+    <div id="snackbar">Snackbar text</div>
+    <!--  Section: Snackbar  -->
 </div>
 <script type="text/javascript" src="scripts/pluing.js"></script>
 </body>
