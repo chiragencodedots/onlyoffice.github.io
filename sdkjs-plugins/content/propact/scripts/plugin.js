@@ -115,7 +115,7 @@
             chatWindows = splitArray[13];
         }
         /**====================== Get & Set variables ======================*/
-        
+
         /**
          * @desc Get the open contract and user details
          */
