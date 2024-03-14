@@ -115,15 +115,16 @@
             chatWindows = splitArray[13];
         }
         /**====================== Get & Set variables ======================*/
+        
+        /**
+         * @desc Get the open contract and user details
+         */
+        if (contractID && authToken && !flagInit) {
+            getContractDetails(socket);
+        }
 
 
     };
-    /**
-     * @desc Get the open contract and user details
-     */
-    if (contractID && authToken && !flagInit) {
-        getContractDetails(socket);
-    }
     /**================================== Plugin Init End =================================*/
 
     /**=========================== Plugin onMethodReturn Start ============================*/
