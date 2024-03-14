@@ -350,11 +350,11 @@
                         console.log('Error: 14031200', 'Contract details not found');
                     }
                 })
-                .catch(function (error) {
-                    console.error('Error #14031301:', error);
+                .catch(function (err) {
+                    console.log('Error #14031301:', err);
                 });
         } catch (error) {
-            console.error('Error #14031431:', error);
+            console.log('Error #14031431:', error);
         }
     }
 
@@ -407,7 +407,7 @@
             })
             .catch(error => {
                 // Handle any errors
-                console.error('Error #14031455:', error);
+                console.log('Error #14031455:', error);
                 switchClass(elements.loader, displayNoneClass, true);
             });
     }
@@ -438,11 +438,11 @@
                 })
                 .catch(error => {
                     // Handle any errors
-                    console.error('Error #14031455:', error);
+                    console.log('Error #14031455:', error);
                     switchClass(elements.loader, displayNoneClass, true);
                 });
         } catch (error) {
-            console.error('Error #14031440:', error);
+            console.log('Error #14031440:', error);
         }
     }
 
@@ -476,11 +476,11 @@
                 })
                 .catch(error => {
                     // Handle any errors
-                    console.error('Error #14031455:', error);
+                    console.log('Error #14031455:', error);
                     switchClass(elements.loader, displayNoneClass, true);
                 });
         } catch (error) {
-            console.error('Error #14031505:', error);
+            console.log('Error #14031505:', error);
         }
     }
 
