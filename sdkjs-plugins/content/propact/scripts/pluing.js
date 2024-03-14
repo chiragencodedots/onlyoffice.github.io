@@ -65,6 +65,9 @@
         btnCreateClause: document.getElementById("btnCreateClause"),
         btnMarkupMode: document.getElementById("btnMarkupMode"),
         btnInviteCounterparty: document.getElementById("btnInviteCounterparty"),
+        btnInviteCounterpartyCancel: document.getElementById("btnInviteCounterpartyCancel"),
+
+        formInviteCounterparty: document.getElementById("formInviteCounterparty"),
 
         sectionInviteCounterparty: document.getElementById("sectionInviteCounterparty"),
         sectionContractLists: document.getElementById("sectionContractLists"),
@@ -86,14 +89,6 @@
         }
         /**====================== Get & Set variables ======================*/
 
-        /**====================== Section: Contract Lists ======================*/
-        elements.btnInviteCounterparty.onclick = function() {
-            switchClass(elements.sectionContractLists, displayNoneClass, true);
-            switchClass(elements.sectionInviteCounterparty, displayNoneClass, true);
-        }
-        /**====================== Section: Contract Lists ======================*/
-
-
 
     };
     /**================================== Plugin Init End =================================*/
@@ -109,6 +104,39 @@
 
     };
     /**================== Plugin event_onTargetPositionChanged End ========================*/
+
+
+    /**====================== Section: Contract Lists ======================*/
+    elements.btnCreateClause.onclick = function () {
+        alert('Create Clause toggle');
+    };
+
+    elements.btnMarkupMode.onclick = function () {
+        alert('Markup Mode button toggle');
+    };
+
+    elements.btnInviteCounterparty.onclick = function () {
+        switchClass(elements.sectionContractLists, displayNoneClass, true);
+        switchClass(elements.sectionInviteCounterparty, displayNoneClass, false);
+    };
+    /**====================== Section: Contract Lists ======================*/
+
+
+    /**====================== Section: Invite Counterparty ======================*/
+    $("#formInviteCounterparty").validate({
+        submitHandler: function (form) {
+            // $(form).ajaxSubmit();
+            inviteCounterparties();
+        }
+    });
+
+    elements.btnInviteCounterpartyCancel.onclick = function () {
+        $("#formInviteCounterparty").validate().resetForm();
+        elements.formInviteCounterparty.reset();
+        switchClass(elements.sectionContractLists, displayNoneClass, false);
+        switchClass(elements.sectionInviteCounterparty, displayNoneClass, true);
+    }
+    /**====================== Section: Invite Counterparty ======================*/
 
 
     /**================== Other Function Start ========================*/
