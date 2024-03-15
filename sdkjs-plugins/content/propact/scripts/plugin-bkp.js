@@ -38,11 +38,10 @@
      * @constant
      * @description Defined the variables related to contract
      */
-    var authToken = '';
-    var contractID = '';
+    var authToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGIiLCJjb21wYW55SWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGQiLCJjb21wYW55TmFtZSI6IkFCQyIsInVzZXJSb2xlIjoiQWRtaW4iLCJmaXJzdE5hbWUiOiJNaXJhbGkiLCJsYXN0TmFtZSI6IkNoYXVoYW4iLCJlbWFpbCI6Im1pcmFsaS5lbmNvZGVkb3RzQGdtYWlsLmNvbSIsImltYWdlS2V5IjoiYXBwL3Byb2ZpbGUvSUVKSFcyMDI0MDMwMTA0NDIwMy5wbmciLCJzdHJpcGVDdXN0b21lcklkIjoiY3VzX1Blbng4UkhibFlJamZmIiwidG9rZW5Gb3IiOiJhcHAiLCJpYXQiOjE3MDk4OTY3NzksImV4cCI6MTcxMjQ4ODc3OX0.1Olbjq5ONMIPcuD4Lr_IdCW1yPDiSqGjaVImpqFllSA';
+    var contractID = '65e1619244539624590d1516';
     var contractMode = '';
     var splitArray;
-    var iframeURL = '';
 
     /**
      * @constant
@@ -105,22 +104,12 @@
 
     /**================================== Plugin Init Start ===============================*/
     window.Asc.plugin.init = function (text) {
-        // debugger;
-        //event "init" for plugin
-        // window.Asc.plugin.executeMethod("ShowButton", ["back", false]);
-        // window.Asc.plugin.executeMethod("GetAllContentControls");
-
-        if (window.Asc.plugin.info && typeof window.Asc.plugin.info.documentCallbackUrl == 'string') {
-            iframeURL = window.Asc.plugin.info.documentCallbackUrl;
-        } else {
-            iframeURL = "http://localhost:3003/api/v1/app/contract/track/65e1619244539624590d1516/65dec1ed13116f663672c94d/edit/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGIiLCJjb21wYW55SWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGQiLCJjb21wYW55TmFtZSI6IkFCQyIsInVzZXJSb2xlIjoiQWRtaW4iLCJmaXJzdE5hbWUiOiJNaXJhbGkiLCJsYXN0TmFtZSI6IkNoYXVoYW4iLCJlbWFpbCI6Im1pcmFsaS5lbmNvZGVkb3RzQGdtYWlsLmNvbSIsImltYWdlS2V5IjoiYXBwL3Byb2ZpbGUvSUVKSFcyMDI0MDMwMTA0NDIwMy5wbmciLCJzdHJpcGVDdXN0b21lcklkIjoiY3VzX1Blbng4UkhibFlJamZmIiwidG9rZW5Gb3IiOiJhcHAiLCJpYXQiOjE3MTA0ODQ5ODEsImV4cCI6MTcxMzA3Njk4MX0.s0S4TmlVP8fAYdXSdvwTuHGpuw94IzqmYE4P3vvkoCk/0/0";
-        }
 
         /**====================== Get & Set variables ======================*/
-        contractID = getDocumentID(iframeURL);
-        contractMode = getDocumentMode(iframeURL);
-        splitArray = iframeURL.split('/');
-        authToken = splitArray[11];
+        contractID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
+        contractMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
+        splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
+        var authToken = splitArray[11];
         if (splitArray.length >= 13 && splitArray[12] != '0') {
             sectionID = splitArray[12];
         }
@@ -129,12 +118,11 @@
         }
         /**====================== Get & Set variables ======================*/
 
-        if (!flagSocketInit) {
-            socket = io.connect(baseUrl,
-                { auth: { authToken } }
-            );
-            console.log('socket', socket);
-            flagSocketInit = true;
+        /**
+         * @desc Get the open contract and user details
+         */
+        if (contractID && authToken && !flagInit) {
+            getContractDetails(socket);
         }
 
         /**
@@ -160,23 +148,37 @@
                 }*!/
             }*/
             if (!flagDisableWhenPluginLoading) {
-                if (typeof window.Asc.plugin.executeMethod === 'function') {
-                    var sDocumentEditingRestrictions = "readOnly";
-                    window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
-                }
+                var sDocumentEditingRestrictions = "readOnly";
+                window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
                 flagDisableWhenPluginLoading = true;
             }
         }
 
-        /**
-         * @desc Get the open contract and user details
-         */
-        if (contractID && authToken && !flagInit) {
-            getContractDetails(socket);
-        }
 
-    }
+    };
     /**================================== Plugin Init End =================================*/
+
+    /**=========================== Plugin onMethodReturn Start ============================*/
+    window.Asc.plugin.onMethodReturn = function (returnValue) {
+
+    };
+    /**=========================== Plugin onMethodReturn End ==============================*/
+
+    /**================ Plugin event_onTargetPositionChanged Start ========================*/
+    window.Asc.plugin.event_onTargetPositionChanged = function () {
+
+    };
+    /**================== Plugin event_onTargetPositionChanged End ========================*/
+
+
+
+
+    if (!flagSocketInit) {
+        var socket = io.connect(baseUrl,
+            { auth: { authToken } }
+        );
+        flagSocketInit = true;
+    }
 
 
     /**====================== Section: Contract Lists ======================*/
