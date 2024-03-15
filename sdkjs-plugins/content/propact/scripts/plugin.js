@@ -48,6 +48,8 @@
      * @description Define the variables for plugin setting
      */
     var flagInit = false;
+    var flagDisableWhenPluginLoading = false;
+    var flagSocketInit = false;
 
     /**
      * @constant
@@ -116,11 +118,48 @@
         }
         /**====================== Get & Set variables ======================*/
 
+
+        if (!flagSocketInit) {
+            var socket = io.connect(baseUrl,
+                { auth: { authToken } }
+            );
+            flagSocketInit = true;
+        }
+
         /**
          * @desc Get the open contract and user details
          */
         if (contractID && authToken && !flagInit) {
             getContractDetails(socket);
+        }
+
+        /**
+         * @desc If text is not selected or contract is in markup mode than disable the create clause button
+         */
+        if (contractMode == 'markup') {
+            switchClass(elements.btnCreateClause, displayNoneClass, true);
+            elements.btnMarkupMode.innerHTML = 'Back to Contract';
+        } else {
+            switchClass(elements.btnCreateClause, displayNoneClass, false);
+            switchClass(elements.btnCreateClause, disabledClass, true);
+            elements.btnMarkupMode.innerHTML = 'Select Markup Mode';
+            /*$('#clauseText').val(text);
+            if (text) {
+                document.getElementById('btnCreateClause').classList.remove(disabledClass);
+            } else {
+                if (!document.getElementById('btnCreateClause').classList.contains(disabledClass)) {
+                    document.getElementById('btnCreateClause').classList.add(disabledClass);
+                }
+                /!*if (!document.getElementById('divContractCreate').classList.contains(displayNoneClass)) {
+                    document.getElementById('divContractCreate').classList.add(displayNoneClass);
+                    document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                }*!/
+            }*/
+            if (!flagDisableWhenPluginLoading) {
+                var sDocumentEditingRestrictions = "readOnly";
+                window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                flagDisableWhenPluginLoading = true;
+            }
         }
 
 
@@ -146,7 +185,11 @@
     };
 
     elements.btnMarkupMode.onclick = function () {
-        alert('Button Clicked: Review Clause');
+        var data = {
+            chatRoomName: loggedInUserDetails._id + "_" + contractID,
+            contractMode: contractMode == 'markup' ? 'edit' : 'markup'
+        }
+        socket.emit('switchContractMode', data);
     };
 
     elements.btnInviteCounterparty.onclick = function () {
