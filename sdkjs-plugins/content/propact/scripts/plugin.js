@@ -53,7 +53,7 @@
      * @constant
      * @description Defined the variables related to clause lists
      */
-    var contractInformation;
+    var contractInformation = {};
     var loggedInUserDetails;
     var counterPartyDetail;
     var counterPartyCompanyDetail;
@@ -107,7 +107,7 @@
         contractID = getDocumentID(window.Asc.plugin.info.documentCallbackUrl);
         contractMode = getDocumentMode(window.Asc.plugin.info.documentCallbackUrl);
         splitArray = window.Asc.plugin.info.documentCallbackUrl.split('/');
-        authToken = splitArray[11];
+        var authToken = splitArray[11];
         if (splitArray.length >= 13 && splitArray[12] != '0') {
             sectionID = splitArray[12];
         }
@@ -238,7 +238,7 @@
                     var response = res;
                     if (response && response.status == true && response.code == 200 && response.data) {
                         var responseData = res.data;
-                        contractInformation = responseData.openContractDetails;
+                        var contractInformation = responseData.openContractDetails;
                         loggedInUserDetails = responseData.loggedInUserDetails;
                         if (contractInformation.counterPartyInviteStatus !== 'Pending') {
                             counterPartyDetail = responseData.oppositeUser;
@@ -258,7 +258,7 @@
                                 window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
                             }
                         }
-                        flagInit = true;
+                        var flagInit = true;
                         if (selectedClauseID) {
                             // TODO: Set tooltip based on loggedin user roles
                             /*var getClauseDetails = clauseLists.find((ele) => ele._id == selectedClauseID);
