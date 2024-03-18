@@ -350,7 +350,7 @@
                             if (redirection) {
                                 switchClass(elements.btnMarkupMode, displayNoneClass, true);
                                 switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
-                                document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                                // document.getElementById('divContractLists').classList.remove(displayNoneClass);
                                 // if (documentMode != 'markup') {
                                 //     getContractTeamAndUserList();
                                 // }
