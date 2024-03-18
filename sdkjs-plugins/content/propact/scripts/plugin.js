@@ -346,22 +346,22 @@
                             elements.txtOrganizationName.textContent = contractInformation.invitedOrgName;
                             elements.txtCounterpartyName.textContent = counterPartyDetail.firstName + " " + counterPartyDetail.lastName + " - Counterparty";
                             elements.txtCounterpartyEmail.textContent = counterPartyDetail.email;
-                            // TODO: Pending
-                            /*if (redirection) {
-                                document.getElementById('btnMarkupMode').classList.add(displayNoneClass);
-                                $('#btnMarkupMode').parent().addClass('justify-content-end');
+
+                            if (redirection) {
+                                switchClass(elements.btnMarkupMode, displayNoneClass, true);
+                                switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
                                 document.getElementById('divContractLists').classList.remove(displayNoneClass);
-                                if (documentMode != 'markup') {
-                                    getContractTeamAndUserList();
-                                }
-                                clauseNextPage = 1;
-                                clauseHasNextPage = true;
-                                clauseLists = [];
-                                getContractSectionList();
+                                // if (documentMode != 'markup') {
+                                //     getContractTeamAndUserList();
+                                // }
+                                // clauseNextPage = 1;
+                                // clauseHasNextPage = true;
+                                // clauseLists = [];
+                                // getContractSectionList();
                             }
-                            document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
-                            document.getElementById('btnGoToCounterpartyA').classList.add(displayNoneClass);
-                            $('#chatFooterInner').addClass('justify-content-end');*/
+                            // document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
+                            // document.getElementById('btnGoToCounterpartyA').classList.add(displayNoneClass);
+                            // $('#chatFooterInner').addClass('justify-content-end');
                         } else if (contractInformation.counterPartyInviteStatus == 'Pending') {
                             switchClass(elements.divInviteCounterparty, displayNoneClass, false);
                             switchClass(elements.divContractListItems, displayedInviteCP, true);
