@@ -147,18 +147,18 @@
             switchClass(elements.btnCreateClause, displayNoneClass, false);
             switchClass(elements.btnCreateClause, disabledClass, true);
             elements.btnMarkupMode.innerHTML = 'Select Markup Mode';
-            /*$('#clauseText').val(text);
+            // $('#clauseText').val(text);
             if (text) {
-                document.getElementById('btnCreateClause').classList.remove(disabledClass);
+                switchClass(elements.btnCreateClause, disabledClass, false);
             } else {
                 if (!document.getElementById('btnCreateClause').classList.contains(disabledClass)) {
-                    document.getElementById('btnCreateClause').classList.add(disabledClass);
+                    switchClass(elements.btnCreateClause, disabledClass, true);
                 }
-                /!*if (!document.getElementById('divContractCreate').classList.contains(displayNoneClass)) {
+                /*if (!document.getElementById('divContractCreate').classList.contains(displayNoneClass)) {
                     document.getElementById('divContractCreate').classList.add(displayNoneClass);
                     document.getElementById('divContractLists').classList.remove(displayNoneClass);
-                }*!/
-            }*/
+                }*/
+            }
             if (!flagDisableWhenPluginLoading) {
                 if (typeof window.Asc.plugin.executeMethod === 'function') {
                     var sDocumentEditingRestrictions = "readOnly";
