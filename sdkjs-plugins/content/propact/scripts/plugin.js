@@ -84,6 +84,7 @@
         btnInviteCounterpartyCancel: document.getElementById("btnInviteCounterpartyCancel"),
         btnResendInvitation: document.getElementById("btnResendInvitation"),
         btnCancelInvitation: document.getElementById("btnCancelInvitation"),
+        btnScrollDown: document.getElementById('btnScrollDown'),
 
         paragraphInvitationActions: document.getElementById("paragraphInvitationActions"),
 
@@ -346,7 +347,7 @@
                             elements.txtOrganizationName.textContent = contractInformation.invitedOrgName;
                             elements.txtCounterpartyName.textContent = counterPartyDetail.firstName + " " + counterPartyDetail.lastName + " - Counterparty";
                             elements.txtCounterpartyEmail.textContent = counterPartyDetail.email;
-
+                            // TODO: Get list of clause logic pending and button show/hide pending
                             if (redirection) {
                                 switchClass(elements.btnMarkupMode, displayNoneClass, true);
                                 switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
@@ -375,19 +376,19 @@
                             $('#chatFooterInner').addClass('justify-content-end');
                             if (documentMode != 'markup') {
                                 getContractTeamAndUserList();
-                            }
+                            }*/
                             if (redirection) {
-                                document.getElementById('btnMarkupMode').classList.add(displayNoneClass);
-                                $('#btnMarkupMode').parent().addClass('justify-content-end');
-                                document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                                switchClass(elements.btnMarkupMode, displayNoneClass, true);
+                                switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
+                                /*document.getElementById('divContractLists').classList.remove(displayNoneClass);
                                 if (documentMode != 'markup') {
                                     getContractTeamAndUserList();
                                 }
                                 clauseNextPage = 1;
                                 clauseHasNextPage = true;
                                 clauseLists = [];
-                                getContractSectionList();
-                            }*/
+                                getContractSectionList();*/
+                            }
                         }
                     } else {
                         console.log('Error: 14031200', 'Contract details not found');
