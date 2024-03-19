@@ -51,21 +51,27 @@
     var flagInit = false;
     var flagDisableWhenPluginLoading = false;
     var flagSocketInit = false;
+    var flagRedirectFirst = false;
 
     /**
      * @constant
      * @description Defined the variables related to clause lists
      */
-    var openContractResponseData;
+    var openContractResponseData = {};
     var contractInformation = {};
     var loggedInUserDetails;
     var counterPartyDetail;
     var counterPartyCompanyDetail;
-    var clauseLists = [];
     var tagLists = [];
     var selectedClauseID = '';
     var selectedInviteTeams = [];
     var selectedInviteUsers = [];
+    var searchText = '';
+    var searchTimeout;
+    var clauseNextPage = 1;
+    var clauseHasNextPage = true;
+    var clauseLists = [];
+    var sectionID = '';
 
     /**
      * @constant
@@ -88,9 +94,9 @@
         btnInviteCounterpartyCancel: document.getElementById("btnInviteCounterpartyCancel"),
         btnResendInvitation: document.getElementById("btnResendInvitation"),
         btnCancelInvitation: document.getElementById("btnCancelInvitation"),
-        btnScrollDown: document.getElementById('btnScrollDown'),
-        btnContractCreateClose: document.getElementById('btnContractCreateClose'),
-        btnContractCreateCancel: document.getElementById('btnContractCreateCancel'),
+        btnScrollDown: document.getElementById("btnScrollDown"),
+        btnContractCreateClose: document.getElementById("btnContractCreateClose"),
+        btnContractCreateCancel: document.getElementById("btnContractCreateCancel"),
 
         paragraphInvitationActions: document.getElementById("paragraphInvitationActions"),
         paragraphTeamsNotFoundMessage: document.getElementById("paragraphTeamsNotFoundMessage"),
@@ -115,6 +121,7 @@
         inputInviteUsersTeams: document.getElementById("inputInviteUsersTeams"),
         chkboxInviteAllTeams: document.getElementById("chkboxInviteAllTeams"),
         chkboxInviteAllUsers: document.getElementById("chkboxInviteAllUsers"),
+        inputSearchbox: document.getElementById("inputSearchbox"),
 
         accordionBodyTeams: document.getElementById("accordionBodyTeams"),
         accordionBodyUsers: document.getElementById("accordionBodyUsers"),
@@ -197,13 +204,13 @@
     }
     /**================================== Plugin Init End =================================*/
 
-    /*if (window.Asc.plugin.info && typeof window.Asc.plugin.info.documentCallbackUrl == 'string') {
+    if (window.Asc.plugin.info && typeof window.Asc.plugin.info.documentCallbackUrl == 'string') {
         documentCallbackUrl = window.Asc.plugin.info.documentCallbackUrl;
     } else {
-        documentCallbackUrl = "http://localhost:3003/api/v1/app/contract/track/65e1619244539624590d1516/65dec1ed13116f663672c94d/edit/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGIiLCJjb21wYW55SWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGQiLCJjb21wYW55TmFtZSI6IkFCQyIsInVzZXJSb2xlIjoiQWRtaW4iLCJmaXJzdE5hbWUiOiJNaXJhbGkiLCJsYXN0TmFtZSI6IkNoYXVoYW4iLCJlbWFpbCI6Im1pcmFsaS5lbmNvZGVkb3RzQGdtYWlsLmNvbSIsImltYWdlS2V5IjoiYXBwL3Byb2ZpbGUvSUVKSFcyMDI0MDMwMTA0NDIwMy5wbmciLCJzdHJpcGVDdXN0b21lcklkIjoiY3VzX1Blbng4UkhibFlJamZmIiwidG9rZW5Gb3IiOiJhcHAiLCJpYXQiOjE3MTA3NDU4NTIsImV4cCI6MTcxMzMzNzg1Mn0.0vEsS_E6sumWZJ-ZUSQ3m__mXrsjVJT9LNesY69HGjk/0/0";
+        documentCallbackUrl = "http://localhost:3003/api/v1/app/contract/track/65f9436f80a3712308633a2d/65dec1ed13116f663672c94d/edit/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGIiLCJjb21wYW55SWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGQiLCJjb21wYW55TmFtZSI6IkFCQyIsInVzZXJSb2xlIjoiQWRtaW4iLCJmaXJzdE5hbWUiOiJNaXJhbGkiLCJsYXN0TmFtZSI6IkNoYXVoYW4iLCJlbWFpbCI6Im1pcmFsaS5lbmNvZGVkb3RzQGdtYWlsLmNvbSIsImltYWdlS2V5IjoiYXBwL3Byb2ZpbGUvSUVKSFcyMDI0MDMwMTA0NDIwMy5wbmciLCJzdHJpcGVDdXN0b21lcklkIjoiY3VzX1Blbng4UkhibFlJamZmIiwidG9rZW5Gb3IiOiJhcHAiLCJpYXQiOjE3MTA3NTY1MDcsImV4cCI6MTcxMzM0ODUwN30.yZKyqgd4viJ9dE6bNnvCVfF1PRsZyXAV0uF1A2TcOFA/0/0";
     }
 
-    /!**====================== Get & Set variables ======================*!/
+    /**====================== Get & Set variables ======================*/
     contractID = getContractID(documentCallbackUrl);
     contractMode = getContractMode(documentCallbackUrl);
     splitArray = documentCallbackUrl.split('/');
@@ -214,7 +221,7 @@
     if (splitArray.length >= 14 && splitArray[13] != '0') {
         chatWindows = splitArray[13];
     }
-    /!**====================== Get & Set variables ======================*!/
+    /**====================== Get & Set variables ======================*/
 
     if (!flagSocketInit) {
         socket = io.connect(baseUrl,
@@ -224,12 +231,12 @@
         flagSocketInit = true;
     }
 
-    /!**
+    /**
      * @desc Get the open contract and user details
-     *!/
+     */
     if (contractID && authToken && !flagInit) {
         getContractDetails(socket);
-    }*/
+    }
 
     /**====================== Section: Invite Counterparty ======================*/
     $("#formInviteCounterparty").validate({
@@ -280,6 +287,48 @@
     elements.btnCancelInvitation.onclick = function () {
         switchClass(elements.loader, displayNoneClass, false);
         cancelInvitation();
+    }
+
+    elements.inputSearchbox.onkeyup = function (event) {
+        clearTimeout(searchTimeout); // Clear any existing timeout
+        searchTimeout = setTimeout(async function () {
+            if (searchText != event.target.value.trim()) {
+                elements.divContractListItems.innerHTML = '';
+                searchText = event.target.value.trim();
+                clauseNextPage = 1;
+                clauseHasNextPage = true;
+                clauseLists = [];
+                await getClauses();
+            } else {
+                searchText = '';
+                clauseNextPage = 1;
+                clauseHasNextPage = true;
+                clauseLists = [];
+                await getClauses();
+            }
+        }, 500);
+    }
+
+    // Clause Lazyload functionality
+    elements.divContractListItems.onscroll = async function (e) {
+        if (elements.divContractListItems.scrollTop + elements.divContractListItems.offsetHeight >= (elements.divContractListItems.scrollHeight - 1)) {
+            if (clauseHasNextPage) {
+                await getClauses();
+            } else {
+                switchClass(elements.btnScrollDown, displayNoneClass, true);
+            }
+        } else {
+            if (elements.divContractListItems.scrollHeight >= elements.divContractListItems.scrollTop + elements.divContractListItems.offsetHeight && clauseLists && clauseLists.length > 2) {
+                switchClass(elements.btnScrollDown, displayNoneClass, false);
+            } else {
+                switchClass(elements.btnScrollDown, displayNoneClass, true);
+            }
+        }
+    };
+
+    elements.btnScrollDown.onclick = function () {
+        $('#divContractListItems').animate({scrollTop: document.getElementById('divContractListItems').scrollHeight}, 'slow');
+        return false;
     }
     /**====================== Section: Contract Lists ======================*/
 
@@ -459,6 +508,7 @@
         }
         elements.inputInviteUsersTeams.placeholder = placeholderText;
     }
+
     /**================== Other Function End  =========================*/
 
 
@@ -521,18 +571,31 @@
                         }
                         document.title = "ProPact | " + loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName + " " + responseData.userRole;
                         if (loggedInUserDetails) {
-                            console.log('loggedInUserDetails', loggedInUserDetails);
                             // TODO: Set logged in user images in details screen
-                            document.getElementById('userProfileImage').src = loggedInUserDetails.imageUrl ? loggedInUserDetails.imageUrl : 'images/no-profile-image.jpg';
+                            // set logged-in user profile picture
+                            $('.loggedin-user-profile').each(function () {
+                                $(this).attr('src', (loggedInUserDetails.imageKey ? IMAGE_USER_PATH_LINK + loggedInUserDetails.imageKey : 'images/no-profile-image.jpg'));
+                            });
+                            // set logged-in user name
+                            $('.loggedin-user-name').text(loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName);
+                            // set logged-in user role
+                            $('.loggedin-user-role').text(responseData.userRole);
                             // document.getElementById('userProfileImageA').src = responseData.data.loggedInUserDetails.imageUrl ? responseData.data.loggedInUserDetails.imageUrl : 'images/no-profile-image.jpg';
-                            document.getElementById('userProfileName').textContent = loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName;
                             // document.getElementById('userProfileNameA').innerHTML = responseData.data.loggedInUserDetails.firstName + " " + responseData.data.loggedInUserDetails.lastName + '<img src="images/icon-info.png" class="img-info">';
-                            document.getElementById('userProfilerole').textContent = responseData.userRole;
                             // document.getElementById('userProfileroleA').textContent = responseData.data.loggedInUserDetails.role;
                         }
+
                         if (contractMode != 'markup') {
-                            // TODO: API Error
                             getContractTeamAndUserList();
+                        }
+                        if (redirection) {
+                            switchClass(elements.btnMarkupMode, displayNoneClass, true);
+                            switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
+                            // document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                            clauseNextPage = 1;
+                            clauseHasNextPage = true;
+                            clauseLists = [];
+                            getClauses();
                         }
 
                         if (contractInformation.counterPartyInviteStatus == 'Accepted') {
@@ -548,8 +611,8 @@
                             elements.txtOrganizationName.textContent = contractInformation.invitedOrgName;
                             elements.txtCounterpartyName.textContent = counterPartyDetail.firstName + " " + counterPartyDetail.lastName + " - Counterparty";
                             elements.txtCounterpartyEmail.textContent = counterPartyDetail.email;
-                            // TODO: Get list of clause logic pending and button show/hide pending
-                            if (redirection) {
+                            // TODO: Get list of clause logic pending and button show/hide pending - Remove Later
+                            /*if (redirection) {
                                 switchClass(elements.btnMarkupMode, displayNoneClass, true);
                                 switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
                                 // document.getElementById('divContractLists').classList.remove(displayNoneClass);
@@ -560,7 +623,7 @@
                                 // clauseHasNextPage = true;
                                 // clauseLists = [];
                                 // getContractSectionList();
-                            }
+                            }*/
                             // document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
                             // document.getElementById('btnGoToCounterpartyA').classList.add(displayNoneClass);
                             // $('#chatFooterInner').addClass('justify-content-end');
@@ -571,25 +634,25 @@
                             if (!(responseData.userRole == 'Admin' || responseData.userRole == 'Contract Creator')) {
                                 switchClass(elements.btnInviteCounterparty, disabledClass, true);
                             }
-                            // TODO: Counterparty button show/hide and other logic's needed here
+                            // TODO: Counterparty button show/hide and other logic's needed here - Remove later
                             /*document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
                             document.getElementById('btnGoToCounterpartyA').classList.add(displayNoneClass);
                             $('#chatFooterInner').addClass('justify-content-end');
                             if (documentMode != 'markup') {
                                 getContractTeamAndUserList();
-                            }*/
+                            }
                             if (redirection) {
                                 switchClass(elements.btnMarkupMode, displayNoneClass, true);
                                 switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
-                                /*document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                                /!*document.getElementById('divContractLists').classList.remove(displayNoneClass);
                                 if (documentMode != 'markup') {
                                     getContractTeamAndUserList();
                                 }
                                 clauseNextPage = 1;
                                 clauseHasNextPage = true;
                                 clauseLists = [];
-                                getContractSectionList();*/
-                            }
+                                getContractSectionList();*!/
+                            }*/
                         }
                     } else {
                         console.log('Error: 14031200', 'Contract details not found');
@@ -834,7 +897,7 @@
     }
 
     /**
-     *
+     * @description This function will used for create clause section on contract
      * @param socket
      */
     function createClauseSection(socket) {
@@ -866,7 +929,6 @@
                     // Handle the response data
                     var responseData = response;
                     if (responseData && responseData.status == true && responseData.code == 201) {
-                        console.log('responseData', responseData);
                         // Handle the response data
                         redirectToClauseList();
                         if (typeof window.Asc.plugin.executeMethod === 'function') {
@@ -930,6 +992,166 @@
                 });
         } catch (error) {
             console.log('Error #14031505:', error);
+        }
+    }
+
+    /**
+     * @description This function will used for the get all clause section on open contract
+     * @param commentThreadID
+     */
+    function getClauses(commentThreadID = null) {
+        try {
+            switchClass(elements.loader, displayNoneClass, false);
+            var requestURL = apiBaseUrl + '/contract-section/get-contract-sections/' + contractID;
+            requestURL += '?';
+            var headers = {
+                "Content-Type": "application/json"
+            };
+            if (authToken) headers["Authorization"] = 'Bearer ' + authToken;
+            var queryParam = [];
+            // Search text
+            if (searchText) {
+                queryParam.push('filter[search_text]=' + searchText);
+            }
+            queryParam.push('contractSectionStatus=all');
+            // Set sortby created time
+            queryParam.push('sort[createdAt]=-1');
+            // Set pageSize
+            queryParam.push('page=' + clauseNextPage);
+            // Set recordLimit
+            queryParam.push('limit=' + 3);
+            // Set queryparams
+            requestURL += queryParam.join('&');
+
+            fetch(requestURL, {headers: headers})
+                .then(response => response.json())
+                .then(response => {
+                    // Handle the response data
+                    if (response && response.status == true && response.code == 200) {
+                        var responseData = response.data;
+                        if (clauseNextPage == 1) {
+                            document.getElementById('divContractListItems').innerHTML = '';
+                        }
+                        if (responseData.data.length > 0) {
+                            var result = responseData.data;
+                            var html = '';
+                            result.forEach((ele) => {
+                                clauseLists.push(ele);
+                                var commentID = ele.commentId;
+                                html += '<div class="contract-item" data-id="' + ele._id + '" data-commentid="' + commentID + '" data-chatwindow="' + (ele.unreadMessageSide ? ele.unreadMessageSide : '-') + '" id="' + commentID.split('-').pop() + '">\n' +
+                                    '\t\t\t<a href="#">\n';
+                                html += '\t\t\t\t\t\t<span class="notification-no ' + (ele.hasUnreadMessage ? '' : displayNoneClass) + '"></span>';
+                                html += '\t\t\t\t\t\t<div class="contract-top">\n' +
+                                    '\t\t\t\t\t\t\t\t\t<h3>' + ele.contractSection + '</h3>\n' +
+                                    '\t\t\t\t\t\t\t\t\t<p>' + ele.contractSectionDescription + '</p>\n';
+                                var contractStatusColorCode = 'active-color';
+                                if (ele.contractSectionStatus == 'Drafting') {
+                                    contractStatusColorCode = 'fuchsia-color';
+                                } else if (ele.contractSectionStatus == 'Under Negotiation') {
+                                    contractStatusColorCode = 'blue-color';
+                                } else if (ele.contractSectionStatus == 'Agreed Position') {
+                                    contractStatusColorCode = 'dark-green-color';
+                                } else if (ele.contractSectionStatus == 'Under Revision') {
+                                    contractStatusColorCode = 'brown-color';
+                                } else if (ele.contractSectionStatus == 'Requires Discussion') {
+                                    contractStatusColorCode = 'invited-color';
+                                } else if (ele.contractSectionStatus == 'Completed') {
+                                    contractStatusColorCode = 'success-color';
+                                } else if (ele.contractSectionStatus == 'Withdrawn') {
+                                    contractStatusColorCode = 'withdrawn-color';
+                                }
+                                html += '\t\t\t\t\t\t\t\t\t<button class="btn ' + contractStatusColorCode + '">' + ele.contractSectionStatus + '</button>\n';
+
+                                html += '\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t<div class="contract-foot">\n' +
+                                    '\t\t\t\t\t\t\t\t\t<div class="contract-foot-inner">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t<div class="contract-foot-item">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h3>Created by</h3>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="contract-user">\n';
+
+                                html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="approved-user-lists"><img src="' + (ele && ele.createdByUserDetails && ele.createdByUserDetails.imageUrl ? ele.createdByUserDetails.imageUrl : 'images/no-profile-image.jpg') + '" alt="">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>' + (ele && ele.createdByUserDetails ? ele.createdByUserDetails.firstName + ' ' + ele.createdByUserDetails.lastName : '') + '</span></div>\n';
+
+                                html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t<div class="contract-foot-item">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<h3>Requires action by</h3>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="contract-user">\n';
+
+                                if (ele && ele.actionRequiredByUsers && ele.actionRequiredByUsers.length > 0) {
+                                    ele.actionRequiredByUsers.forEach((element) => {
+                                        html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class="approved-user-lists"><img src="' + (element && ele?.imageUrl ? ele?.imageUrl : 'images/no-profile-image.jpg') + '" alt="">\n' +
+                                            '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>' + (element ? element.firstName + ' ' + element.lastName : '') + '</span></div>\n';
+                                    });
+                                } else {
+                                    html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span>&mdash;</span>\n';
+                                }
+
+                                html += '\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t</a>\n' +
+                                    '</div>';
+                            });
+                            if (clauseLists && clauseLists.length > 2) {
+                                switchClass(elements.btnScrollDown, displayNoneClass, false);
+                            } else {
+                                switchClass(elements.btnScrollDown, displayNoneClass, true);
+                            }
+                            if (clauseNextPage == 1) {
+                                document.getElementById('divContractListItems').innerHTML += html;
+                            } else {
+                                var newElement = document.createElement("div");
+                                newElement.innerHTML = html;
+                                document.getElementById('divContractListItems').insertAdjacentElement("beforeend", newElement);
+                            }
+                            clauseHasNextPage = responseData.hasNextPage;
+                            clauseNextPage = responseData.nextPage;
+                            if (!flagRedirectFirst && sectionID && sectionID != "0") {
+                                setTimeout(function () {
+                                    flagRedirectClauseCreate = true;
+                                    $('.contract-item[data-id="' + sectionID + '"]').click();
+                                    document.getElementById('divContractLists').classList.add(displayNoneClass);
+                                    if (chatWindows == 'SS') {
+                                        $('#btnGoToSameSideChat').click();
+                                    } else if (chatWindows == 'CP') {
+                                        $('#btnGoToCounterparty').click();
+                                    }
+                                    flagRedirectFirst = true;
+                                }, 500);
+                            } else if (commentThreadID) {
+                                setTimeout(function () {
+                                    flagRedirectClauseCreate = true;
+                                    $('.contract-item[data-commentid="' + commentThreadID + '"]').click();
+                                    $('#btnGoToSameSideChat').click();
+                                    if (!openContractUserDetails.canCommunicateWithCounterparty) {
+                                        document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
+                                        document.getElementById('btnGoToCounterpartyA').classList.add(displayNoneClass);
+                                        $('#chatFooterInner').addClass('justify-content-end');
+                                    }
+                                    if (openContractUserDetails.openContractDetails.counterPartyInviteStatus != 'Accepted') {
+                                        document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
+                                        document.getElementById('btnGoToCounterpartyA').classList.add(displayNoneClass);
+                                        $('#chatFooterInner').addClass('justify-content-end');
+                                    }
+                                }, 500);
+                            }
+                        } else {
+                            var norecordhtml = '<p class="nodata-info">No clauses available</p>';
+                            document.getElementById('divContractListItems').innerHTML = norecordhtml;
+                            switchClass(elements.btnScrollDown, displayNoneClass, true);
+                        }
+                    }
+                    switchClass(elements.loader, displayNoneClass, true);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.log('Error #14031455:', error);
+                    switchClass(elements.loader, displayNoneClass, true);
+                });
+        } catch (error) {
+            console.log('Error #19031300:', error);
         }
     }
 
