@@ -327,7 +327,7 @@
     };
 
     elements.btnScrollDown.onclick = function () {
-        $('#divContractListItems').animate({scrollTop: document.getElementById('divContractListItems').scrollHeight}, 'slow');
+        $('#divContractListItems').animate({scrollTop: elements.divContractListItems.scrollHeight}, 'slow');
         return false;
     }
     /**====================== Section: Contract Lists ======================*/
