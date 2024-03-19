@@ -42,7 +42,7 @@
 <div id="loader" class="page-loader d-none"></div>
 <!-- Loader End -->
 <div class="left-sidebar">
-    <!--  Section: Contract Lists [divContractLists]  -->
+    <!--  Section: Contract Lists  -->
     <div class="contract-lists" id="sectionContractLists">
         <div class="contract-drafting">
             <div class="contract-header">
@@ -98,9 +98,9 @@
         </div>
         <a href="#" class="scroll-down d-none" id="btnScrollDown" address="true"></a>
     </div>
-    <!--  Section: Contract Lists [divContractLists]  -->
+    <!--  Section: Contract Lists  -->
 
-    <!--  Section: Invite Counterparty [divInviteCounterpartyForm]  -->
+    <!--  Section: Invite Counterparty  -->
     <div class="invite-counterpartie-form d-none" id="sectionInviteCounterparty">
         <div class="invite-form">
             <div class="invite-form-header">
@@ -134,7 +134,98 @@
             </div>
         </div>
     </div>
-    <!--  Section: Invite Counterparty [divInviteCounterpartyForm]  -->
+    <!--  Section: Invite Counterparty  -->
+
+    <!--  Section: Create Clause  -->
+    <div class="contract-create-form d-none" id="sectionCreateClause">
+        <div class="create-contract">
+            <div class="create-contract-header">
+                <div class="conversation-left">
+                    <span class="user-icon" id="userProfileImage">
+                        <img src="images/profile-image.png" alt="">
+                    </span>
+                    <div class="user-inner">
+                        <span class="user-name" id="userProfileName">Jane Nelson</span>
+                        <p id="userProfilerole">Lawyer</p>
+                    </div>
+                </div>
+                <a href="#" class="close-btn btn-redirect-contract-list" id="btnContractCreateClose"
+                   data-bs-toggle="tooltip" data-bs-placement="top" title="Close">
+                    <img src="images/close.svg" alt="Close Icon">
+                </a>
+            </div>
+            <div class="create-contract-inner">
+                <form id="formClause" method="get" action>
+                    <div class="form-group">
+                        <label class="">Clause</label>
+                        <input type="text" class="form-control" placeholder="Clause" name="contractSection" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="">Clause Description</label>
+                        <textarea class="form-control" name="contractDescription"
+                                  placeholder="Clause Description" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="">Invite Users</label>
+                        <input type="text" class="form-control invite-users-input" id="inputInviteUsersTeams"
+                               placeholder="Select users and teams" readonly>
+                        <div class="filter-box invite-users-box d-none" id="divInviteUsersBox">
+                            <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button id="btnInviteTeams" class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseTeams"
+                                                aria-expanded="false" aria-controls="collapseTeams">
+                                            <input type="checkbox" id="chkboxInviteAllTeams" class="form-check-input d-none">
+                                            <label class="chkbox-label" for="chkboxInviteAllTeams">Teams</label>
+                                        </button>
+                                    </h2>
+                                    <div id="collapseTeams" class="accordion-collapse collapse"
+                                         data-bs-parent="#accordionExample">
+                                        <div class="accordion-body" id="accordionBodyTeams">
+                                            <p class="text-left" id="paragraphTeamsNotFoundMessage">
+                                                There are no teams to select. You need to add Teams from the contract
+                                                dashboard first.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button id="btnInviteUsersA" class="accordion-button collapsed" type="button"
+                                                data-bs-toggle="collapse" data-bs-target="#collapseUsers"
+                                                aria-expanded="false" aria-controls="collapseUsers">
+                                            <input type="checkbox" id="chkboxInviteAllUsers" class="form-check-input d-none">
+                                            <label class="chkbox-label" for="chkboxInviteAllUsers">Users</label>
+                                        </button>
+                                    </h2>
+                                    <div id="collapseUsers" class="accordion-collapse collapse"
+                                         data-bs-parent="#accordionExample">
+                                        <div class="accordion-body" id="accordionBodyUsers">
+                                            <p class="text-left" id="paragraphUsersNotFoundMessage">
+                                                There are no users to select. You need to add them from the contract
+                                                dashboard first.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class=""></label>
+                        <input type="hidden" class="form-control " name="clauseText" id="clauseText" value="1" required>
+                    </div>
+                    <div class="submit-btn">
+                        <a class="btn btn-secondary btn-redirect-contract-list" href="#" id="btnContractCreateCancel"
+                           style="color: #282756 !important">Cancel</a>
+                        <button class="btn btn-primary" type="submit">Review Clause</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--  Section: Create Clause  -->
 
     <!--  Section: Snackbar  -->
     <div id="snackbar">Snackbar text</div>

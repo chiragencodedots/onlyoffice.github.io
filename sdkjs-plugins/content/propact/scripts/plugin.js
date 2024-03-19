@@ -42,7 +42,7 @@
     var contractID = '';
     var contractMode = '';
     var splitArray;
-    var iframeURL = '';
+    var documentCallbackUrl = '';
 
     /**
      * @constant
@@ -56,12 +56,16 @@
      * @constant
      * @description Defined the variables related to clause lists
      */
+    var openContractResponseData;
     var contractInformation = {};
     var loggedInUserDetails;
     var counterPartyDetail;
     var counterPartyCompanyDetail;
     var clauseLists = [];
+    var tagLists = [];
     var selectedClauseID = '';
+    var selectedInviteTeams = [];
+    var selectedInviteUsers = [];
 
     /**
      * @constant
@@ -85,21 +89,35 @@
         btnResendInvitation: document.getElementById("btnResendInvitation"),
         btnCancelInvitation: document.getElementById("btnCancelInvitation"),
         btnScrollDown: document.getElementById('btnScrollDown'),
+        btnContractCreateClose: document.getElementById('btnContractCreateClose'),
+        btnContractCreateCancel: document.getElementById('btnContractCreateCancel'),
 
         paragraphInvitationActions: document.getElementById("paragraphInvitationActions"),
+        paragraphTeamsNotFoundMessage: document.getElementById("paragraphTeamsNotFoundMessage"),
+        paragraphUsersNotFoundMessage: document.getElementById("paragraphUsersNotFoundMessage"),
 
         formInviteCounterparty: document.getElementById("formInviteCounterparty"),
+        formClause: document.getElementById("formClause"),
 
-        sectionInviteCounterparty: document.getElementById("sectionInviteCounterparty"),
         sectionContractLists: document.getElementById("sectionContractLists"),
+        sectionInviteCounterparty: document.getElementById("sectionInviteCounterparty"),
+        sectionCreateClause: document.getElementById("sectionCreateClause"),
 
         divInviteCounterparty: document.getElementById("divInviteCounterparty"),
         divContractListItems: document.getElementById("divContractListItems"),
         divInviteCounterpartyInvited: document.getElementById("divInviteCounterpartyInvited"),
+        divInviteUsersBox: document.getElementById("divInviteUsersBox"),
 
         txtOrganizationName: document.getElementById("txtOrganizationName"),
         txtCounterpartyName: document.getElementById("txtCounterpartyName"),
         txtCounterpartyEmail: document.getElementById("txtCounterpartyEmail"),
+
+        inputInviteUsersTeams: document.getElementById("inputInviteUsersTeams"),
+        chkboxInviteAllTeams: document.getElementById("chkboxInviteAllTeams"),
+        chkboxInviteAllUsers: document.getElementById("chkboxInviteAllUsers"),
+
+        accordionBodyTeams: document.getElementById("accordionBodyTeams"),
+        accordionBodyUsers: document.getElementById("accordionBodyUsers"),
 
         snackbar: document.getElementById("snackbar"),
     }
@@ -112,15 +130,15 @@
         // window.Asc.plugin.executeMethod("GetAllContentControls");
 
         if (window.Asc.plugin.info && typeof window.Asc.plugin.info.documentCallbackUrl == 'string') {
-            iframeURL = window.Asc.plugin.info.documentCallbackUrl;
+            documentCallbackUrl = window.Asc.plugin.info.documentCallbackUrl;
         } else {
-            iframeURL = "http://localhost:3003/api/v1/app/contract/track/65e1619244539624590d1516/65dec1ed13116f663672c94d/edit/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGIiLCJjb21wYW55SWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGQiLCJjb21wYW55TmFtZSI6IkFCQyIsInVzZXJSb2xlIjoiQWRtaW4iLCJmaXJzdE5hbWUiOiJNaXJhbGkiLCJsYXN0TmFtZSI6IkNoYXVoYW4iLCJlbWFpbCI6Im1pcmFsaS5lbmNvZGVkb3RzQGdtYWlsLmNvbSIsImltYWdlS2V5IjoiYXBwL3Byb2ZpbGUvSUVKSFcyMDI0MDMwMTA0NDIwMy5wbmciLCJzdHJpcGVDdXN0b21lcklkIjoiY3VzX1Blbng4UkhibFlJamZmIiwidG9rZW5Gb3IiOiJhcHAiLCJpYXQiOjE3MTA0ODQ5ODEsImV4cCI6MTcxMzA3Njk4MX0.s0S4TmlVP8fAYdXSdvwTuHGpuw94IzqmYE4P3vvkoCk/0/0";
+            documentCallbackUrl = "http://localhost:3003/api/v1/app/contract/track/65e1619244539624590d1516/65dec1ed13116f663672c94d/edit/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGIiLCJjb21wYW55SWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGQiLCJjb21wYW55TmFtZSI6IkFCQyIsInVzZXJSb2xlIjoiQWRtaW4iLCJmaXJzdE5hbWUiOiJNaXJhbGkiLCJsYXN0TmFtZSI6IkNoYXVoYW4iLCJlbWFpbCI6Im1pcmFsaS5lbmNvZGVkb3RzQGdtYWlsLmNvbSIsImltYWdlS2V5IjoiYXBwL3Byb2ZpbGUvSUVKSFcyMDI0MDMwMTA0NDIwMy5wbmciLCJzdHJpcGVDdXN0b21lcklkIjoiY3VzX1Blbng4UkhibFlJamZmIiwidG9rZW5Gb3IiOiJhcHAiLCJpYXQiOjE3MTA0ODQ5ODEsImV4cCI6MTcxMzA3Njk4MX0.s0S4TmlVP8fAYdXSdvwTuHGpuw94IzqmYE4P3vvkoCk/0/0";
         }
 
         /**====================== Get & Set variables ======================*/
-        contractID = getDocumentID(iframeURL);
-        contractMode = getDocumentMode(iframeURL);
-        splitArray = iframeURL.split('/');
+        contractID = getContractID(documentCallbackUrl);
+        contractMode = getContractMode(documentCallbackUrl);
+        splitArray = documentCallbackUrl.split('/');
         authToken = splitArray[11];
         if (splitArray.length >= 13 && splitArray[12] != '0') {
             sectionID = splitArray[12];
@@ -132,7 +150,7 @@
 
         if (!flagSocketInit) {
             socket = io.connect(baseUrl,
-                { auth: { authToken } }
+                {auth: {authToken}}
             );
             console.log('socket', socket);
             flagSocketInit = true;
@@ -179,10 +197,66 @@
     }
     /**================================== Plugin Init End =================================*/
 
+    /*if (window.Asc.plugin.info && typeof window.Asc.plugin.info.documentCallbackUrl == 'string') {
+        documentCallbackUrl = window.Asc.plugin.info.documentCallbackUrl;
+    } else {
+        documentCallbackUrl = "http://localhost:3003/api/v1/app/contract/track/65e1619244539624590d1516/65dec1ed13116f663672c94d/edit/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGIiLCJjb21wYW55SWQiOiI2NWRlYzFlZDEzMTE2ZjY2MzY3MmM5NGQiLCJjb21wYW55TmFtZSI6IkFCQyIsInVzZXJSb2xlIjoiQWRtaW4iLCJmaXJzdE5hbWUiOiJNaXJhbGkiLCJsYXN0TmFtZSI6IkNoYXVoYW4iLCJlbWFpbCI6Im1pcmFsaS5lbmNvZGVkb3RzQGdtYWlsLmNvbSIsImltYWdlS2V5IjoiYXBwL3Byb2ZpbGUvSUVKSFcyMDI0MDMwMTA0NDIwMy5wbmciLCJzdHJpcGVDdXN0b21lcklkIjoiY3VzX1Blbng4UkhibFlJamZmIiwidG9rZW5Gb3IiOiJhcHAiLCJpYXQiOjE3MTA3NDU4NTIsImV4cCI6MTcxMzMzNzg1Mn0.0vEsS_E6sumWZJ-ZUSQ3m__mXrsjVJT9LNesY69HGjk/0/0";
+    }
+
+    /!**====================== Get & Set variables ======================*!/
+    contractID = getContractID(documentCallbackUrl);
+    contractMode = getContractMode(documentCallbackUrl);
+    splitArray = documentCallbackUrl.split('/');
+    authToken = splitArray[11];
+    if (splitArray.length >= 13 && splitArray[12] != '0') {
+        sectionID = splitArray[12];
+    }
+    if (splitArray.length >= 14 && splitArray[13] != '0') {
+        chatWindows = splitArray[13];
+    }
+    /!**====================== Get & Set variables ======================*!/
+
+    if (!flagSocketInit) {
+        socket = io.connect(baseUrl,
+            {auth: {authToken}}
+        );
+        console.log('socket', socket);
+        flagSocketInit = true;
+    }
+
+    /!**
+     * @desc Get the open contract and user details
+     *!/
+    if (contractID && authToken && !flagInit) {
+        getContractDetails(socket);
+    }*/
+
+    /**====================== Section: Invite Counterparty ======================*/
+    $("#formInviteCounterparty").validate({
+        submitHandler: function (form) {
+            switchClass(elements.loader, displayNoneClass, false);
+            inviteCounterparties();
+        }
+    });
+
+    elements.btnInviteCounterpartyCancel.onclick = function () {
+        $("#formInviteCounterparty").validate().resetForm();
+        elements.formInviteCounterparty.reset();
+        switchClass(elements.sectionContractLists, displayNoneClass, false);
+        switchClass(elements.sectionInviteCounterparty, displayNoneClass, true);
+    }
+    /**====================== Section: Invite Counterparty ======================*/
 
     /**====================== Section: Contract Lists ======================*/
     elements.btnCreateClause.onclick = function () {
-        alert('Button Clicked: Select Markup Mode');
+        // alert('Button Clicked: Select Markup Mode');
+        if (!elements.divInviteUsersBox.classList.contains(displayNoneClass)) {
+            switchClass(elements.divInviteUsersBox, displayNoneClass, true);
+        }
+        // if (text) {
+        switchClass(elements.sectionContractLists, displayNoneClass, true);
+        switchClass(elements.sectionCreateClause, displayNoneClass, false);
+        // }
     };
 
     elements.btnMarkupMode.onclick = function () {
@@ -210,38 +284,87 @@
     /**====================== Section: Contract Lists ======================*/
 
 
-    /**====================== Section: Invite Counterparty ======================*/
-    $("#formInviteCounterparty").validate({
+    /**====================== Section: Create Clause ======================*/
+    $("#formClause").validate({
+        ignore: "",
+        rules: {
+            clauseText: {
+                required: true
+            }
+        },
+        messages: {
+            clauseText: {
+                required: "Please select the text from the document"
+            }
+        },
+        errorClass: "error", // CSS class for error messages
+        errorPlacement: function (error, element) {
+            error.insertAfter(element); // Place error messages after the element
+        },
         submitHandler: function (form) {
-            switchClass(elements.loader, displayNoneClass, false);
-            inviteCounterparties();
+            createClauseSection(socket);
         }
     });
 
-    elements.btnInviteCounterpartyCancel.onclick = function () {
-        $("#formInviteCounterparty").validate().resetForm();
-        elements.formInviteCounterparty.reset();
-        switchClass(elements.sectionContractLists, displayNoneClass, false);
-        switchClass(elements.sectionInviteCounterparty, displayNoneClass, true);
-    }
-    /**====================== Section: Invite Counterparty ======================*/
+    elements.btnContractCreateClose.onclick = function () {
+        redirectToClauseList();
+    };
+
+    elements.btnContractCreateCancel.onclick = function () {
+        redirectToClauseList();
+    };
+
+    elements.inputInviteUsersTeams.onclick = function () {
+        if (!elements.divInviteUsersBox.classList.contains(displayNoneClass)) {
+            switchClass(elements.divInviteUsersBox, displayNoneClass, true);
+        } else {
+            switchClass(elements.divInviteUsersBox, displayNoneClass, false);
+        }
+    };
+
+    elements.chkboxInviteAllTeams.onclick = function (event) {
+        $('.team-chkbox').prop('checked', this.checked);
+        updateInviteCheckbox();
+        event.stopPropagation();
+    };
+
+    elements.chkboxInviteAllUsers.onclick = function (event) {
+        $('.user-chkbox').prop('checked', this.checked);
+        updateInviteCheckbox();
+        event.stopPropagation();
+    };
+
+    $(document).on('click', '.team-chkbox', function () {
+        var allChecked = $('.team-chkbox:checked').length === $('.team-chkbox').length;
+        $('#chkboxInviteAllTeams').prop('checked', allChecked);
+        updateInviteCheckbox();
+    });
+
+    $(document).on('click', '.user-chkbox', function () {
+        var allChecked = $('.user-chkbox:checked').length === $('.user-chkbox').length;
+        $('#chkboxInviteAllUsers').prop('checked', allChecked);
+        updateInviteCheckbox();
+    });
+    /**====================== Section: Create Clause ======================*/
 
 
     /**================== Other Function Start ========================*/
     /**
+     * @description This function will be used for the get contract id from callback url
      * @param url
      * @returns {*|string}
      */
-    function getDocumentID(url) {
+    function getContractID(url) {
         var urlArr = url.split('/');
         return urlArr[8];
     }
 
     /**
+     * @description This function will be used for the get contract mode from callback url
      * @param url
      * @returns {*|string}
      */
-    function getDocumentMode(url) {
+    function getContractMode(url) {
         var urlArr = url.split('/');
         return urlArr[10];
     }
@@ -258,8 +381,84 @@
         } else {
             el.classList.remove(className);
         }
-    };
+    }
 
+    /**
+     * @description This function will be used for redirect to clause list page from create clause
+     */
+    function redirectToClauseList() {
+        $("#formClause").validate().resetForm();
+        elements.formClause.reset();
+        if ($('#inviteteams').prop('checked')) {
+            $('#inviteteams').click();
+        }
+        if ($('#inviteusers').prop('checked')) {
+            $('#inviteusers').click();
+        }
+        var placeholderText = 'Select users and teams';
+        elements.inputInviteUsersTeams.placeholder = placeholderText;
+        $('#inputInviteUsersTeams').click();
+        $('#collapseTeams, #collapseUsers').collapse('hide');
+        switchClass(elements.sectionCreateClause, displayNoneClass, true);
+        switchClass(elements.sectionContractLists, displayNoneClass, false);
+    }
+
+    /**
+     * Update invite team checkbox
+     */
+    function updateInviteCheckbox() {
+        $('.team-chkbox').each(function () {
+            var isChecked = $(this).prop("checked");
+            var dataID = $(this).parent().data('id');
+            var jsonData = inviteTeamListIDs.find((ele) => ele.itemId == dataID);
+            if (isChecked) {
+                if (selectedInviteTeams.findIndex((ele) => ele.itemId == jsonData.itemId) < 0) {
+                    selectedInviteTeams.push(jsonData);
+                }
+            } else {
+                if (selectedInviteTeams.findIndex((ele) => ele.itemId == jsonData.itemId) > -1) {
+                    selectedInviteTeams = $.grep(selectedInviteTeams, function (value) {
+                        return value.itemId != dataID;
+                    });
+                }
+            }
+        });
+        $('.user-chkbox').each(function () {
+            var isChecked = $(this).prop("checked");
+            var dataID = $(this).parent().data('id');
+            var jsonData = inviteUserListIDs.find((ele) => ele.itemId == dataID);
+            if (isChecked) {
+                if (selectedInviteUsers.findIndex((ele) => ele.itemId == jsonData.itemId) < 0) {
+                    selectedInviteUsers.push(jsonData);
+                }
+            } else {
+                if (selectedInviteUsers.findIndex((ele) => ele.itemId == jsonData.itemId) > -1) {
+                    selectedInviteUsers = $.grep(selectedInviteUsers, function (value) {
+                        return value.itemId != dataID;
+                    });
+                }
+            }
+        });
+        updateInvitePlacehoder();
+    }
+
+    /**
+     * @desc Update the placeholder of Invite user input
+     */
+    function updateInvitePlacehoder() {
+        var placeholderText = 'Select users and teams';
+        var placeholderTextArray = [];
+        if (selectedInviteUsers && selectedInviteUsers.length > 0) {
+            placeholderTextArray.push(selectedInviteUsers.length + (selectedInviteUsers.length == 1 ? ' User' : ' Users'));
+        }
+        if (selectedInviteTeams && selectedInviteTeams.length > 0) {
+            placeholderTextArray.push(selectedInviteTeams.length + (selectedInviteTeams.length == 1 ? ' Team' : ' Teams'));
+        }
+        if (placeholderTextArray.length > 0) {
+            placeholderText = placeholderTextArray.join(' and ') + ' Selected';
+        }
+        elements.inputInviteUsersTeams.placeholder = placeholderText;
+    }
     /**================== Other Function End  =========================*/
 
 
@@ -282,6 +481,7 @@
                     var response = res;
                     if (response && response.status == true && response.code == 200 && response.data) {
                         var responseData = res.data;
+                        var openContractResponseData = responseData;
                         var contractInformation = responseData.openContractDetails;
                         loggedInUserDetails = responseData.loggedInUserDetails;
                         if (contractInformation.counterPartyInviteStatus !== 'Pending') {
@@ -321,17 +521,18 @@
                         }
                         document.title = "ProPact | " + loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName + " " + responseData.userRole;
                         if (loggedInUserDetails) {
+                            console.log('loggedInUserDetails', loggedInUserDetails);
                             // TODO: Set logged in user images in details screen
-                            /*document.getElementById('userProfileImage').src = responseData.data.loggedInUserDetails.imageUrl ? responseData.data.loggedInUserDetails.imageUrl : 'images/no-profile-image.jpg';
-                            document.getElementById('userProfileImageA').src = responseData.data.loggedInUserDetails.imageUrl ? responseData.data.loggedInUserDetails.imageUrl : 'images/no-profile-image.jpg';
-                            document.getElementById('userProfileName').textContent = responseData.data.loggedInUserDetails.firstName + " " + responseData.data.loggedInUserDetails.lastName;
-                            document.getElementById('userProfileNameA').innerHTML = responseData.data.loggedInUserDetails.firstName + " " + responseData.data.loggedInUserDetails.lastName + '<img src="images/icon-info.png" class="img-info">';
-                            document.getElementById('userProfilerole').textContent = responseData.data.loggedInUserDetails.role;
-                            document.getElementById('userProfileroleA').textContent = responseData.data.loggedInUserDetails.role;*/
+                            document.getElementById('userProfileImage').src = loggedInUserDetails.imageUrl ? loggedInUserDetails.imageUrl : 'images/no-profile-image.jpg';
+                            // document.getElementById('userProfileImageA').src = responseData.data.loggedInUserDetails.imageUrl ? responseData.data.loggedInUserDetails.imageUrl : 'images/no-profile-image.jpg';
+                            document.getElementById('userProfileName').textContent = loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName;
+                            // document.getElementById('userProfileNameA').innerHTML = responseData.data.loggedInUserDetails.firstName + " " + responseData.data.loggedInUserDetails.lastName + '<img src="images/icon-info.png" class="img-info">';
+                            document.getElementById('userProfilerole').textContent = responseData.userRole;
+                            // document.getElementById('userProfileroleA').textContent = responseData.data.loggedInUserDetails.role;
                         }
                         if (contractMode != 'markup') {
-                            // TODO: get contract Team and User List
-                            // getContractTeamAndUserList();
+                            // TODO: API Error
+                            getContractTeamAndUserList();
                         }
 
                         if (contractInformation.counterPartyInviteStatus == 'Accepted') {
@@ -515,6 +716,210 @@
                         switchClass(elements.divInviteCounterparty, displayNoneClass, false)
                         switchClass(elements.divContractListItems, displayedInvitecpPending, false)
                         switchClass(elements.divContractListItems, displayedInviteCP, true);
+                    }
+                    switchClass(elements.loader, displayNoneClass, true);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.log('Error #14031455:', error);
+                    switchClass(elements.loader, displayNoneClass, true);
+                });
+        } catch (error) {
+            console.log('Error #14031505:', error);
+        }
+    }
+
+    /**
+     * @description This function will used for get team and user list of this contract
+     * @param popup
+     */
+    function getContractTeamAndUserList(popup = 'inviteuser') {
+        try {
+            var requestURL = apiBaseUrl + '/meeting/get-contract-team-and-user-list/' + contractID;
+            var headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + authToken
+            };
+            var requestOptions = {
+                method: 'GET',
+                headers: headers,
+            };
+            fetch(requestURL, {headers: headers})
+                .then(response => response.json())
+                .then(response => {
+                    // Handle the response data
+                    if (response && response.status == true && response.code == 200) {
+                        var responseData = response.data;
+                        var teamLists = responseData.filter((ele) => {
+                            return ele.type == "team";
+                        });
+                        var userLists = responseData.filter((ele) => {
+                            return ele.type == "user" && (ele.role !== "Contract Creator" && ele.role !== "Counterparty");
+                        });
+                        if (teamLists.length > 0) {
+                            inviteTeamListIDs = teamLists;
+                            if (elements.paragraphTeamsNotFoundMessage) {
+                                switchClass(elements.paragraphTeamsNotFoundMessage, displayNoneClass, true);
+                            }
+                            if (elements.chkboxInviteAllTeams) {
+                                switchClass(elements.chkboxInviteAllTeams, displayNoneClass, false);
+                            }
+                            var html = '';
+                            html += '<div class="filter-inner">\n';
+                            html += '<ul>\n';
+                            teamLists.forEach((ele) => {
+                                html += '<li>\n' +
+                                    '<div class="form-check" data-id="' + ele.itemId + '" data-json="' + JSON.stringify(ele) + '">\n' +
+                                    '<input type="checkbox" id="chkboxInviteTeam_' + ele.itemId + '" class="form-check-input team-chkbox" />' +
+                                    '<label for="chkboxInviteTeam_' + ele.itemId + '" class="form-check-label">\n' +
+                                    '<div class="invite-users-inner-bar">\n' +
+                                    '<div class="invite-users-name">\n' +
+                                    '<strong>' + ele.itemName + '</strong>\n' +
+                                    '</div>\n' +
+                                    '</div>\n' +
+                                    '</label>\n' +
+                                    '</div>\n' +
+                                    '</li>\n';
+                            });
+                            html += '</ul>\n';
+                            html += '</div>';
+                            elements.accordionBodyTeams.innerHTML = html;
+                        }
+                        if (userLists.length > 0) {
+                            inviteUserListIDs = userLists;
+                            if (elements.paragraphUsersNotFoundMessage) {
+                                switchClass(elements.paragraphUsersNotFoundMessage, displayNoneClass, true);
+                            }
+                            if (elements.chkboxInviteAllUsers) {
+                                switchClass(elements.chkboxInviteAllUsers, displayNoneClass, false);
+                            }
+                            var html = '';
+                            html += '<div class="filter-inner">';
+                            html += '<ul>';
+                            // ' + IMAGE_USER_PATH_LINK + ele.userImage + '
+                            // assets/images/no-profile-image.jpg
+                            userLists.forEach((ele) => {
+                                html += '<li>';
+                                html += '<div class="form-check" data-id="' + ele.itemId + '" data-json="' + JSON.stringify(ele) + '">\n' +
+                                    '\t<input type="checkbox" id="chkboxInviteUser_' + ele.itemId + '" class="form-check-input user-chkbox" value="' + ele.itemId + '">\n' +
+                                    '\t<label for="chkboxInviteUser_' + ele.itemId + '" class="form-check-label">\n' +
+                                    '\t\t<div class="conversation-left">\n' +
+                                    '\t\t\t<span class="user-icon" id="userProfileImage">\n' +
+                                    '\t\t\t\t<img src="' + (ele.userImage ? IMAGE_USER_PATH_LINK + ele.userImage : 'images/no-profile-image.jpg') + '" alt="">\n' +
+                                    '\t\t\t</span>\n' +
+                                    '\t\t\t<div class="user-inner">\n' +
+                                    '\t\t\t\t<span class="user-name" id="userProfileNameSpan">' + ele.itemName + '</span>\n' +
+                                    '\t\t\t\t<p id="userProfileroleSpan">' + ele.role + '</p>\n' +
+                                    '\t\t\t</div>\n' +
+                                    '\t\t</div>\n' +
+                                    '\t</label>\n' +
+                                    '</div>';
+                                html += '</li>';
+                            });
+                            html += '</ul>';
+                            html += '</div>';
+                            elements.accordionBodyUsers.innerHTML = html;
+                        }
+                    }
+                    switchClass(elements.loader, displayNoneClass, true);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.log('Error #14031455:', error);
+                    switchClass(elements.loader, displayNoneClass, true);
+                });
+        } catch (error) {
+            console.log('Error #14031505:', error);
+        }
+    }
+
+    /**
+     *
+     * @param socket
+     */
+    function createClauseSection(socket) {
+        try {
+            switchClass(elements.loader, displayNoneClass, false);
+            var randomNumber = Math.floor(Math.random() * (1000000 - 1 + 1)) + 1;
+            var commentID = Date.now() + '-' + randomNumber;
+            var form = elements.formClause;
+            var data = JSON.stringify({
+                contractId: contractID,
+                contractSection: form.elements['contractSection'].value,
+                contractSectionDescription: form.elements['contractDescription'].value,
+                assignedTeamAndUserDetails: [...selectedInviteTeams, ...selectedInviteUsers],
+                commentId: commentID
+            });
+            var requestURL = apiBaseUrl + '/contract-section/create-contract-section';
+            var headers = {
+                "Content-Type": "application/json"
+            };
+            if (authToken) headers["Authorization"] = 'Bearer ' + authToken;
+            var requestOptions = {
+                method: 'POST',
+                headers: headers,
+                body: data
+            };
+            fetch(requestURL, requestOptions)
+                .then(response => response.json())
+                .then(response => {
+                    // Handle the response data
+                    var responseData = response;
+                    if (responseData && responseData.status == true && responseData.code == 201) {
+                        console.log('responseData', responseData);
+                        // Handle the response data
+                        redirectToClauseList();
+                        if (typeof window.Asc.plugin.executeMethod === 'function') {
+                            var sDocumentEditingRestrictions = "none";
+                            window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                        }
+                        var nContentControlType = 1;
+                        var color = {
+                            R: 104,
+                            G: 215,
+                            B: 248,
+                        };
+                        var nContentControlProperties = {
+                            "Id": randomNumber,
+                            "Tag": commentID,
+                            "Lock": 2,
+                            "Color": color,
+                            "InternalId": randomNumber.toString()
+                        };
+                        tagLists.push(nContentControlProperties);
+                        if (typeof window.Asc.plugin.executeMethod === 'function') {
+                            window.Asc.plugin.executeMethod("AddContentControl", [nContentControlType, nContentControlProperties]);
+                            window.Asc.plugin.executeMethod("GetAllContentControls");
+                        }
+
+                        if (contractInformation && contractInformation.userWhoHasEditAccess && contractInformation.userWhoHasEditAccess == loggedInUserDetails._id && openContractResponseData.contractCurrentState == 'Edit') {
+                            if (typeof window.Asc.plugin.executeMethod === 'function') {
+                                var sDocumentEditingRestrictions = "none";
+                                window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                            }
+                        } else {
+                            if (typeof window.Asc.plugin.executeMethod === 'function') {
+                                var sDocumentEditingRestrictions = "readOnly";
+                                window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
+                            }
+                        }
+                        // TODO: Pending clause lists
+                        // clauseNextPage = 1;
+                        // clauseHasNextPage = true;
+                        // clauseLists = [];
+                        // getContractSectionList(commentID);
+                        // var data = {
+                        //     chatRoomName: documentID,
+                        //     tagData: JSON.stringify(nContentControlProperties)
+                        // };
+                        // socket.emit('new_clause_created', data);
+                        // location.reload(true);
+                        // document.getElementById('divContractChatHistory').classList.add(displayNoneClass);
+                        switchClass(elements.sectionCreateClause, displayNoneClass, true);
+                        switchClass(elements.sectionContractLists, displayNoneClass, false);
+                        switchClass(elements.loader, displayNoneClass, true);
+                    } else {
+                        switchClass(elements.loader, displayNoneClass, true);
                     }
                     switchClass(elements.loader, displayNoneClass, true);
                 })
