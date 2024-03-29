@@ -4599,7 +4599,6 @@
                         } else {
                             document.getElementById('chatHistoryArea').innerHTML = '';
                             document.getElementById('mainLoader').classList.add(displayNoneClass);
-                            document.getElementById('mainLoader').classList.add(displayNoneClass);
                         }
                     } else {
                         document.getElementById('mainLoader').classList.add(displayNoneClass);

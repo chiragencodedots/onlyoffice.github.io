@@ -138,7 +138,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .chat-body .chat-area .grey-color .message-content {background:#F3F3F3;}
 .meeting-screen .chat-create-header .conversation-right { display: flex; align-items: center; margin: 0; padding: 0; position: relative;}
 .conversation-right > ul { display: flex; align-items: center; margin: 0; padding: 0; width: auto;}
-.conversation-right > ul li { margin: 0; padding: 0 6px; width: auto; float: left;}
+.conversation-right > ul li { margin: 0; padding: 0 6px; width: auto; float: left; min-width: 42px; text-align: center}
 .conversation-right > ul li a { display: inline-block; margin: 0;  padding: 0; width: auto;}
 .conversation-right > ul li a img {width: auto; max-width: 30px; max-height: 30px; margin: 0;}
 .conversion-history .chat-body { height: calc(100vh - 254px);}
@@ -171,14 +171,14 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 /*.invite-user-tabs-header .nav-tabs .nav-item .nav-link:hover,.invite-user-tabs-header .nav-tabs .nav-item .nav-link.active { background: #fff; opacity: 100%;}*/
 .conversation-right > ul li .invite-user-tabs .invite-user-tabs-body { float: left; margin: 0; padding: 0; width: 100%;}.invite-user-tabs-body .tab-content { width: 100%; margin: 0; padding: 0; display: block;}
 .invite-user-tabs-body .tab-content .invite-user-list { width: 100%; margin: 0; padding: 0; float: left }
-.invite-user-tabs-body .tab-content .invite-user-list ul { width: 100%; float: left; margin: 0; display: inline-block; padding: 0;}
+.invite-user-tabs-body .tab-content .invite-user-list ul { width: 100%; float: left; margin: 0; display: inline-block; padding: 0 10px;}
 .invite-user-tabs-body .tab-content .invite-user-list ul li { margin: 0 0 12px; padding: 0; width: 100%; float: left;}
 .invite-user-list ul li .invite-user-inner { width: 100%; display: flex; align-items: center; margin: 0; padding: 0;}
 .invite-user-list ul li .invite-user-inner .invite-user-icon { margin: 0; padding: 0 10px 0 0; display: block;}
 .invite-user-list ul li .invite-user-inner .invite-user-icon img { width: 40px; height: 40px; object-fit: cover; object-position: center center; border-radius: 50%;}
 .invite-user-list ul li .invite-user-inner .invite-user-name { width: calc(100% - 50px); float: left; margin: 0; padding: 0;}
-.invite-user-list ul li .invite-user-inner .invite-user-name h3 { font-size: 14px; font-weight: 400; color: #282756; margin: 0 0 4px; padding: 0; width: 100%; float: left;}
-.invite-user-list ul li .invite-user-inner .invite-user-name span { font-size: 10px; font-weight: 400; color: #282756; float: left; width: 100%; opacity: 50%;}
+.invite-user-list ul li .invite-user-inner .invite-user-name h3 { font-size: 14px; font-weight: 400; color: #282756; margin: 0; padding: 0; width: 100%; float: left; text-align: left;}
+.invite-user-list ul li .invite-user-inner .invite-user-name span { font-size: 10px; font-weight: 400; color: #282756; float: left; width: 100%; opacity: 50%; text-align: left;}
 .invite-user-list .invite-btn { width: 100%; float: left; padding: 0; text-align: center; margin: 8px 0 0;}
 .invite-user-list .invite-btn .btn-primary {padding: 4px 15px; font-size: 14px; font-weight: 400; background: #282756 !important;  color: #fff !important; border: 1px solid !important;}
 .invite-user-list .invite-btn .btn-primary:hover{opacity: 90%}
