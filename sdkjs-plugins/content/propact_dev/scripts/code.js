@@ -5757,10 +5757,10 @@
                         var generalChatData = postData;
                         var conversationType = 'OTM';
                         /*if (loggedInUserDetails.company._id.toString() == openContractUserDetails.openContractDetails.companyId.toString()) {
-    conversationType = 'OTCC';
-} else if (loggedInUserDetails.company._id.toString() == openContractUserDetails.openContractDetails.counterPartyCompanyId.toString()) {
-    conversationType = 'OTCP';
-}*/
+                            conversationType = 'OTCC';
+                        } else if (loggedInUserDetails.company._id.toString() == openContractUserDetails.openContractDetails.counterPartyCompanyId.toString()) {
+                            conversationType = 'OTCP';
+                        }*/
                         generalChatData.chatRoomName = 'conversion_history_' + selectedCommentThereadID;
                         generalChatData.conversationType = conversationType;
                         socket.emit('conversion_history_message', generalChatData);

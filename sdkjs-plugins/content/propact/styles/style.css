@@ -19,6 +19,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .form-group label { font-size: 12px; font-weight: 500; color: #282756; display: flex; margin: 0 0 6px 0; padding: 0; width: 100%;}
 .form-group label.error { font-weight: 400 !important; color: red; }
 .form-group .form-control {width: 100%; margin: 0; padding: 0 12px; border: 1px solid #DADDE0;  border-radius: 5px; height: 50px; font-size: 12px; color: #282756; font-weight: 400; font-family: 'Poppins', sans-serif; outline: none !important;}
+.editable-div { padding: 12px !important; height: 70px !important; overflow-y: auto; }
 .form-group select.form-control { background-image: url(../images/select_Icon.svg); background-repeat: no-repeat; -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0.375rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; background-position: 99.5%; padding-right: 0px;}
 .left-sidebar { width: 100%; margin: 0; padding: 0; display: flex; flex-wrap: wrap; background: #FFFFFF; height: 100vh; max-width: 100%; overflow: hidden;}
 .invite-counterpartie { width: 100%; margin: 0; padding: 20px; float: left; height: auto;}
@@ -100,7 +101,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .chat-body .chat-area .message-wrapper { width: 100%; float: left; margin: 0 0 20px 0; padding: 0;}
 .chat-body .chat-area .message-wrapper.reverse {direction: rtl;}
 .message-wrapper .profile-picture {width: 100%; display: flex; margin: 0; padding: 0; align-items: start;}
-.message-wrapper.reverse .profile-picture {direction: ltr; justify-content: end;}
+.message-wrapper.reverse .profile-picture {direction: rtl; justify-content: start;}
 .message-wrapper.reverse .profile-picture .last-seen {margin: 0 6px 0 0;}
 .message-wrapper.reverse .profile-picture .name {margin: 0 8px 0 0;}
 .message-wrapper .profile-picture .last-seen { font-size: 12px; font-weight: 400; margin: 0 0 0 6px; padding: 0; display: inline-block; color: #282756; opacity: 50%;}
@@ -139,7 +140,7 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .meeting-screen .chat-create-header .conversation-right { display: flex; align-items: center; margin: 0; padding: 0; position: relative;}
 .conversation-right > ul { display: flex; align-items: center; margin: 0; padding: 0; width: auto;}
 .conversation-right > ul li { margin: 0; padding: 0 6px; width: auto; float: left; min-width: 42px; text-align: center}
-.conversation-right > ul li a { display: inline-block; margin: 0;  padding: 0; width: auto;}
+.conversation-right > ul li a { display: inline-block; margin: 0;  padding: 0; width: auto; text-align: left;}
 .conversation-right > ul li a img {width: auto; max-width: 30px; max-height: 30px; margin: 0;}
 .conversion-history .chat-body { height: calc(100vh - 254px);}
 .chat-create-footer .form-group { margin: 0 0 16px 0;}
@@ -232,19 +233,19 @@ input[type=checkbox]:before { content: ''; position: absolute; right: 50%; top: 
 .confirmation-form { width: 100%; margin: 0; padding: 0; display: block;}
 .confirmation-form .accordion-header { width: 100%; display: block; clear: both; margin: 0 0 20px 0; padding: 0;}
 .filter-box {width: 100%; margin: 10px 0 0 0; padding: 0; display: block;}
-div#divDraftingBox div#assignDraftRequestBoxB { margin: 0 0 0 0;}
-div#divDraftingBox div#assignDraftRequestBoxB.d-none .accordion .accordion-collapse { display: none;}
-div#divDraftingBox div#assignDraftRequestBoxB .accordion .accordion-collapse { display: block;}
-div#divDraftingBox div#assignDraftRequestBoxB .accordion .accordion-header { display: none;}
-div#divDraftingBox div#assignDraftRequestBoxB { margin: -4px 0 0 0;}
-div#divDraftingBox div#assignDraftRequestBoxB div#accordionExampleB .accordion-item { border-top: 0; border-radius: 0px 0px 6px 6px;}
+div#divDraftingBox div#assignDraftingRequestBox { margin: 0 0 0 0;}
+div#divDraftingBox div#assignDraftingRequestBox.d-none .accordion .accordion-collapse { display: none;}
+div#divDraftingBox div#assignDraftingRequestBox .accordion .accordion-collapse { display: block;}
+div#divDraftingBox div#assignDraftingRequestBox .accordion .accordion-header { display: none;}
+div#divDraftingBox div#assignDraftingRequestBox { margin: -4px 0 0 0;}
+div#divDraftingBox div#assignDraftingRequestBox div#accordionExampleB .accordion-item { border-top: 0; border-radius: 0px 0px 6px 6px;}
 
-#frmAssignDraftRequest div#assignDraftRequestBox {margin: 0;}
-#frmAssignDraftRequest div#assignDraftRequestBox.d-none .accordion .accordion-collapse { display: none;}
-#frmAssignDraftRequest div#assignDraftRequestBox .accordion .accordion-collapse { display: block;}
-#frmAssignDraftRequest div#assignDraftRequestBox .accordion .accordion-header {display: none;}
-#frmAssignDraftRequest div#assignDraftRequestBox div#accordionExampleA { margin: -4px 0 0 0;}
-#frmAssignDraftRequest div#assignDraftRequestBox div#accordionExampleA .accordion-item { border-top: 0; border-radius: 0px 0px 6px 6px;}
+#formAssignDraftRequest div#assignDraftRequestBox {margin: 0;}
+#formAssignDraftRequest div#assignDraftRequestBox.d-none .accordion .accordion-collapse { display: none;}
+#formAssignDraftRequest div#assignDraftRequestBox .accordion .accordion-collapse { display: block;}
+#formAssignDraftRequest div#assignDraftRequestBox .accordion .accordion-header {display: none;}
+#formAssignDraftRequest div#assignDraftRequestBox div#accordionExampleA { margin: -4px 0 0 0;}
+#formAssignDraftRequest div#assignDraftRequestBox div#accordionExampleA .accordion-item { border-top: 0; border-radius: 0px 0px 6px 6px;}
 
 
 
@@ -263,6 +264,7 @@ div#divDraftingBox div#assignDraftRequestBoxB div#accordionExampleB .accordion-i
 .filter-box .filter-inner .form-check .form-check-label strong {font-weight: 500;}
 .accordion-button:not(.collapsed) {background-color: #ebebeb;}
 .filter-box .accordion-item .accordion-body p {font-size: 14px;}
+.filter-box .accordion-item #accordionAssignDraftRequest p {font-size: 12px !important;}
 .invite-user-tabs-body .tab-content .invite-user-list ul p {font-size: 14px; }
 
 .tooltip .tooltip-inner { font-size: 12px; }
@@ -315,6 +317,10 @@ ul.more-option li a:visited { color: #282756 !important; }
 .tooltip.custom-tooltip-class .invite-user-list ul li .invite-user-inner .invite-user-name { text-align: left; }
 .tooltip.custom-tooltip-class .invite-user-list ul li { padding: 3px 0; }
 .tooltip.custom-tooltip-class .invite-user-list ul li .invite-user-inner .invite-user-name span { opacity: 90%; }
+.chat-body .atwho-inserted a, #messageInputSameSide .atwho-inserted a { color: #00d4ff !important }
+.chat-body .light-gold-color .atwho-inserted a, #messageInputCounterParty .atwho-inserted a { color: #FFBC81 !important }
+#atwho-ground-messageInputSameSide .atwho-view .cur { background: #00d4ff !important; }
+#atwho-ground-messageInputCounterParty .atwho-view .cur { background: #FFBC81 !important; }
 img.img-info { width: 16px; padding-left: 3px;display: inline-block;margin: -2px 0 0 0; }
 .chkbox-label { padding-top: 9px !important; cursor: pointer }
 @keyframes bounce {
