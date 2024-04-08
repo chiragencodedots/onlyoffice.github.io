@@ -133,6 +133,7 @@
         btnInviteUsers: document.getElementById("btnInviteUsers"),
         btnInviteTeams: document.getElementById("btnInviteTeams"),
         btnScheduleMeetingCounterparty: document.getElementById("btnScheduleMeetingCounterparty"),
+        btnMeetingView: document.getElementById("btnMeetingView"),
 
         paragraphInvitationActions: document.getElementById("paragraphInvitationActions"),
         paragraphTeamsNotFoundMessage: document.getElementById("paragraphTeamsNotFoundMessage"),
@@ -240,6 +241,14 @@
 
         typingSpan: document.getElementById("typingSpan"),
         typingSpanCP: document.getElementById("typingSpanCP"),
+
+        meetingTitle: document.getElementById("meetingTitle"),
+        meetingLocation: document.getElementById("meetingLocation"),
+        meetingAgenda: document.getElementById("meetingAgenda"),
+        meetingScheduleTime: document.getElementById("meetingScheduleTime"),
+        MeetingTimings: document.getElementById("MeetingTimings"),
+        participantCounts: document.getElementById("participantCounts"),
+        meetingParticipantList: document.getElementById("meetingParticipantList"),
 
     }
 
@@ -377,7 +386,7 @@
         var data = {
             chatRoomName: loggedInUserDetails._id + "_" + contractID,
             contractMode: contractMode == 'markup' ? 'edit' : 'markup'
-        }
+        };
         socket.emit('switchContractMode', data);
     };
 
@@ -389,12 +398,12 @@
     elements.btnResendInvitation.onclick = function () {
         switchClass(elements.loader, displayNoneClass, false);
         resendInvitation();
-    }
+    };
 
     elements.btnCancelInvitation.onclick = function () {
         switchClass(elements.loader, displayNoneClass, false);
         cancelInvitation();
-    }
+    };
 
     elements.inputSearchbox.onkeyup = function (event) {
         clearTimeout(searchTimeout); // Clear any existing timeout
@@ -414,9 +423,8 @@
                 await getClauses();
             }
         }, 500);
-    }
+    };
 
-    // Clause Lazy load functionality
     elements.divContractListItems.onscroll = async function (e) {
         if (elements.divContractListItems.scrollTop + elements.divContractListItems.offsetHeight >= (elements.divContractListItems.scrollHeight - 1)) {
             if (clauseHasNextPage) {
@@ -586,27 +594,6 @@
 
 
     /**====================== Section: Create Clause ======================*/
-    $("#formClause").validate({
-        ignore: "",
-        rules: {
-            clauseText: {
-                required: true
-            }
-        },
-        messages: {
-            clauseText: {
-                required: "Please select the text from the document"
-            }
-        },
-        errorClass: "error", // CSS class for error messages
-        errorPlacement: function (error, element) {
-            error.insertAfter(element); // Place error messages after the element
-        },
-        submitHandler: function (form) {
-            createClauseSection(socket);
-        }
-    });
-
     elements.btnContractCreateClose.onclick = function () {
         redirectToClauseList();
     };
@@ -645,6 +632,27 @@
         var allChecked = $('.user-chkbox:checked').length === $('.user-chkbox').length;
         $('#chkboxInviteAllUsers').prop('checked', allChecked);
         updateInviteCheckbox();
+    });
+
+    $("#formClause").validate({
+        ignore: "",
+        rules: {
+            clauseText: {
+                required: true
+            }
+        },
+        messages: {
+            clauseText: {
+                required: "Please select the text from the document"
+            }
+        },
+        errorClass: "error", // CSS class for error messages
+        errorPlacement: function (error, element) {
+            error.insertAfter(element); // Place error messages after the element
+        },
+        submitHandler: function (form) {
+            createClauseSection(socket);
+        }
     });
     /**====================== Section: Create Clause ======================*/
 
@@ -704,10 +712,25 @@
         }
     };
 
+    $(document).on('click', '.scheduled-meeting', function () {
+        getContractMeetingDetails($(this).data('id'));
+        elements.btnMeetingView.setAttribute('data-id', $(this).data('id'));
+    });
+
+    $(document).on('click', '.btn-meeting-view', function () {
+        var meetingData = {
+            meetingId: $(this).data('id'),
+            chatRoomName: loggedInUserDetails._id + "_" + contractID
+        };
+        socket.emit('scheduledMeetingView', meetingData)
+    });
+
+    $(document).on('click', '.btn-meeting-close', function () {
+        closeBottomPopup();
+    });
     /**====================== Section: Conversation History ======================*/
 
     /**====================== Section: Sameside chat ======================*/
-
     elements.messageInputSameSide.onkeydown = async function (event) {
         var data = {
             chatRoomName: getChatRoom(withType),
@@ -997,7 +1020,7 @@
         }
     };
 
-    elements.inputAssignDraftRequest.onclick = async function(event) {
+    elements.inputAssignDraftRequest.onclick = async function (event) {
         if (elements.assignDraftRequestBox.classList.contains(displayNoneClass)) {
             elements.accordionAssignDraftRequest.innerHTML = '';
             getContractTeamAndUserList('assignDraftRequest');
@@ -1008,7 +1031,7 @@
 
     };
 
-    elements.btnScheduleMeetingSameSide.onclick = async function(event) {
+    elements.btnScheduleMeetingSameSide.onclick = async function (event) {
         var meetingData = {
             contractId: contractID,
             contractSectionId: selectedClauseID,
@@ -1195,30 +1218,6 @@
 
 
     /**====================== Section: Counterparty chat ======================*/
-    function setCounterPartyUserTagLists() {
-        $('#messageInputCounterParty').atwho({
-            at: "@",
-            data: counterpartyUserList,
-            displayTpl: "<li class='sameside-list'>${name}</li>",
-            insertTpl: '<a href="#" data-type="mentionable" data-id="${id}" data-companyid="${companyId}" data-name="${name}">@${name}</a>',
-            callbacks: {
-                beforeInsert: function (value, $li) {
-                    var match = value.match(/data-id="([0-9a-f]+)"/);
-                    var match2 = value.match(/data-companyid="([0-9a-f]+)"/);
-                    if (match && match2) {
-                        var dataIdValue = match[1];
-                        var dataCompanyIdValue = match2[1];
-                        console.log("data-id value:", dataIdValue);
-                        console.log("data-companyid value:", dataCompanyIdValue);
-                        tagUserInMessage.push({"userId": dataIdValue, "companyId": dataCompanyIdValue});
-                        console.log('tagUserInMessage', tagUserInMessage);
-                    }
-                    return value;
-                }
-            }
-        });
-    }
-
     elements.messageInputCounterParty.onkeydown = async function (event) {
         var data = {
             chatRoomName: getChatRoom(withType),
@@ -1337,7 +1336,7 @@
         }
     };
 
-    elements.btnScheduleMeetingCounterparty.onclick = async function(event) {
+    elements.btnScheduleMeetingCounterparty.onclick = async function (event) {
         var meetingData = {
             contractId: contractID,
             contractSectionId: selectedClauseID,
@@ -1367,107 +1366,9 @@
         switchClass(elements.assignDraftingRequestBox, displayNoneClass, true);
     });
 
-    function updateAssignDraftRequestDropdown(userID, userName) {
-        elements.assignDraftingRequestUserId.value = userID;
-        elements.assignDraftingRequestInput.value = userName;
-        elements.assignDraftingRequestInput.placeholder = userName;
-    }
-
-    $("#formReconfirmPosition").validate({
-        submitHandler: function (form) {
-            var approveConfirmation = {
-                "contractId": contractID,
-                "contractSectionId": selectedClauseID,
-                "message": $('#inputPositionReason').val(),
-                "with": "Counterparty",
-                "messageType": 'Notification',
-                "companyId": loggedInCompanyDetails._id,
-                "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
-                "threadID": selectedThreadID,
-                "status": 'approved',
-                "confirmationType": "request_draft",
-                "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
-                "actionperformedbyUserImage": loggedInUserDetails.imageKey,
-                "actionperformedbyUserRole": openContractResponseData.userRole,
-                "actionperformedbyUserType": loggedInCompanyDetails._id == contractInformation.counterPartyCompanyId ? 'Counterparty' : 'Customer',
-                "messageConfirmationFor": 'Opposite Side',
-                "chatRoomName": getChatRoom('Counterparty'),
-                "messageId": $('#approvePositionMessageId').val(),
-                "messageNumber": 0,
-                "chatWindow": withType
-            };
-            if (elements.assignDraftingRequestUserId.value && elements.sendToTeamForDraft.checked) {
-                approveConfirmation.with = 'Our Team';
-                approveConfirmation.messageConfirmationFor = 'Same Side';
-                approveConfirmation.sendTo = elements.assignDraftingRequestUserId.value;
-                approveConfirmation.sendToName = elements.assignDraftingRequestInput.placeholder;
-                approveConfirmation.chatRoomName = 'user_' + counterPartyCompanyDetail._id + selectedThreadID
-            }
-            updateContractSectionConfirmationStatus(approveConfirmation, socket);
-            $('.reconfirm-approve[data-id="' + approveConfirmation.messageId + '"]').parent().addClass(displayNoneClass);
-        }
-    });
-
-    $("#formSendPositionConfirmation").validate({
-        submitHandler: function (form, event) {
-            chat_message = elements.inputSendPositionConfirmation.value;
-            elements.inputSendPositionConfirmation.value = "";
-            if (chat_message) {
-                var sendPositionConfirmation = {
-                    "contractId": contractID,
-                    "contractSectionId": selectedClauseID,
-                    "message": chat_message,
-                    "with": withType,
-                    "messageType": 'Position Confirmation',
-                    "companyId": loggedInCompanyDetails._id,
-                    "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
-                    "threadID": selectedThreadID,
-                    "status": 'send',
-                    "messageStatus": 'None',
-                    "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
-                    "actionperformedbyUserImage": loggedInUserDetails.imageKey,
-                    "actionperformedbyUserRole": openContractResponseData.userRole,
-                    "actionperformedbyUserId": loggedInUserDetails._id,
-                    "messageConfirmationFor": messageConfirmationFor,
-                    "chatRoomName": getChatRoom(withType),
-                    "messageNumber": 0,
-                    "chatWindow": withType
-                };
-                addContractSectionMessage(sendPositionConfirmation, socket);
-            }
-        }
-    });
-
     $(document).on('click', '.reconfirm-reject', function () {
         elements.rejectPositionMessageId.value = $(this).data('id');
         switchClass(elements.rejectPositionPopup, displayNoneClass, false);
-    });
-
-    $("#formRejectPosition").validate({
-        submitHandler: function (form) {
-            var rejectConfirmation = {
-                "contractId": contractID,
-                "contractSectionId": selectedClauseID,
-                "message": elements.inputRejectPositionReason.value,
-                "with": withType,
-                "messageType": 'Notification',
-                "companyId": loggedInCompanyDetails._id,
-                "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
-                "threadID": selectedThreadID,
-                "status": 'rejected',
-                "confirmationType": "position",
-                "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
-                "actionperformedbyUserImage": loggedInUserDetails.imageKey,
-                "actionperformedbyUserRole": openContractResponseData.userRole,
-                "messageConfirmationFor": messageConfirmationFor,
-                "chatRoomName": getChatRoom(withType),
-                "messageId": elements.rejectPositionMessageId.value,
-                "messageNumber": 0,
-                "chatWindow": withType
-            };
-            updateContractSectionConfirmationStatus(rejectConfirmation, socket);
-            $('.reconfirm-reject[data-id="' + rejectConfirmation.messageId + '"]').parent().addClass(displayNoneClass);
-        }
     });
 
     $(document).on('click', '.approve-possition', function () {
@@ -1535,6 +1436,126 @@
         }
     });
 
+    $(document).on('click', '.draft-approve', function () {
+        var approveDraftConfirmation = {
+            "contractId": contractID,
+            "contractSectionId": selectedClauseID,
+            "with": withType,
+            "messageType": 'Notification',
+            "companyId": loggedInCompanyDetails._id,
+            "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
+            "threadID": selectedThreadID,
+            "status": 'approved',
+            "confirmationType": "draft",
+            "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+            "actionperformedbyUserImage": loggedInUserDetails.imageKey,
+            "actionperformedbyUserRole": openContractResponseData.userRole,
+            "messageConfirmationFor": messageConfirmationFor,
+            "chatRoomName": getChatRoom(withType),
+            "messageId": $(this).data('id'),
+            "chatWindow": withType
+        };
+        updateContractSectionConfirmationStatus(approveDraftConfirmation, socket);
+        $(this).parent().addClass('d-none');
+    });
+
+    $(document).on('click', '.draft-reject', function () {
+        elements.rejectDraftMessageId.value = $(this).data('id');
+        switchClass(elements.rejectDarftPopup, displayNoneClass, false);
+    });
+
+    $("#formReconfirmPosition").validate({
+        submitHandler: function (form) {
+            var approveConfirmation = {
+                "contractId": contractID,
+                "contractSectionId": selectedClauseID,
+                "message": $('#inputPositionReason').val(),
+                "with": "Counterparty",
+                "messageType": 'Notification',
+                "companyId": loggedInCompanyDetails._id,
+                "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
+                "threadID": selectedThreadID,
+                "status": 'approved',
+                "confirmationType": "request_draft",
+                "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+                "actionperformedbyUserImage": loggedInUserDetails.imageKey,
+                "actionperformedbyUserRole": openContractResponseData.userRole,
+                "actionperformedbyUserType": loggedInCompanyDetails._id == contractInformation.counterPartyCompanyId ? 'Counterparty' : 'Customer',
+                "messageConfirmationFor": 'Opposite Side',
+                "chatRoomName": getChatRoom('Counterparty'),
+                "messageId": $('#approvePositionMessageId').val(),
+                "messageNumber": 0,
+                "chatWindow": withType
+            };
+            if (elements.assignDraftingRequestUserId.value && elements.sendToTeamForDraft.checked) {
+                approveConfirmation.with = 'Our Team';
+                approveConfirmation.messageConfirmationFor = 'Same Side';
+                approveConfirmation.sendTo = elements.assignDraftingRequestUserId.value;
+                approveConfirmation.sendToName = elements.assignDraftingRequestInput.placeholder;
+                approveConfirmation.chatRoomName = 'user_' + counterPartyCompanyDetail._id + selectedThreadID
+            }
+            updateContractSectionConfirmationStatus(approveConfirmation, socket);
+            $('.reconfirm-approve[data-id="' + approveConfirmation.messageId + '"]').parent().addClass(displayNoneClass);
+        }
+    });
+
+    $("#formSendPositionConfirmation").validate({
+        submitHandler: function (form, event) {
+            chat_message = elements.inputSendPositionConfirmation.value;
+            elements.inputSendPositionConfirmation.value = "";
+            if (chat_message) {
+                var sendPositionConfirmation = {
+                    "contractId": contractID,
+                    "contractSectionId": selectedClauseID,
+                    "message": chat_message,
+                    "with": withType,
+                    "messageType": 'Position Confirmation',
+                    "companyId": loggedInCompanyDetails._id,
+                    "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
+                    "threadID": selectedThreadID,
+                    "status": 'send',
+                    "messageStatus": 'None',
+                    "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+                    "actionperformedbyUserImage": loggedInUserDetails.imageKey,
+                    "actionperformedbyUserRole": openContractResponseData.userRole,
+                    "actionperformedbyUserId": loggedInUserDetails._id,
+                    "messageConfirmationFor": messageConfirmationFor,
+                    "chatRoomName": getChatRoom(withType),
+                    "messageNumber": 0,
+                    "chatWindow": withType
+                };
+                addContractSectionMessage(sendPositionConfirmation, socket);
+            }
+        }
+    });
+
+    $("#formRejectPosition").validate({
+        submitHandler: function (form) {
+            var rejectConfirmation = {
+                "contractId": contractID,
+                "contractSectionId": selectedClauseID,
+                "message": elements.inputRejectPositionReason.value,
+                "with": withType,
+                "messageType": 'Notification',
+                "companyId": loggedInCompanyDetails._id,
+                "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
+                "threadID": selectedThreadID,
+                "status": 'rejected',
+                "confirmationType": "position",
+                "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+                "actionperformedbyUserImage": loggedInUserDetails.imageKey,
+                "actionperformedbyUserRole": openContractResponseData.userRole,
+                "messageConfirmationFor": messageConfirmationFor,
+                "chatRoomName": getChatRoom(withType),
+                "messageId": elements.rejectPositionMessageId.value,
+                "messageNumber": 0,
+                "chatWindow": withType
+            };
+            updateContractSectionConfirmationStatus(rejectConfirmation, socket);
+            $('.reconfirm-reject[data-id="' + rejectConfirmation.messageId + '"]').parent().addClass(displayNoneClass);
+        }
+    });
+
     $("#formSendDraftConfirmation").validate({
         submitHandler: function (form) {
             chat_message = elements.inputSendDraftConfirmation.value;
@@ -1565,34 +1586,6 @@
         }
     });
 
-    $(document).on('click', '.draft-approve', function () {
-        var approveDraftConfirmation = {
-            "contractId": contractID,
-            "contractSectionId": selectedClauseID,
-            "with": withType,
-            "messageType": 'Notification',
-            "companyId": loggedInCompanyDetails._id,
-            "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
-            "threadID": selectedThreadID,
-            "status": 'approved',
-            "confirmationType": "draft",
-            "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
-            "actionperformedbyUserImage": loggedInUserDetails.imageKey,
-            "actionperformedbyUserRole": openContractResponseData.userRole,
-            "messageConfirmationFor": messageConfirmationFor,
-            "chatRoomName": getChatRoom(withType),
-            "messageId": $(this).data('id'),
-            "chatWindow": withType
-        };
-        updateContractSectionConfirmationStatus(approveDraftConfirmation, socket);
-        $(this).parent().addClass('d-none');
-    });
-
-    $(document).on('click', '.draft-reject', function () {
-        elements.rejectDraftMessageId.value = $(this).data('id');
-        switchClass(elements.rejectDarftPopup, displayNoneClass, false);
-    });
-
     $("#formRejectDraft").validate({
         submitHandler: function (form) {
             var rejectConfirmation = {
@@ -1619,6 +1612,45 @@
             $('.draft-reject[data-id="' + rejectConfirmation.messageId + '"]').parent().addClass(displayNoneClass);
         }
     });
+
+    /**
+     * @description
+     */
+    function setCounterPartyUserTagLists() {
+        $('#messageInputCounterParty').atwho({
+            at: "@",
+            data: counterpartyUserList,
+            displayTpl: "<li class='sameside-list'>${name}</li>",
+            insertTpl: '<a href="#" data-type="mentionable" data-id="${id}" data-companyid="${companyId}" data-name="${name}">@${name}</a>',
+            callbacks: {
+                beforeInsert: function (value, $li) {
+                    var match = value.match(/data-id="([0-9a-f]+)"/);
+                    var match2 = value.match(/data-companyid="([0-9a-f]+)"/);
+                    if (match && match2) {
+                        var dataIdValue = match[1];
+                        var dataCompanyIdValue = match2[1];
+                        console.log("data-id value:", dataIdValue);
+                        console.log("data-companyid value:", dataCompanyIdValue);
+                        tagUserInMessage.push({"userId": dataIdValue, "companyId": dataCompanyIdValue});
+                        console.log('tagUserInMessage', tagUserInMessage);
+                    }
+                    return value;
+                }
+            }
+        });
+    }
+
+    /**
+     * @description
+     * @param userID
+     * @param userName
+     */
+    function updateAssignDraftRequestDropdown(userID, userName) {
+        elements.assignDraftingRequestUserId.value = userID;
+        elements.assignDraftingRequestInput.value = userName;
+        elements.assignDraftingRequestInput.placeholder = userName;
+    }
+
     /**====================== Section: Counterparty chat ======================*/
 
 
@@ -1643,6 +1675,11 @@
         return urlArr[10];
     }
 
+    /**
+     * @description This function is used for geeting the params from URL and it is used for development
+     * @param name
+     * @returns {string | null}
+     */
     function getURLParameter(name) {
         return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
     }
@@ -1661,10 +1698,10 @@
                 return "counterparty_" + selectedThreadID
                 break;
             case 'Conversion History':
-                return 'conversion_history_' + selectedThreadID
+                return 'conversionHistory_' + selectedThreadID
                 break;
             default:
-                return 'conversion_history_' + selectedThreadID
+                return 'conversionHistory_' + selectedThreadID
                 break;
         }
     }
@@ -1718,10 +1755,33 @@
     }
 
     /**
+     * @param inputDate
+     * @returns {string}
+     */
+    function formatDateForMeeting(inputDate) {
+        var months = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+        var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var date = new Date(inputDate);
+        var day = daysOfWeek[date.getDay()];
+        var dateT = date.getDate();
+        var month = months[date.getMonth()];
+        var formattedDate = `${day}, ${dateT} ${month}`;
+        return formattedDate;
+    }
+
+    /**
      * @description This function is used for the close all the bottom popups
      */
     function closeBottomPopup() {
         elements.formSendPositionConfirmation.reset();
+        elements.formRejectPosition.reset();
+        elements.formAssignDraftRequest.reset();
+        elements.formSendDraftConfirmation.reset();
+        elements.formRejectDraftRequest.reset();
+        elements.formRejectDraft.reset();
         switchClass(elements.inviteUserPopup, displayNoneClass, true);
         switchClass(elements.inviteTeamPopup, displayNoneClass, true);
         switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, true);
@@ -1731,6 +1791,7 @@
         switchClass(elements.sendDraftConfirmationPopup, displayNoneClass, true);
         switchClass(elements.rejectDarftRequestPopup, displayNoneClass, true);
         switchClass(elements.rejectDarftPopup, displayNoneClass, true);
+        switchClass(elements.meetingPopup, displayNoneClass, true);
     }
 
     /**
@@ -1830,7 +1891,7 @@
             socket.emit('joinChatRoom', documentChatRoomName);
 
             socket.on('forwardNewClauseCreated', async function (data) {
-                debugger;
+                // debugger;
                 if (data) {
                     // console.log('forward_new_clause_create __data', data);
                     tagLists.push(JSON.parse(data));
@@ -1850,6 +1911,14 @@
                 }
             });
 
+            socket.on('forwardConversionHistoryMessage', data => {
+                console.log('forwardConversionHistoryMessage', data);
+                if (elements.sectionContractLists.classList.contains(displayNoneClass)) {
+                    unreadMessageForThread()
+                }
+                renderSocketHistoryMessage(data, 'CH');
+            });
+
             socket.on('forwardContractSectionMessage', data => {
                 console.log('forwardContractSectionMessage', data);
                 if (elements.sectionContractLists.classList.contains(displayNoneClass)) {
@@ -1861,6 +1930,9 @@
 
             socket.on('forwardCounterContractSectionMessage', data => {
                 console.log('forwardCounterContractSectionMessage', data);
+                if (elements.sectionContractLists.classList.contains(displayNoneClass)) {
+                    unreadMessageForThread()
+                }
                 renderSocketMessage(data, 'CP');
             });
 
@@ -1936,7 +2008,7 @@
     }
 
     function renderSocketMessage(data, chatWindow) {
-        debugger;
+        // debugger;
         var renderHTML = '';
         switch (data.messageType) {
             case "Invite":
@@ -2016,11 +2088,56 @@
                     if (data.status == 'approved') {
                         getContractSectionDetails();
                         getContractDetails(socket, redirection = false);
+                        requestRowMessage = 'Draft confirmation request approved by ' + data.actionperformedbyUser;
                     } else {
                         requestRowMessage = 'Draft confirmation request rejected by ' + data.actionperformedbyUser;
                     }
+                } else if (data.confirmationType == "withdrawn") {
+                    renderHTML += '<div class="message-wrapper grey-color ' + (data.with == "Counterparty" ? "light-gold-color" : "") + '">\n' +
+                        '   <div class="profile-picture">\n' +
+                        '      <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                        '      <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                        '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                        '   </div>\n' +
+                        '   <div class="request-row">\n' +
+                        '      <div class="message">Contract section withdrawn by ' + data.actionperformedbyUser + '</div>\n' +
+                        '   </div>\n' +
+                        '</div>\n';
+                    switchClass(elements.divSameSideTextbox, displayNoneClass, true);
+                    switchClass(elements.divCounterpartyTextbox, displayNoneClass, true);
+                    var actionSameSide = document.querySelectorAll('.action-sameside');
+                    actionSameSide.forEach(function (element) {
+                        element.classList.add(displayNoneClass);
+                    });
+                    var actionCounterparty = document.querySelectorAll('.action-counterparty');
+                    actionCounterparty.forEach(function (element) {
+                        element.classList.add(displayNoneClass);
+                    });
+                    if (chatWindow !== 'SS') {
+                        let htmlA = '';
+                        htmlA += '<div class="chat-typing-area" id="draftConfirmCP">\n' +
+                            '   <div class="position-text">This contract section has been withdrawn by ' + data.actionperformedbyUser + '</div>\n';
+                        if (openContractResponseData.userRole == "Admin" || openContractResponseData.userRole == "Contract Creator" || openContractResponseData.userRole == "Counterparty" || openContractResponseData.userRole == "Position Confirmer") {
+                            htmlA += '   <div class="btn-box btn-box-re-open"><button class="btn-primary btn">Re-Open</button></div>\n';
+                        }
+                        htmlA += '</div>';
+                        var newElementA = document.createElement("div");
+                        newElementA.innerHTML = htmlA;
+                        elements.divChatContractCounterpartyFooter.appendChild(newElementA);
+                    } else {
+                        // console.log('loggedinuser', loggedInUserDetails);
+                        let htmlB = '';
+                        htmlB += '<div class="chat-typing-area" id="draftConfirmSS">\n' +
+                            '   <div class="position-text">This contract section has been withdrawn by ' + data.actionperformedbyUser + '</div>\n';
+                        if (openContractResponseData.userRole == "Admin" || openContractResponseData.userRole == "Contract Creator" || openContractResponseData.userRole == "Counterparty" || openContractResponseData.userRole == "Position Confirmer") {
+                            htmlB += '   <div class="btn-box btn-box-re-open"><button class="btn-primary btn">Re-Open</button></div>\n';
+                        }
+                        htmlB += '</div>';
+                        var newElementB = document.createElement("div");
+                        newElementB.innerHTML = htmlB;
+                        elements.divChatContractSameSideFooter.appendChild(newElementB);
+                    }
                 } else if (data.confirmationType == "Reopen") {
-                    if (!document.getElementById('sectionCounterpartyChat').classList.contains(displayNoneClass)) {
                         requestRowMessage = 'Contract section Re-Opened by ' + data.actionperformedbyUser;
                         document.getElementById('divChatCounterPartyBody').classList.remove('contract-completed');
                         document.getElementById('divChatSameSideBody').classList.remove('contract-completed');
@@ -2042,7 +2159,6 @@
                         if (draftConfirmSSElement) {
                             draftConfirmSSElement.parentNode.removeChild(draftConfirmSSElement);
                         }
-                    }
                 }
                 if (data.status == "rejected") {
                     renderHTML += '<div class="message-wrapper red-color">\n' +
@@ -2059,6 +2175,7 @@
                         '       </div>\n' +
                         '</div>';
                 } else if (data.confirmationType == 'request_draft' && !data.sendTo) {
+                    getContractDetails(socket, false);
                     if (chatWindow == 'SS') {
                         renderHTML += '<div class="message-wrapper reverse">\n' +
                             '       <div class="profile-picture">\n' +
@@ -2095,7 +2212,11 @@
                         if (data.flagDraftAssigned) {
                             requestRowMessage = data.actionperformedbyUser + ' has assigned ' + (data.assignedUserDetails ? data.assignedUserDetails.firstName + " " + data.assignedUserDetails.lastName : "") + ' to draft this contract section';
                         } else {
-                            requestRowMessage = data.actionperformedbyUser + ' has assigned ' + (loggedInCompanyDetails._id == data.companyId ? loggedInCompanyDetails.companyName : counterPartyCompanyDetail.companyName) + ' to draft this contract section';
+                            if (loggedInCompanyDetails._id == contractInformation.companyId) {
+                                requestRowMessage = data.actionperformedbyUser + ' has assigned ' + (loggedInCompanyDetails._id == data.companyId ? loggedInCompanyDetails.companyName : counterPartyCompanyDetail.companyName) + ' to draft this contract section';
+                            } else {
+                                requestRowMessage = data.actionperformedbyUser + ' has assigned ' + (loggedInCompanyDetails._id == data.companyId ? loggedInCompanyDetails.companyName : counterPartyCompanyDetail.companyName) + ' to draft this contract section';
+                            }
                         }
                     }
                 }
@@ -2111,6 +2232,21 @@
                         '       </div>\n' +
                         '</div>';
                 }
+                break;
+            case "Meeting":
+                renderHTML += '<div class="scheduled-meeting" data-id="' + data.meetingId + '">\n' +
+                    '          <div class="scheduled-meeting-inner">\n' +
+                    '            <div class="scheduled-meeting-icon">\n' +
+                    '              <img src="images/schedule-meeting-icon.svg"\n' +
+                    '                alt="Schedule Meeting Icon" />\n' +
+                    '            </div>\n' +
+                    '            <div class="scheduled-meeting-content">\n' +
+                    '              <h3>' + data.meetingTitle + '</h3>\n' +
+                    '              <p>Scheduled Meeting</p>\n' +
+                    '              <span>' + formatDateForMeeting(data.meetingDate) + ' &#183; ' + data.meetingStartTime + ' - ' + data.meetingEndTime + '</span>\n' +
+                    '            </div>\n' +
+                    '          </div>\n' +
+                    '        </div>';
                 break;
             default:
                 renderHTML += '<div class="message-wrapper' + (chatWindow == 'CP' ? " light-gold-color" : "") + '">\n' +
@@ -2152,6 +2288,228 @@
                 };
                 elements.divChatCounterPartyBody.scrollTo(scrollToOptions);
             }
+        }
+    }
+
+    function renderSocketHistoryMessage(data, chatWindow) {
+        // debugger;
+        if (loggedInCompanyDetails._id != contractInformation.companyId) {
+            var conversionTypeArr = ['OTCP'];
+            if (openContractResponseData && openContractResponseData.canCommunicateWithCounterparty) {
+                conversionTypeArr.push('OTM');
+            }
+            if (!conversionTypeArr.includes(data.conversationType)) {
+                return false;
+            }
+        } else {
+            var conversionTypeArr = ['OTCC'];
+            if (openContractResponseData && openContractResponseData.canCommunicateWithCounterparty) {
+                conversionTypeArr.push('OTM');
+            }
+            // console.log('asd', conversionTypeArr.includes(data.conversationType));
+            if (!conversionTypeArr.includes(data.conversationType)) {
+                return false;
+            }
+        }
+
+        var renderHTML = '';
+        switch (data.messageType) {
+            case "Invite":
+                var message = "";
+                if (data.invitedUserName) {
+                    message += data.invitedUserName.trim() + " invited by " + data.actionperformedbyUser.trim() + " in this contract section";
+                } else {
+                    message += data.invitedTeamName.trim() + " invited by " + data.actionperformedbyUser.trim() + " in this contract section";
+                }
+                renderHTML += '<strong class="message-wrapper reverse">\n' +
+                    '   <div class="profile-picture">\n' +
+                    '      <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                    '      <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                    '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                    '   </div>\n' +
+                    '   <strong>\n' + message + '</strong>\n' +
+                    '</div>\n'
+                break;
+            case "Position Confirmation":
+                renderHTML += '<div class="message-wrapper' + (data.chatWindow !== 'Counterparty' ? " grey-color reverse" : " dark-gold-color") + (data && data.messageStatus && data.messageStatus == 'Reject' ? " red-color" : "") + '">\n' +
+                    '       <div class="profile-picture">\n' +
+                    '           <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                    '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                    '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                    '       </div>\n' +
+                    '       <div class="request-row">\n' +
+                    '           <div class="' + (data.chatWindow !== 'Counterparty' ? "request-content" : "message-content") + '">\n' +
+                    '               <h4>' + (data.messageStatus == 'None' || data.messageStatus == 'Updated' ? 'Sent a position confirmation <br/> request' : (data.messageStatus == 'Approve' ? 'Position confirmation approved' : 'Position confirmation rejected')) + '</h4>\n' +
+                    '               <div class="' + (data.chatWindow !== 'Counterparty' ? "content-message" : "message") + '">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
+                    '           </div>\n';
+                renderHTML += '    </div>\n' +
+                    '</div>\n';
+                break;
+            case "Draft Confirmation":
+                renderHTML += '<div class="message-wrapper' + (data.chatWindow !== 'Counterparty' ? " grey-color reverse" : " dark-gold-color") + '">\n' +
+                    '   <div class="profile-picture">\n' +
+                    '           <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                    '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                    '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                    '   </div>\n' +
+                    '   <div class="request-row">\n' +
+                    '      <div class="' + (data.chatWindow !== 'Counterparty' ? "request-content" : "message-content") + '">\n' +
+                    '         <h4>Draft confirmation request</h4>\n' +
+                    '         <div class="' + (data.chatWindow !== 'Counterparty' ? "content-message" : "message") + '">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
+                    '      </div>\n' +
+                    '   </div>\n' +
+                    '</div>';
+                break;
+            case "Notification":
+                var requestRowMessage = '';
+                if (data.confirmationType == 'position') {
+                    requestRowMessage = (data.status == "approved" ? 'Position approved by ' : 'Position rejected by ') + data.actionperformedbyUser
+                } else if (data.confirmationType == 'request_draft' && data.sendTo) {
+                    requestRowMessage = data.actionperformedbyUser + ' has assigned a team member to draft this contract section';
+                } else if (data.confirmationType == "draft") {
+                    if (data.status == 'approved') {
+                        getContractSectionDetails();
+                        getContractDetails(socket, redirection = false);
+                        requestRowMessage = 'Draft confirmation request approved by ' + data.actionperformedbyUser;
+                    } else {
+                        requestRowMessage = 'Draft confirmation request rejected by ' + data.actionperformedbyUser;
+                    }
+                } else if (data.confirmationType == "withdrawn") {
+                    requestRowMessage = 'Contract section withdrawn by ' + data.actionperformedbyUser;
+                } else if (data.confirmationType == "Reopen") {
+                        requestRowMessage = 'Contract section Re-Opened by ' + data.actionperformedbyUser;
+                        document.getElementById('divChatCounterPartyBody').classList.remove('contract-completed');
+                        document.getElementById('divChatSameSideBody').classList.remove('contract-completed');
+                        document.getElementById('divSameSideTextbox').classList.remove(displayNoneClass);
+                        document.getElementById('divCounterpartyTextbox').classList.remove(displayNoneClass);
+                        var actionSameSide = document.querySelectorAll('.action-sameside');
+                        actionSameSide.forEach(function (element) {
+                            element.classList.remove(displayNoneClass);
+                        });
+                        var actionCounterparty = document.querySelectorAll('.action-counterparty');
+                        actionCounterparty.forEach(function (element) {
+                            element.classList.remove(displayNoneClass);
+                        });
+                        var draftConfirmCPElement = document.getElementById("draftConfirmCP");
+                        if (draftConfirmCPElement) {
+                            draftConfirmCPElement.parentNode.removeChild(draftConfirmCPElement);
+                        }
+                        var draftConfirmSSElement = document.getElementById("draftConfirmSS");
+                        if (draftConfirmSSElement) {
+                            draftConfirmSSElement.parentNode.removeChild(draftConfirmSSElement);
+                        }
+                }
+                if (data.status == "rejected") {
+                    renderHTML += '<div class="message-wrapper red-color' + (data.chatWindow !== 'Counterparty' ? " reverse" : "") + '">\n' +
+                        '       <div class="profile-picture">\n' +
+                        '           <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                        '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                        '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                        '       </div>\n' +
+                        '       <div class="request-row">\n' +
+                        '           <div class="request-content">\n' +
+                        '               <h4>' + (data.confirmationType == 'position' ? 'Position confirmation rejected' : 'Draft confirmation rejected') + '</h4>\n' +
+                        '               <div class="content-message">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
+                        '           </div>\n' +
+                        '       </div>\n' +
+                        '</div>';
+                } else if (data.confirmationType == 'request_draft' && !data.sendTo) {
+                    if (data.chatWindow !== 'Counterparty') {
+                        renderHTML += '<div class="message-wrapper reverse">\n' +
+                            '       <div class="profile-picture">\n' +
+                            '           <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                            '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                            '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                            '       </div>\n' +
+                            '       <div class="request-row">\n' +
+                            '           <div class="request-content">\n' +
+                            '               <h4>Draft Request</h4>\n' +
+                            '               <div class="content-message">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
+                            '           </div>\n';
+                        if (openContractResponseData.userRole == "Admin" || openContractResponseData.userRole == "Contract Creator") {
+                            renderHTML += '        <div class="request-btn">\n' +
+                                '               <button class="btn btn-primary assign-user" data-action="assign-user" data-id="' + data._id + '">Assign for Drafting</button>\n' +
+                                '           </div>\n';
+                        }
+                        renderHTML += '</div>\n' +
+                            '</div>';
+                    } else {
+                        renderHTML += '<div class="message-wrapper dark-gold-color">\n' +
+                            '       <div class="profile-picture">\n' +
+                            '           <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                            '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                            '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                            '       </div>\n' +
+                            '       <div class="request-row">\n' +
+                            '           <div class="message-content">\n' +
+                            '               <h4>Draft Request</h4>\n' +
+                            '               <div class="message">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
+                            '           </div>\n';
+                        renderHTML += '</div>\n' +
+                            '</div>';
+                        if (data.flagDraftAssigned) {
+                            requestRowMessage = data.actionperformedbyUser + ' has assigned ' + (data.assignedUserDetails ? data.assignedUserDetails.firstName + " " + data.assignedUserDetails.lastName : "") + ' to draft this contract section';
+                        } else {
+                            if (loggedInCompanyDetails._id == contractInformation.companyId) {
+                                requestRowMessage = data.actionperformedbyUser + ' has assigned ' + (loggedInCompanyDetails._id == data.companyId ? counterPartyCompanyDetail.companyName : loggedInCompanyDetails.companyName) + ' to draft this contract section';
+                            } else {
+                                requestRowMessage = data.actionperformedbyUser + ' has assigned ' + (loggedInCompanyDetails._id == data.companyId ? counterPartyCompanyDetail.companyName : loggedInCompanyDetails.companyName) + ' to draft this contract section';
+                            }
+                        }
+                    }
+                }
+                if (requestRowMessage) {
+                    renderHTML += '<div class="message-wrapper' + (data.chatWindow !== 'Counterparty' ? " grey-color reverse" : " dark-gold-color") + '">\n' +
+                        '       <div class="profile-picture">\n' +
+                        '           <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                        '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                        '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                        '       </div>\n' +
+                        '       <div class="request-row">\n' +
+                        '           <strong>' + requestRowMessage + '</strong>\n' +
+                        '       </div>\n' +
+                        '</div>';
+                }
+                break;
+            case "Meeting":
+                renderHTML += '<div class="scheduled-meeting" data-id="' + data.meetingId + '">\n' +
+                    '          <div class="scheduled-meeting-inner">\n' +
+                    '            <div class="scheduled-meeting-icon">\n' +
+                    '              <img src="images/schedule-meeting-icon.svg"\n' +
+                    '                alt="Schedule Meeting Icon" />\n' +
+                    '            </div>\n' +
+                    '            <div class="scheduled-meeting-content">\n' +
+                    '              <h3>' + data.meetingTitle + '</h3>\n' +
+                    '              <p>Scheduled Meeting</p>\n' +
+                    '              <span>' + formatDateForMeeting(data.meetingDate) + ' &#183; ' + data.meetingStartTime + ' - ' + data.meetingEndTime + '</span>\n' +
+                    '            </div>\n' +
+                    '          </div>\n' +
+                    '        </div>';
+                break;
+            default:
+                renderHTML += '<div class="message-wrapper' + (data.chatWindow == 'Counterparty' ? " light-gold-color" : " reverse") + '">\n' +
+                    '   <div class="profile-picture">\n' +
+                    '      <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                    '      <p class="name">' + data.actionperformedbyUser + '&nbsp;<small>' + (data && data.actionperformedbyUserRole ? '(' + data.actionperformedbyUserRole + ')' : '') + '</small>' + '</p>\n' +
+                    '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                    '   </div>\n' +
+                    '   <div class="message-content">\n' +
+                    '      <div class="message">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
+                    '   </div>\n' +
+                    '</div>\n';
+                break;
+        }
+
+        var newHistoryElement = document.createElement("div");
+        newHistoryElement.innerHTML = renderHTML;
+        elements.conversionHistory.appendChild(newHistoryElement);
+        var scrollPositionFromBottom = elements.divChatHistoryBody.scrollHeight - (elements.divChatHistoryBody.scrollTop + elements.divChatHistoryBody.clientHeight)
+        if (scrollPositionFromBottom <= 600) {
+            var scrollToOptions = {
+                top: elements.divChatHistoryBody.scrollHeight,
+                behavior: 'smooth'
+            };
+            elements.divChatHistoryBody.scrollTo(scrollToOptions);
         }
     }
 
@@ -2238,10 +2596,12 @@
                             switchClass(elements.btnMarkupMode, displayNoneClass, true);
                             switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
                             // document.getElementById('divContractLists').classList.remove(displayNoneClass);
-                            clauseNextPage = 1;
-                            clauseHasNextPage = true;
-                            clauseLists = [];
-                            getClauses();
+                            if (contractInformation.counterPartyInviteStatus !== 'Accepted') {
+                                clauseNextPage = 1;
+                                clauseHasNextPage = true;
+                                clauseLists = [];
+                                getClauses();
+                            }
                         }
                         if (contractInformation.counterPartyInviteStatus == 'Accepted') {
                             switchClass(elements.divInviteCounterparty, displayNoneClass, true);
@@ -2264,6 +2624,10 @@
                             elements.txtOrganizationName.textContent = counterPartyCompanyDetail.companyName;
                             switchClass(elements.btnMarkupMode, displayNoneClass, false);
                             switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', false);
+                            clauseNextPage = 1;
+                            clauseHasNextPage = true;
+                            clauseLists = [];
+                            getClauses();
                         } else if (contractInformation.counterPartyInviteStatus == 'Invited') {
                             if (!(responseData.userRole == 'Admin' || responseData.userRole == 'Contract Creator')) {
                                 switchClass(elements.paragraphInvitationActions, displayNoneClass, true);
@@ -2675,7 +3039,7 @@
                     // Handle the response data
                     var responseData = response;
                     if (responseData && responseData.status == true && responseData.code == 201) {
-                        debugger;
+                        // debugger;
                         // Handle the response data
                         // redirectToClauseList();
                         if (typeof window.Asc.plugin.executeMethod === 'function') {
@@ -2870,19 +3234,19 @@
                                     flagRedirectFirst = true;
                                 }, 500);
                             } else if (commentThreadID) {
-                                debugger;
+                                // debugger;
                                 setTimeout(function () {
                                     flagRedirectClauseCreate = true;
                                     $('.contract-item[data-commentid="' + commentThreadID + '"]').click();
                                     $('#btnGoToSameSideChat').click();
-                                    if (!openContractUserDetails.canCommunicateWithCounterparty) {
-                                        document.getElementById('btnGoToCounterpartyChat').classList.add(displayNoneClass);
-                                        document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
+                                    if (!openContractResponseData.canCommunicateWithCounterparty) {
+                                        switchClass(elements.btnGoToCounterpartyChat, displayNoneClass, true);
+                                        switchClass(elements.btnGoToCounterparty, displayNoneClass, true);
                                         switchClass(elements.chatFooterInnerSameSide, 'justify-content-end', true);
                                     }
-                                    if (openContractUserDetails.openContractDetails.counterPartyInviteStatus != 'Accepted') {
-                                        document.getElementById('btnGoToCounterpartyChat').classList.add(displayNoneClass);
-                                        document.getElementById('btnGoToCounterparty').classList.add(displayNoneClass);
+                                    if (contractInformation.counterPartyInviteStatus != 'Accepted') {
+                                        switchClass(elements.btnGoToCounterpartyChat, displayNoneClass, true);
+                                        switchClass(elements.btnGoToCounterparty, displayNoneClass, true);
                                         switchClass(elements.chatFooterInnerSameSide, 'justify-content-end', true);
                                     }
                                 }, 500);
@@ -3465,6 +3829,27 @@
                                             '       </div>\n' +
                                             '</div>\n';
                                         break;
+                                    case "Invite":
+                                        var inviteMessage = '';
+                                        var userName = element.messageSenderUser.firstName + " " + element.messageSenderUser.lastName;
+                                        if (element.inviteType == 'Team' && element.invitedTeamDetails) {
+                                            inviteMessage += element.invitedTeamDetails.teamName;
+                                        } else {
+                                            var invitedUser = element.invitedUserDetails.firstName + " " + element.invitedUserDetails.lastName;
+                                            inviteMessage += invitedUser.trim();
+                                        }
+                                        inviteMessage += ' ' + element.message + ' ' + userName.trim() + ' in this contract section';
+                                        renderHTML += '<div class="message-wrapper' + (element.conversationType == 'OTM' ? "" : " reverse") + '">\n' +
+                                            '       <div class="profile-picture">\n' +
+                                            '           <img src="' + (element && element.messageSenderUser && element.messageSenderUser.imageKey ? IMAGE_USER_PATH_LINK + element.messageSenderUser.imageKey : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                            '           <p class="name">' + userName.trim() + '&nbsp;<small>(' + (element && element.companyId === loggedInCompanyDetails._id ? 'Same side' : 'Counterparty') + ')</small>' + '</p>\n' +
+                                            '           <p class="last-seen">' + formatDate(element.createdAt) + '</p>\n' +
+                                            '       </div>\n' +
+                                            '       <div class="request-row">\n' +
+                                            '           <strong>' + inviteMessage + '</strong>\n' +
+                                            '       </div>\n' +
+                                            '</div>\n';
+                                        break;
                                     case "Position Confirmation":
                                         renderHTML += '<div class="message-wrapper' + (element.conversationType == 'OTM' ? "" : " reverse") + (element.chatWindow == "Counterparty" && element.messageStatus != 'Reject' ? " dark-gold-color" : "") + ' ' + (element.messageStatus == 'Reject' ? " red-color" : "") + '">\n' +
                                             '       <div class="profile-picture">\n' +
@@ -3546,8 +3931,23 @@
                                             '       </div>\n' +
                                             '</div>\n';
                                         break;
+                                    case "Meeting":
+                                        renderHTML += '<div class="scheduled-meeting" data-id="' + element.meetingId + '">\n' +
+                                            '          <div class="scheduled-meeting-inner">\n' +
+                                            '            <div class="scheduled-meeting-icon">\n' +
+                                            '              <img src="images/schedule-meeting-icon.svg"\n' +
+                                            '                alt="Schedule Meeting Icon" />\n' +
+                                            '            </div>\n' +
+                                            '            <div class="scheduled-meeting-content">\n' +
+                                            '              <h3>' + element.meetingDetails.meetingTitle + '</h3>\n' +
+                                            '              <p>Scheduled Meeting</p>\n' +
+                                            '              <span>' + formatDateForMeeting(element.meetingDetails.meetingDate) + ' &#183; ' + element.meetingDetails.meetingStartTime + ' - ' + element.meetingDetails.meetingEndTime + '</span>\n' +
+                                            '            </div>\n' +
+                                            '          </div>\n' +
+                                            '        </div>';
+                                        break;
                                     default:
-                                        renderHTML += '<div class="message-wrapper'  + (element.conversationType == 'OTM' ? "" : " reverse") + (element.chatWindow == "Counterparty" ? " light-gold-color" : "") + '">\n' +
+                                        renderHTML += '<div class="message-wrapper' + (element.conversationType == 'OTM' ? "" : " reverse") + (element.chatWindow == "Counterparty" ? " light-gold-color" : "") + '">\n' +
                                             '       <div class="profile-picture">\n' +
                                             '           <img src="' + (element && element.messageSenderUser && element.messageSenderUser.imageKey ? IMAGE_USER_PATH_LINK + element.messageSenderUser.imageKey : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                                             '           <p class="name">' + element.messageSenderUser.firstName + ' ' + element.messageSenderUser.lastName + '&nbsp;<small>(' + (element && element.companyId === loggedInCompanyDetails._id ? 'Same side' : 'Counterparty') + ')</small>' + '</p>\n' +
@@ -3739,7 +4139,7 @@
                                             '</div>\n';
                                         break;
                                     case "Draft Confirmation":
-                                        renderHTML += '<div class="message-wrapper' + (element.from == loggedInUserDetails._id ? " reverse" : "")  + (element.with == "Counterparty" && element.messageStatus != ' Reject' ? " dark-gold-color" : "") + ' ' + (element.messageStatus == 'Reject' ? " red-color" : "") + '">\n' +
+                                        renderHTML += '<div class="message-wrapper' + (element.from == loggedInUserDetails._id ? " reverse" : "") + (element.with == "Counterparty" && element.messageStatus != ' Reject' ? " dark-gold-color" : "") + ' ' + (element.messageStatus == 'Reject' ? " red-color" : "") + '">\n' +
                                             '       <div class="profile-picture">\n' +
                                             '           <img src="' + (element && element.messageSenderUser && element.messageSenderUser.imageKey ? IMAGE_USER_PATH_LINK + element.messageSenderUser.imageKey : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                                             '           <p class="name">' + element.messageSenderUser.firstName + ' ' + element.messageSenderUser.lastName + '</p>\n' +
@@ -3786,6 +4186,21 @@
                                             '           <strong>' + (notificationMessage ? notificationMessage.trim().replaceAll(/\n/g, '<br>') : '') + '</strong>\n' +
                                             '       </div>\n' +
                                             '</div>\n';
+                                        break;
+                                    case "Meeting":
+                                        renderHTML += '<div class="scheduled-meeting" data-id="' + element.meetingId + '">\n' +
+                                            '          <div class="scheduled-meeting-inner">\n' +
+                                            '            <div class="scheduled-meeting-icon">\n' +
+                                            '              <img src="images/schedule-meeting-icon.svg"\n' +
+                                            '                alt="Schedule Meeting Icon" />\n' +
+                                            '            </div>\n' +
+                                            '            <div class="scheduled-meeting-content">\n' +
+                                            '              <h3>' + element.meetingDetails.meetingTitle + '</h3>\n' +
+                                            '              <p>Scheduled Meeting</p>\n' +
+                                            '              <span>' + formatDateForMeeting(element.meetingDetails.meetingDate) + ' &#183; ' + element.meetingDetails.meetingStartTime + ' - ' + element.meetingDetails.meetingEndTime + '</span>\n' +
+                                            '            </div>\n' +
+                                            '          </div>\n' +
+                                            '        </div>';
                                         break;
                                     default:
                                         renderHTML += '<div class="message-wrapper' + (element.from == loggedInUserDetails._id ? " reverse" : "") + (element.chatWindow == "Counterparty" ? " light-gold-color" : "") + '">\n' +
@@ -4031,6 +4446,7 @@
             fetch(requestURL, requestOptions)
                 .then(response => response.json())
                 .then(response => {
+                    // debugger;
                     // Handle the response data
                     elements.formReconfirmPosition.reset();
                     elements.formRejectPosition.reset();
@@ -4349,7 +4765,7 @@
                         // Send conversion history window
                         var generalChatData = postData;
                         var conversationType = 'OTM';
-                        generalChatData.chatRoomName = 'conversion_history_' + selectedThreadID;
+                        generalChatData.chatRoomName = 'conversionHistory_' + selectedThreadID;
                         generalChatData.conversationType = conversationType;
                         socket.emit('conversionHistoryMessage', generalChatData);
 
@@ -4386,11 +4802,11 @@
                         elements.divChatContractSameSideFooter.appendChild(newElement);
 
                         var renderHTML = '';
-                        renderHTML += '<div class="message-wrapper reverse' + (postData.with == "Counterparty" ? " light-gold-color" : "") + ' ">\n' +
+                        renderHTML += '<div class="message-wrapper' + (postData.chatWindow == "Counterparty" ? " light-gold-color" : " reverse") + ' ">\n' +
                             '   <div class="profile-picture">\n' +
-                            '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
-                            '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
                             '      <img src="' + (postData.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                            '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
+                            '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
                             '   </div>\n' +
                             '   <div class="request-row">\n' +
                             '      <strong>Contract section withdrawn by ' + postData.actionperformedbyUser + '</strong>\n' +
@@ -4465,7 +4881,7 @@
 
                     // Send the message to contract history section
                     var generalChatData = reopenDetail;
-                    generalChatData.chatRoomName = 'conversion_history_' + selectedThreadID;
+                    generalChatData.chatRoomName = 'conversionHistory_' + selectedThreadID;
                     socket.emit('conversionHistoryMessage', generalChatData);
 
                     var oppositeChat = reopenDetail;
@@ -4479,9 +4895,41 @@
                         if (counterPartyCompanyDetail) {
                             oppositeChat.with = 'Our Team';
                             oppositeChat.messageConfirmationFor = 'Same Side';
-                            oppositeChat.chatRoomName = 'user_' + counterPartyCompanyDetail._id + selectedCommentThereadID;
+                            oppositeChat.chatRoomName = 'user_' + counterPartyCompanyDetail._id + selectedThreadID;
                             socket.emit('contractSectionMessage', oppositeChat);
                         }
+                    }
+                    var renderHTML = '';
+                    renderHTML += '<div class="message-wrapper' + (reopenDetail.chatWindow == "Counterparty" ? " light-gold-color reverse" : " ") + ' ">\n' +
+                        '   <div class="profile-picture">\n' +
+                        '      <img src="' + (reopenDetail.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + reopenDetail.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                        '      <p class="name">' + reopenDetail.actionperformedbyUser + '</p>\n' +
+                        '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                        '   </div>\n' +
+                        '   <div class="request-row">\n' +
+                        '      <strong>Contract section Re-Opened by ' + reopenDetail.actionperformedbyUser + '</strong>\n' +
+                        '   </div>\n' +
+                        '</div>';
+                    if (reopenDetail.with == "Counterparty") {
+                        var newElement = document.createElement("div");
+                        newElement.innerHTML = renderHTML;
+                        elements.conversionSameSide.appendChild(newElement);
+
+                        var scrollToOptions = {
+                            top: elements.divChatSameSideBody.scrollHeight,
+                            behavior: 'smooth'
+                        };
+                        elements.divChatSameSideBody.scrollTo(scrollToOptions);
+                    } else {
+                        var newElement = document.createElement("div");
+                        newElement.innerHTML = renderHTML;
+                        elements.conversionCounterparty.appendChild(newElement);
+
+                        var scrollToOptions = {
+                            top: elements.divChatCounterPartyBody.scrollHeight,
+                            behavior: 'smooth'
+                        };
+                        elements.divChatCounterPartyBody.scrollTo(scrollToOptions);
                     }
                     switchClass(elements.loader, displayNoneClass, true);
                 })
@@ -4566,7 +5014,7 @@
                             } else if (loggedInCompanyDetails._id.toString() == contractInformation.counterPartyCompanyId.toString() && generalChatData.with == "Our Team") {
                                 conversationType = 'OTCP';
                             }
-                            generalChatData.chatRoomName = 'conversion_history_' + selectedThreadID;
+                            generalChatData.chatRoomName = 'conversionHistory_' + selectedThreadID;
                             generalChatData.conversationType = conversationType;
                             socket.emit('conversionHistoryMessage', generalChatData);
 
@@ -4641,7 +5089,7 @@
                             } else if (loggedInCompanyDetails._id.toString() == contractInformation.counterPartyCompanyId.toString() && generalChatData.with == "Our Team") {
                                 conversationType = 'OTCP';
                             }
-                            generalChatData.chatRoomName = 'conversion_history_' + selectedThreadID;
+                            generalChatData.chatRoomName = 'conversionHistory_' + selectedThreadID;
                             generalChatData.conversationType = conversationType;
                             socket.emit('conversionHistoryMessage', generalChatData);
 
@@ -4697,6 +5145,10 @@
         }
     }
 
+    /**
+     * @description This method is used for the update unread message flag of clause
+     * @returns {Promise<void>}
+     */
     async function unreadMessageForThread() {
         try {
             switchClass(elements.loader, displayNoneClass, false);
@@ -4736,6 +5188,101 @@
             switchClass(elements.loader, displayNoneClass, true);
         }
         console.log('Function unreadMessageForThread Called');
+    }
+
+    /**
+     * @description This method is used for the geeting details of meeting
+     * @param meetingID
+     * @returns {Promise<void>}
+     */
+    async function getContractMeetingDetails(meetingID) {
+        try {
+            switchClass(elements.loader, displayNoneClass, false);
+            var requestURL = apiBaseUrl + '/meeting/get-contract-meeting-detail/' + meetingID;
+            var headers = {
+                "Content-Type": "application/json"
+            };
+            if (authToken) headers["Authorization"] = 'Bearer ' + authToken;
+            var requestOptions = {
+                method: 'GET',
+                headers: headers,
+            };
+            fetch(requestURL, requestOptions)
+                .then(response => response.json())
+                .then(response => {
+                    // Handle the response data
+                    switchClass(elements.loader, displayNoneClass, true);
+                    if (response && response.status == true && response.code == 200) {
+                        var responseData = response.data;
+
+                        var participantCount = responseData.meetingParticipants ? responseData.meetingParticipants.length : 0
+
+                        switchClass(elements.meetingPopup, displayNoneClass, false);
+
+                        elements.meetingTitle.textContent = responseData.meetingTitle;
+                        if (responseData.meetingLocation != null && responseData.meetingLocation != undefined) {
+                            elements.meetingLocation.textContent = 'in ' + responseData.meetingLocation;
+                        }
+                        elements.meetingAgenda.textContent = responseData.meetingAgenda;
+                        elements.meetingScheduleTime.textContent = formatDateForMeeting(responseData.meetingDate);
+                        elements.MeetingTimings.textContent = responseData.meetingStartTime + " - " + responseData.meetingEndTime;
+                        elements.participantCounts.textContent = participantCount;
+
+
+                        var iHtml = '<ul>';
+                        iHtml += '<li>\n' +
+                            '\t\t\t\t<div class="meeting-user-item">\n' +
+                            '\t\t\t\t\t\t\t\t<div class="left-item">\n' +
+                            '\t\t\t\t\t\t\t\t\t\t\t\t<img src="' + (responseData.meetingOrganiser.imageKey ? IMAGE_USER_PATH_LINK + responseData.meetingOrganiser.imageKey : 'images/no-profile-image.jpg') + '" alt="">\n' +
+                            '\t\t\t\t\t\t\t\t\t\t\t\t<span>' + responseData.meetingOrganiser.firstName + " " + responseData.meetingOrganiser.lastName + '(Organiser)</span>\n' +
+                            '\t\t\t\t\t\t\t\t</div>\n' +
+                            '\t\t\t\t</div>\n' +
+                            '</li>';
+                        responseData.meetingParticipants.forEach((ele) => {
+                            if (ele.userId != responseData.meetingOrganiser._id) {
+                                var meetingStatus = 'images/pending-icon.svg'
+                                if (ele.meetingStatus == 'Accepted') {
+                                    meetingStatus = 'images/check-circle.svg'
+                                } else if (ele.meetingStatus == 'Decline') {
+                                    meetingStatus = 'images/times-circle-icon.svg'
+                                } else {
+                                    meetingStatus = 'images/pending-icon.svg'
+                                }
+                                iHtml += '<li>\n' +
+                                    '\t\t\t\t<div class="meeting-user-item">\n' +
+                                    '\t\t\t\t\t\t\t\t<div class="left-item">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t<img src="' + (ele.userInfo.imageKey ? IMAGE_USER_PATH_LINK + ele.userInfo.imageKey : 'images/no-profile-image.jpg') + '" alt="">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t<span>' + ele.userInfo.firstName + " " + ele.userInfo.lastName + '</span>\n' +
+                                    '\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t\t\t\t\t<div class="meeting-status">\n' +
+                                    '\t\t\t\t\t\t\t\t\t\t\t\t<img src="' + meetingStatus + '" alt="">\n' +
+                                    '\t\t\t\t\t\t\t\t</div>\n' +
+                                    '\t\t\t\t</div>\n' +
+                                    '</li>';
+                            }
+                        });
+                        iHtml += '</ul>';
+                        elements.meetingParticipantList.innerHTML = iHtml;
+                        if (responseData.meetingLink != null && responseData.meetingLink != undefined && responseData.meetingLink != "") {
+                            switchClass(elements.btnMeetingView, displayNoneClass, false);
+                        } else {
+                            switchClass(elements.btnMeetingView, displayNoneClass, true);
+                        }
+                        return true;
+                    } else {
+                        console.error('Error fetching data:', responseData);
+                    }
+                    return true;
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.error('Error #04040714:', error);
+                    switchClass(elements.loader, displayNoneClass, true);
+                });
+        } catch (error) {
+            console.log('Error #08040804:', error);
+            switchClass(elements.loader, displayNoneClass, true);
+        }
     }
 
     /**================== API End  =========================*/
