@@ -337,7 +337,7 @@
         } else if (_plugin.info.methodName == "GetCurrentContentControl") {
             if (tagLists && tagLists.length > 0 && returnValue) {
                 var selectedTag = tagLists.findIndex((ele) => ele.InternalId == returnValue);
-                if (selectedTag && selectedTag > -1 && tagLists[selectedTag].Id && document.getElementById(tagLists[selectedTag].Id)) {
+                if (selectedTag > -1 && tagLists[selectedTag].Id && document.getElementById(tagLists[selectedTag].Id)) {
                     selectedCommentThereadID = tagLists[selectedTag].Tag;
 
                     $('.div-selected').removeClass('div-selected');
