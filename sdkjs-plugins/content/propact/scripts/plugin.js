@@ -543,6 +543,7 @@
                     switchClass(elements.sectionConversionHistory, displayNoneClass, true);
                 }
             }
+            return true;
             switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, true);
             elements.btnOpenInviteUserTeam.closest("li").classList.remove('active');
             if (typeof window.Asc.plugin.executeMethod === 'function') {
@@ -3693,7 +3694,7 @@
     async function redirectToMessageScreen() {
         try {
             if (selectedThreadID) {
-                if (selectedContractSectionDetails && selectedContractSectionDetails.contractStatus && selectedContractSectionDetails.contractStatus == "Completed") {
+                if (selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && selectedContractSectionDetails.contractSectionData.contractSectionStatus == "Completed") {
                     chatHistoryNextPage = 1;
                     chatHistoryHasNextPage = true;
                     getClauseConversionHistory();
