@@ -573,7 +573,7 @@
                 }
             }
 
-            await unreadMessageForThread();
+            // await unreadMessageForThread();
             flagRedirectClauseCreate = false;
             /*var getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
             if (getClauseDetails && getClauseDetails._id) {
