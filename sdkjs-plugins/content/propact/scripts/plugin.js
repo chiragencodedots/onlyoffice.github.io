@@ -543,6 +543,7 @@
                     switchClass(elements.sectionConversionHistory, displayNoneClass, true);
                 }
             }
+            flagRedirectClauseCreate = false;
             return true;
             switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, true);
             elements.btnOpenInviteUserTeam.closest("li").classList.remove('active');
