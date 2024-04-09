@@ -357,7 +357,7 @@
     /**================================== Plugin Init End =================================*/
 
 
-    /*/!**====================== Get & Set variables ======================*!/
+    /**====================== Get & Set variables ======================*/
     contractID = getURLParameter('contractID');
     contractMode = getContractMode('contractMode');
     splitArray = documentCallbackUrl.split('/');
@@ -368,7 +368,7 @@
     if (splitArray.length >= 14 && splitArray[13] != '0') {
         chatWindows = splitArray[13];
     }
-    /!**====================== Get & Set variables ======================*!/
+    /**====================== Get & Set variables ======================*/
 
     if (!flagSocketInit) {
         socket = io.connect(baseUrl,
@@ -378,12 +378,12 @@
         flagSocketInit = true;
     }
 
-    /!**
+    /**
      * @desc Get the open contract and user details
-     *!/
+     */
     if (contractID && authToken && !flagInit) {
         getContractDetails(socket);
-    }*/
+    }
 
     /**====================== Section: Invite Counterparty ======================*/
     $("#formInviteCounterparty").validate({
@@ -513,14 +513,15 @@
             var sameSideSocketRoom = getChatRoom('Our Team');
             socket.emit('joinContractSectionChatRoom', sameSideSocketRoom);
 
-            /*var draftConfirmSSElement = document.getElementById("draftConfirmSS");
+            var draftConfirmSSElement = document.getElementById("draftConfirmSS");
             if (draftConfirmSSElement) {
                 draftConfirmSSElement.parentNode.removeChild(draftConfirmSSElement);
             }
             var draftConfirmCPElement = document.getElementById("draftConfirmCP");
             if (draftConfirmCPElement) {
                 draftConfirmCPElement.parentNode.removeChild(draftConfirmCPElement);
-            }*/
+            }
+
             if (!flagRedirectClauseCreate) {
                 await redirectToMessageScreen();
             } else {
@@ -569,6 +570,8 @@
             } else {
                 switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, false);
             }
+            unreadMessageForThread();
+            flagRedirectClauseCreate = false;
             /*var getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
             if (getClauseDetails && getClauseDetails._id) {
                 // await getSelectedContractSectionDetails();
@@ -621,8 +624,6 @@
                     document.getElementById('teamTabContent').innerHTML = html;
                 }
             }*/
-            await unreadMessageForThread();
-            flagRedirectClauseCreate = false;
         }
     });
     /**====================== Section: Contract Lists ======================*/
