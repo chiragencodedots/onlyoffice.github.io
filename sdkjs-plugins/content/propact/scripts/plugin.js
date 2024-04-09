@@ -319,6 +319,7 @@
          * @desc Get the open contract and user details
          */
         if (contractID && authToken && !flagInit) {
+            console.log('Fn Called 111');
             getContractDetails(socket);
         }
 
@@ -499,6 +500,7 @@
             clauseChatWindows = $(this).data('chatwindow');
             getContractSectionDetails();
             if (!flagRedirectClauseCreate) {
+                console.log(112);
                 getContractDetails(socket, redirection = false);
             }
 
@@ -1335,6 +1337,7 @@
     };
 
     elements.btnSendPositionConfirmationCounterparty.onclick = async function (event) {
+        console.log(113);
         getContractDetails(socket, redirection = false);
         var getClauseDetails = clauseLists.find((ele) => ele._id == selectedClauseID);
         if (openContractResponseData && openContractResponseData.canSendPositionConfirmation && getClauseDetails && getClauseDetails.isSectionInDraftMode) {
@@ -2126,6 +2129,7 @@
                 } else if (data.confirmationType == "draft") {
                     if (data.status == 'approved') {
                         getContractSectionDetails();
+                        console.log(114);
                         getContractDetails(socket, redirection = false);
                         requestRowMessage = 'Draft confirmation request approved by ' + data.actionperformedbyUser;
                     } else {
@@ -2214,6 +2218,7 @@
                         '       </div>\n' +
                         '</div>';
                 } else if (data.confirmationType == 'request_draft' && !data.sendTo) {
+                    console.log(115);
                     getContractDetails(socket, false);
                     if (chatWindow == 'SS') {
                         renderHTML += '<div class="message-wrapper reverse">\n' +
@@ -2408,6 +2413,7 @@
                 } else if (data.confirmationType == "draft") {
                     if (data.status == 'approved') {
                         getContractSectionDetails();
+                        console.log(116);
                         getContractDetails(socket, redirection = false);
                         requestRowMessage = 'Draft confirmation request approved by ' + data.actionperformedbyUser;
                     } else {
@@ -2770,6 +2776,7 @@
                     switchClass(elements.sectionContractLists, displayNoneClass, false);
                     switchClass(elements.divContractListItems, displayedInvitecpPending, true);
                     switchClass(elements.divContractListItems, displayedInviteCP, false);
+                    console.log(117);
                     getContractDetails();
                 } else if (responseData && responseData.status == false && responseData.message) {
                     $('#inviteEmailAddress').parent().append('<label class="error api-error">' + responseData.message + '</label>');
@@ -4594,6 +4601,7 @@
                                             '</div>';
                                     }
                                     switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, true);
+                                    console.log(118);
                                     getContractDetails(socket, false);
                                 } else {
                                     renderHTML += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
@@ -4641,6 +4649,7 @@
                                     '      <strong>' + postData.actionperformedbyUser + ' has assigned ' + postData.sendToName + ' to draft this contract section</strong>\n' +
                                     '   </div>\n' +
                                     '</div>\n';
+                                console.log(119);
                                 getContractDetails(socket, redirection = false);
                                 switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, true);
                                 break;
@@ -4692,6 +4701,7 @@
                                     '   </div>\n' +
                                     '</div>\n';
                                 getContractSectionDetails();
+                                console.log(120);
                                 getContractDetails(socket, redirection = false);
                                 break;
                             default:
