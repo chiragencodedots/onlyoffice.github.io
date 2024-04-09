@@ -1675,227 +1675,226 @@
         }
 
         /**====================== Section: Counterparty chat ======================*/
-
-
-        /**================== Other Function Start ========================*/
-        /**
-         * @description This function will be used for the get contract id from callback url
-         * @param url
-         * @returns {*|string}
-         */
-        function getContractID(url) {
-            var urlArr = url.split('/');
-            return urlArr[8];
-        }
-
-        /**
-         * @description This function will be used for the get contract mode from callback url
-         * @param url
-         * @returns {*|string}
-         */
-        function getContractMode(url) {
-            var urlArr = url.split('/');
-            return urlArr[10];
-        }
-
-        /**
-         * @description This function is used for geeting the params from URL and it is used for development
-         * @param name
-         * @returns {string | null}
-         */
-        function getURLParameter(name) {
-            return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
-        }
-
-        /**
-         * @description This function will return the chat room name
-         * @param withType
-         * @returns {string}
-         */
-        function getChatRoom(withType) {
-            switch (withType) {
-                case 'Our Team':
-                    return 'user_' + loggedInCompanyDetails._id + '_' + selectedThreadID;
-                    break;
-                case 'Counterparty':
-                    return "counterparty_" + selectedThreadID
-                    break;
-                case 'Conversion History':
-                    return 'conversionHistory_' + selectedThreadID
-                    break;
-                default:
-                    return 'conversionHistory_' + selectedThreadID
-                    break;
-            }
-        }
-
-        /**
-         * @description Switch classes
-         * @param el
-         * @param className
-         * @param add
-         */
-        function switchClass(el, className, add) {
-            if (add) {
-                el.classList.add(className);
-            } else {
-                el.classList.remove(className);
-            }
-        }
-
-        /**
-         * @description This function is used for formatting date
-         * @param inputDate
-         * @returns {string}
-         */
-        function formatDate(inputDate) {
-            var months = [
-                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-            ];
-
-            var date = new Date(inputDate);
-            var day = date.getDate();
-            var month = months[date.getMonth()];
-            var hours = date.getHours();
-            var minutes = date.getMinutes();
-            var period = hours >= 12 ? "PM" : "AM";
-            var formattedHours = hours % 12 || 12;
-
-            var daySuffix;
-            if (day === 1 || day === 21 || day === 31) {
-                daySuffix = "st";
-            } else if (day === 2 || day === 22) {
-                daySuffix = "nd";
-            } else if (day === 3 || day === 23) {
-                daySuffix = "rd";
-            } else {
-                daySuffix = "th";
-            }
-
-            var formattedDate = `${day}<sup>${daySuffix}</sup> ${month} ${formattedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
-            return formattedDate;
-        }
-
-        /**
-         * @param inputDate
-         * @returns {string}
-         */
-        function formatDateForMeeting(inputDate) {
-            var months = [
-                "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-                "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-            ];
-            var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            var date = new Date(inputDate);
-            var day = daysOfWeek[date.getDay()];
-            var dateT = date.getDate();
-            var month = months[date.getMonth()];
-            var formattedDate = `${day}, ${dateT} ${month}`;
-            return formattedDate;
-        }
-
-        /**
-         * @description This function is used for the close all the bottom popups
-         */
-        function closeBottomPopup() {
-            elements.formSendPositionConfirmation.reset();
-            elements.formRejectPosition.reset();
-            elements.formAssignDraftRequest.reset();
-            elements.formSendDraftConfirmation.reset();
-            elements.formRejectDraftRequest.reset();
-            elements.formRejectDraft.reset();
-            switchClass(elements.inviteUserPopup, displayNoneClass, true);
-            switchClass(elements.inviteTeamPopup, displayNoneClass, true);
-            switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, true);
-            switchClass(elements.confirmPositionPopup, displayNoneClass, true);
-            switchClass(elements.rejectPositionPopup, displayNoneClass, true);
-            switchClass(elements.assignDraftRequestPopup, displayNoneClass, true);
-            switchClass(elements.sendDraftConfirmationPopup, displayNoneClass, true);
-            switchClass(elements.rejectDarftRequestPopup, displayNoneClass, true);
-            switchClass(elements.rejectDarftPopup, displayNoneClass, true);
-            switchClass(elements.meetingPopup, displayNoneClass, true);
-        }
-
-        /**
-         * @description This function will be used for redirect to clause list page from create clause
-         */
-        function redirectToClauseList() {
-            $("#formClause").validate().resetForm();
-            elements.formClause.reset();
-            if ($('#inviteteams').prop('checked')) {
-                $('#inviteteams').click();
-            }
-            if ($('#inviteusers').prop('checked')) {
-                $('#inviteusers').click();
-            }
-            var placeholderText = 'Select users and teams';
-            elements.inputInviteUsersTeams.placeholder = placeholderText;
-            $('#inputInviteUsersTeams').click();
-            $('#collapseTeams, #collapseUsers').collapse('hide');
-            switchClass(elements.sectionCreateClause, displayNoneClass, true);
-            switchClass(elements.sectionContractLists, displayNoneClass, false);
-        }
-
-        /**
-         * Update invite team checkbox
-         */
-        function updateInviteCheckbox() {
-            $('.team-chkbox').each(function () {
-                var isChecked = $(this).prop("checked");
-                var dataID = $(this).parent().data('id');
-                var jsonData = inviteTeamListIDs.find((ele) => ele.itemId == dataID);
-                if (isChecked) {
-                    if (selectedInviteTeams.findIndex((ele) => ele.itemId == jsonData.itemId) < 0) {
-                        selectedInviteTeams.push(jsonData);
-                    }
-                } else {
-                    if (selectedInviteTeams.findIndex((ele) => ele.itemId == jsonData.itemId) > -1) {
-                        selectedInviteTeams = $.grep(selectedInviteTeams, function (value) {
-                            return value.itemId != dataID;
-                        });
-                    }
-                }
-            });
-            $('.user-chkbox').each(function () {
-                var isChecked = $(this).prop("checked");
-                var dataID = $(this).parent().data('id');
-                var jsonData = inviteUserListIDs.find((ele) => ele.itemId == dataID);
-                if (isChecked) {
-                    if (selectedInviteUsers.findIndex((ele) => ele.itemId == jsonData.itemId) < 0) {
-                        selectedInviteUsers.push(jsonData);
-                    }
-                } else {
-                    if (selectedInviteUsers.findIndex((ele) => ele.itemId == jsonData.itemId) > -1) {
-                        selectedInviteUsers = $.grep(selectedInviteUsers, function (value) {
-                            return value.itemId != dataID;
-                        });
-                    }
-                }
-            });
-            updateInvitePlacehoder();
-        }
-
-        /**
-         * @description Update the placeholder of Invite user input
-         */
-        function updateInvitePlacehoder() {
-            var placeholderText = 'Select users and teams';
-            var placeholderTextArray = [];
-            if (selectedInviteUsers && selectedInviteUsers.length > 0) {
-                placeholderTextArray.push(selectedInviteUsers.length + (selectedInviteUsers.length == 1 ? ' User' : ' Users'));
-            }
-            if (selectedInviteTeams && selectedInviteTeams.length > 0) {
-                placeholderTextArray.push(selectedInviteTeams.length + (selectedInviteTeams.length == 1 ? ' Team' : ' Teams'));
-            }
-            if (placeholderTextArray.length > 0) {
-                placeholderText = placeholderTextArray.join(' and ') + ' Selected';
-            }
-            elements.inputInviteUsersTeams.placeholder = placeholderText;
-        }
-        /**================== Other Function End  =========================*/
         flagJSLoad = true;
     }
+
+    /**================== Other Function Start ========================*/
+    /**
+     * @description This function will be used for the get contract id from callback url
+     * @param url
+     * @returns {*|string}
+     */
+    function getContractID(url) {
+        var urlArr = url.split('/');
+        return urlArr[8];
+    }
+
+    /**
+     * @description This function will be used for the get contract mode from callback url
+     * @param url
+     * @returns {*|string}
+     */
+    function getContractMode(url) {
+        var urlArr = url.split('/');
+        return urlArr[10];
+    }
+
+    /**
+     * @description This function is used for geeting the params from URL and it is used for development
+     * @param name
+     * @returns {string | null}
+     */
+    function getURLParameter(name) {
+        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+    }
+
+    /**
+     * @description This function will return the chat room name
+     * @param withType
+     * @returns {string}
+     */
+    function getChatRoom(withType) {
+        switch (withType) {
+            case 'Our Team':
+                return 'user_' + loggedInCompanyDetails._id + '_' + selectedThreadID;
+                break;
+            case 'Counterparty':
+                return "counterparty_" + selectedThreadID
+                break;
+            case 'Conversion History':
+                return 'conversionHistory_' + selectedThreadID
+                break;
+            default:
+                return 'conversionHistory_' + selectedThreadID
+                break;
+        }
+    }
+
+    /**
+     * @description Switch classes
+     * @param el
+     * @param className
+     * @param add
+     */
+    function switchClass(el, className, add) {
+        if (add) {
+            el.classList.add(className);
+        } else {
+            el.classList.remove(className);
+        }
+    }
+
+    /**
+     * @description This function is used for formatting date
+     * @param inputDate
+     * @returns {string}
+     */
+    function formatDate(inputDate) {
+        var months = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+
+        var date = new Date(inputDate);
+        var day = date.getDate();
+        var month = months[date.getMonth()];
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var period = hours >= 12 ? "PM" : "AM";
+        var formattedHours = hours % 12 || 12;
+
+        var daySuffix;
+        if (day === 1 || day === 21 || day === 31) {
+            daySuffix = "st";
+        } else if (day === 2 || day === 22) {
+            daySuffix = "nd";
+        } else if (day === 3 || day === 23) {
+            daySuffix = "rd";
+        } else {
+            daySuffix = "th";
+        }
+
+        var formattedDate = `${day}<sup>${daySuffix}</sup> ${month} ${formattedHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+        return formattedDate;
+    }
+
+    /**
+     * @param inputDate
+     * @returns {string}
+     */
+    function formatDateForMeeting(inputDate) {
+        var months = [
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+        ];
+        var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var date = new Date(inputDate);
+        var day = daysOfWeek[date.getDay()];
+        var dateT = date.getDate();
+        var month = months[date.getMonth()];
+        var formattedDate = `${day}, ${dateT} ${month}`;
+        return formattedDate;
+    }
+
+    /**
+     * @description This function is used for the close all the bottom popups
+     */
+    function closeBottomPopup() {
+        elements.formSendPositionConfirmation.reset();
+        elements.formRejectPosition.reset();
+        elements.formAssignDraftRequest.reset();
+        elements.formSendDraftConfirmation.reset();
+        elements.formRejectDraftRequest.reset();
+        elements.formRejectDraft.reset();
+        switchClass(elements.inviteUserPopup, displayNoneClass, true);
+        switchClass(elements.inviteTeamPopup, displayNoneClass, true);
+        switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, true);
+        switchClass(elements.confirmPositionPopup, displayNoneClass, true);
+        switchClass(elements.rejectPositionPopup, displayNoneClass, true);
+        switchClass(elements.assignDraftRequestPopup, displayNoneClass, true);
+        switchClass(elements.sendDraftConfirmationPopup, displayNoneClass, true);
+        switchClass(elements.rejectDarftRequestPopup, displayNoneClass, true);
+        switchClass(elements.rejectDarftPopup, displayNoneClass, true);
+        switchClass(elements.meetingPopup, displayNoneClass, true);
+    }
+
+    /**
+     * @description This function will be used for redirect to clause list page from create clause
+     */
+    function redirectToClauseList() {
+        $("#formClause").validate().resetForm();
+        elements.formClause.reset();
+        if ($('#inviteteams').prop('checked')) {
+            $('#inviteteams').click();
+        }
+        if ($('#inviteusers').prop('checked')) {
+            $('#inviteusers').click();
+        }
+        var placeholderText = 'Select users and teams';
+        elements.inputInviteUsersTeams.placeholder = placeholderText;
+        $('#inputInviteUsersTeams').click();
+        $('#collapseTeams, #collapseUsers').collapse('hide');
+        switchClass(elements.sectionCreateClause, displayNoneClass, true);
+        switchClass(elements.sectionContractLists, displayNoneClass, false);
+    }
+
+    /**
+     * Update invite team checkbox
+     */
+    function updateInviteCheckbox() {
+        $('.team-chkbox').each(function () {
+            var isChecked = $(this).prop("checked");
+            var dataID = $(this).parent().data('id');
+            var jsonData = inviteTeamListIDs.find((ele) => ele.itemId == dataID);
+            if (isChecked) {
+                if (selectedInviteTeams.findIndex((ele) => ele.itemId == jsonData.itemId) < 0) {
+                    selectedInviteTeams.push(jsonData);
+                }
+            } else {
+                if (selectedInviteTeams.findIndex((ele) => ele.itemId == jsonData.itemId) > -1) {
+                    selectedInviteTeams = $.grep(selectedInviteTeams, function (value) {
+                        return value.itemId != dataID;
+                    });
+                }
+            }
+        });
+        $('.user-chkbox').each(function () {
+            var isChecked = $(this).prop("checked");
+            var dataID = $(this).parent().data('id');
+            var jsonData = inviteUserListIDs.find((ele) => ele.itemId == dataID);
+            if (isChecked) {
+                if (selectedInviteUsers.findIndex((ele) => ele.itemId == jsonData.itemId) < 0) {
+                    selectedInviteUsers.push(jsonData);
+                }
+            } else {
+                if (selectedInviteUsers.findIndex((ele) => ele.itemId == jsonData.itemId) > -1) {
+                    selectedInviteUsers = $.grep(selectedInviteUsers, function (value) {
+                        return value.itemId != dataID;
+                    });
+                }
+            }
+        });
+        updateInvitePlacehoder();
+    }
+
+    /**
+     * @description Update the placeholder of Invite user input
+     */
+    function updateInvitePlacehoder() {
+        var placeholderText = 'Select users and teams';
+        var placeholderTextArray = [];
+        if (selectedInviteUsers && selectedInviteUsers.length > 0) {
+            placeholderTextArray.push(selectedInviteUsers.length + (selectedInviteUsers.length == 1 ? ' User' : ' Users'));
+        }
+        if (selectedInviteTeams && selectedInviteTeams.length > 0) {
+            placeholderTextArray.push(selectedInviteTeams.length + (selectedInviteTeams.length == 1 ? ' Team' : ' Teams'));
+        }
+        if (placeholderTextArray.length > 0) {
+            placeholderText = placeholderTextArray.join(' and ') + ' Selected';
+        }
+        elements.inputInviteUsersTeams.placeholder = placeholderText;
+    }
+    /**================== Other Function End  =========================*/
 
     /**================== Socket Function Start  =========================*/
     /**
