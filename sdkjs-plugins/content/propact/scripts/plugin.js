@@ -322,11 +322,41 @@
             getContractDetails(socket);
         }
 
-    }
+    };
+
+    window.Asc.plugin.onMethodReturn = function (returnValue) {
+        //event return for completed methods
+        var _plugin = window.Asc.plugin;
+        if (_plugin.info.methodName == "GetAllContentControls") {
+            for (var i = 0; i < returnValue.length; i++) {
+                var tagExists = tagLists.findIndex((ele) => +ele.Id == +returnValue[i].Id);
+                if (tagExists < 0) {
+                    tagLists.push(returnValue[i]);
+                }
+            }
+        } else if (_plugin.info.methodName == "GetCurrentContentControl") {
+            if (tagLists && tagLists.length > 0 && returnValue) {
+                var selectedTag = tagLists.findIndex((ele) => ele.InternalId == returnValue);
+                if (selectedTag && selectedTag > -1 && tagLists[selectedTag].Id && document.getElementById(tagLists[selectedTag].Id)) {
+                    selectedCommentThereadID = tagLists[selectedTag].Tag;
+
+                    $('.div-selected').removeClass('div-selected');
+                    $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('div-selected');
+                }
+            }
+        }
+    };
+
+    window.Asc.plugin.event_onTargetPositionChanged = function () {
+        if (!fClickLabel) {
+            window.Asc.plugin.executeMethod("GetCurrentContentControl");
+        }
+        fClickLabel = false;
+    };
     /**================================== Plugin Init End =================================*/
 
 
-    /**====================== Get & Set variables ======================*/
+    /*/!**====================== Get & Set variables ======================*!/
     contractID = getURLParameter('contractID');
     contractMode = getContractMode('contractMode');
     splitArray = documentCallbackUrl.split('/');
@@ -337,7 +367,7 @@
     if (splitArray.length >= 14 && splitArray[13] != '0') {
         chatWindows = splitArray[13];
     }
-    /**====================== Get & Set variables ======================*/
+    /!**====================== Get & Set variables ======================*!/
 
     if (!flagSocketInit) {
         socket = io.connect(baseUrl,
@@ -347,12 +377,12 @@
         flagSocketInit = true;
     }
 
-    /**
+    /!**
      * @desc Get the open contract and user details
-     */
+     *!/
     if (contractID && authToken && !flagInit) {
         getContractDetails(socket);
-    }
+    }*/
 
     /**====================== Section: Invite Counterparty ======================*/
     $("#formInviteCounterparty").validate({
