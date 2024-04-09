@@ -572,8 +572,6 @@
             } else {
                 switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, false);
             }
-            flagRedirectClauseCreate = false;
-            return true;
             await unreadMessageForThread();
             flagRedirectClauseCreate = false;
             /*var getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
