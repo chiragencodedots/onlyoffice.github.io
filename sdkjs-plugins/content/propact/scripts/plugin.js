@@ -544,7 +544,6 @@
                 }
             }
             flagRedirectClauseCreate = false;
-            return true;
             switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, true);
             elements.btnOpenInviteUserTeam.closest("li").classList.remove('active');
             if (typeof window.Asc.plugin.executeMethod === 'function') {
@@ -575,7 +574,6 @@
                 switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, false);
             }
             await unreadMessageForThread();
-            flagRedirectClauseCreate = false;
             /*var getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
             if (getClauseDetails && getClauseDetails._id) {
                 // await getSelectedContractSectionDetails();
