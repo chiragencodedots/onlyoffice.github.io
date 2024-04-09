@@ -524,6 +524,7 @@
             }
 
             if (!flagRedirectClauseCreate) {
+                console.log('flagRedirectClauseCreate', flagRedirectClauseCreate);
                 await redirectToMessageScreen();
             } else {
                 if (!(chatWindows == 'SS' || chatWindows == 'CP')) {
