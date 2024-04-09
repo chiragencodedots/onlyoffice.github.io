@@ -499,10 +499,10 @@
             selectedThreadID = $(this).data('commentid');
             selectedClauseID = $(this).data('id');
             clauseChatWindows = $(this).data('chatwindow');
-            getContractSectionDetails();
+            await getContractSectionDetails();
             if (!flagRedirectClauseCreate) {
                 console.log(112);
-                getContractDetails(socket, redirection = false);
+                await getContractDetails(socket, redirection = false);
             }
 
             var conversionHistorySocketRoom = getChatRoom('Conversion History');
