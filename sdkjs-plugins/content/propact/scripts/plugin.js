@@ -545,8 +545,8 @@
             }
             switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, true);
             elements.btnOpenInviteUserTeam.closest("li").classList.remove('active');
+            window.Asc.plugin.executeMethod("SelectContentControl", [tagLists[tagExists].InternalId]);
             /*if (typeof window.Asc.plugin.executeMethod === 'function') {
-                window.Asc.plugin.executeMethod("SelectContentControl", [tagLists[tagExists].InternalId]);
             }*/
             switchClass(elements.btnGoToCounterpartyChat, displayNoneClass, false);
             switchClass(elements.btnGoToCounterparty, displayNoneClass, false);
