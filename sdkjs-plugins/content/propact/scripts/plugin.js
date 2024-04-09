@@ -543,7 +543,6 @@
                     switchClass(elements.sectionConversionHistory, displayNoneClass, true);
                 }
             }
-            return true;
             switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, true);
             elements.btnOpenInviteUserTeam.closest("li").classList.remove('active');
             if (typeof window.Asc.plugin.executeMethod === 'function') {
@@ -575,6 +574,7 @@
             }
             await unreadMessageForThread();
             flagRedirectClauseCreate = false;
+            return true;
             /*var getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
             if (getClauseDetails && getClauseDetails._id) {
                 // await getSelectedContractSectionDetails();
