@@ -348,10 +348,10 @@
     };
 
     window.Asc.plugin.event_onTargetPositionChanged = function () {
-        if (!fClickLabel) {
+        if (!flagClickLabel) {
             window.Asc.plugin.executeMethod("GetCurrentContentControl");
         }
-        fClickLabel = false;
+        flagClickLabel = false;
     };
     /**================================== Plugin Init End =================================*/
 
