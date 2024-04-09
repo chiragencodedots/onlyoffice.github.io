@@ -281,7 +281,6 @@
             socket = io.connect(baseUrl,
                 {auth: {authToken}}
             );
-            console.log('socket', socket);
             flagSocketInit = true;
         }
 
@@ -320,7 +319,6 @@
          * @desc Get the open contract and user details
          */
         if (contractID && authToken && !flagInit) {
-            console.log('Fn Called 111');
             getContractDetails(socket);
         }
 
@@ -375,7 +373,6 @@
         socket = io.connect(baseUrl,
             {auth: {authToken}}
         );
-        console.log('socket', socket);
         flagSocketInit = true;
     }
 
@@ -446,14 +443,12 @@
                 clauseNextPage = 1;
                 clauseHasNextPage = true;
                 clauseLists = [];
-                console.log('1111');
                 await getClauses();
             } else {
                 searchText = '';
                 clauseNextPage = 1;
                 clauseHasNextPage = true;
                 clauseLists = [];
-                console.log('1112');
                 await getClauses();
             }
         }, 500);
@@ -462,7 +457,6 @@
     elements.divContractListItems.onscroll = async function (e) {
         if (elements.divContractListItems.scrollTop + elements.divContractListItems.offsetHeight >= (elements.divContractListItems.scrollHeight - 1)) {
             if (clauseHasNextPage) {
-                console.log('1113');
                 await getClauses();
             } else {
                 switchClass(elements.btnScrollDown, displayNoneClass, true);
@@ -495,13 +489,11 @@
         var tagExists = tagLists.findIndex((ele) => +ele.Id == +elementID);
         // TODO: Remove or condition
         if (tagExists > -1 || 1) {
-            console.log('tagExists', tagExists);
             selectedThreadID = $(this).data('commentid');
             selectedClauseID = $(this).data('id');
             clauseChatWindows = $(this).data('chatwindow');
             await getContractSectionDetails();
             if (!flagRedirectClauseCreate) {
-                console.log(112);
                 await getContractDetails(socket, redirection = false);
             }
 
@@ -524,7 +516,6 @@
             }
 
             if (!flagRedirectClauseCreate) {
-                console.log('flagRedirectClauseCreate', flagRedirectClauseCreate);
                 await redirectToMessageScreen();
             } else {
                 if (!(chatWindows == 'SS' || chatWindows == 'CP')) {
@@ -702,7 +693,6 @@
             clauseNextPage = 1;
             clauseHasNextPage = true;
             clauseLists = [];
-            console.log('1114');
             await getClauses();
             switchClass(elements.sectionContractLists, displayNoneClass, false);
             switchClass(elements.sectionConversionHistory, displayNoneClass, true);
@@ -737,7 +727,6 @@
         getContractSectionDetails();
         await getContractSectionMessageList('our');
         var chatRoomName = getChatRoom(withType);
-        console.log('chatRoomName', chatRoomName);
         socket.emit('joinContractSectionChatRoom', chatRoomName);
         elements.messageInputSameSide.value = "";
         switchClass(elements.sectionCounterpartyChat, displayNoneClass, true);
@@ -800,8 +789,6 @@
     elements.btnSendSameSide.onclick = async function (event) {
         chat_message = elements.messageInputSameSide.innerHTML;
         notifyUsers = tagUserInMessage;
-        console.log('chat_message', chat_message);
-        console.log('notifyUsers', notifyUsers);
         elements.messageInputSameSide.innerHTML = "";
         tagUserInMessage = [];
         if (chat_message) {
@@ -867,7 +854,6 @@
             clauseNextPage = 1;
             clauseHasNextPage = true;
             clauseLists = [];
-            console.log('1115');
             await getClauses();
             switchClass(elements.sectionContractLists, displayNoneClass, false);
             switchClass(elements.sectionSameSideChat, displayNoneClass, true);
@@ -1314,7 +1300,6 @@
         getContractSectionDetails();
         await getContractSectionMessageList('our');
         var chatRoomName = getChatRoom(withType);
-        console.log('chatRoomName', chatRoomName);
         socket.emit('joinContractSectionChatRoom', chatRoomName);
         elements.messageInputSameSide.value = "";
         switchClass(elements.sectionCounterpartyChat, displayNoneClass, true);
@@ -1329,7 +1314,6 @@
             clauseNextPage = 1;
             clauseHasNextPage = true;
             clauseLists = [];
-            console.log('1116');
             await getClauses();
             switchClass(elements.sectionContractLists, displayNoneClass, false);
             switchClass(elements.sectionCounterpartyChat, displayNoneClass, true);
@@ -1340,7 +1324,6 @@
     };
 
     elements.btnSendPositionConfirmationCounterparty.onclick = async function (event) {
-        console.log(113);
         getContractDetails(socket, redirection = false);
         var getClauseDetails = clauseLists.find((ele) => ele._id == selectedClauseID);
         if (openContractResponseData && openContractResponseData.canSendPositionConfirmation && getClauseDetails && getClauseDetails.isSectionInDraftMode) {
@@ -1671,10 +1654,7 @@
                     if (match && match2) {
                         var dataIdValue = match[1];
                         var dataCompanyIdValue = match2[1];
-                        console.log("data-id value:", dataIdValue);
-                        console.log("data-companyid value:", dataCompanyIdValue);
                         tagUserInMessage.push({"userId": dataIdValue, "companyId": dataCompanyIdValue});
-                        console.log('tagUserInMessage', tagUserInMessage);
                     }
                     return value;
                 }
@@ -1935,12 +1915,10 @@
             socket.on('forwardNewClauseCreated', async function (data) {
                 // debugger;
                 if (data) {
-                    // console.log('forward_new_clause_create __data', data);
                     tagLists.push(JSON.parse(data));
                     clauseNextPage = 1;
                     clauseHasNextPage = true;
                     clauseLists = [];
-                    console.log('1117');
                     await getClauses();
                 }
             });
@@ -1950,13 +1928,11 @@
                     clauseNextPage = 1;
                     clauseHasNextPage = true;
                     clauseLists = [];
-                    console.log('1118');
                     await getClauses();
                 }
             });
 
             socket.on('forwardConversionHistoryMessage', data => {
-                console.log('forwardConversionHistoryMessage', data);
                 if (elements.sectionContractLists.classList.contains(displayNoneClass)) {
                     unreadMessageForThread()
                 }
@@ -1964,7 +1940,6 @@
             });
 
             socket.on('forwardContractSectionMessage', data => {
-                console.log('forwardContractSectionMessage', data);
                 if (elements.sectionContractLists.classList.contains(displayNoneClass)) {
                     unreadMessageForThread()
                 }
@@ -1973,7 +1948,6 @@
             });
 
             socket.on('forwardCounterContractSectionMessage', data => {
-                console.log('forwardCounterContractSectionMessage', data);
                 if (elements.sectionContractLists.classList.contains(displayNoneClass)) {
                     unreadMessageForThread()
                 }
@@ -2009,7 +1983,6 @@
 
             /** Socket On: user typing for counterparty side */
             socket.on('userTypingNotificationCounterContractSection', data => {
-                // console.log('user_typing_notification_counter_contract_section', data);
                 if (data) {
                     if (tyingUserCPArray.findIndex(x => x == data) == -1) {
                         tyingUserCPArray.push(data);
@@ -2043,7 +2016,6 @@
                     clauseNextPage = 1;
                     clauseHasNextPage = true;
                     clauseLists = [];
-                    console.log('1119');
                     await getClauses();
                 }
             });
@@ -2132,7 +2104,6 @@
                 } else if (data.confirmationType == "draft") {
                     if (data.status == 'approved') {
                         getContractSectionDetails();
-                        console.log(114);
                         getContractDetails(socket, redirection = false);
                         requestRowMessage = 'Draft confirmation request approved by ' + data.actionperformedbyUser;
                     } else {
@@ -2171,7 +2142,6 @@
                         newElementA.innerHTML = htmlA;
                         elements.divChatContractCounterpartyFooter.appendChild(newElementA);
                     } else {
-                        // console.log('loggedinuser', loggedInUserDetails);
                         let htmlB = '';
                         htmlB += '<div class="chat-typing-area" id="draftConfirmSS">\n' +
                             '   <div class="position-text">This contract section has been withdrawn by ' + data.actionperformedbyUser + '</div>\n';
@@ -2221,7 +2191,6 @@
                         '       </div>\n' +
                         '</div>';
                 } else if (data.confirmationType == 'request_draft' && !data.sendTo) {
-                    console.log(115);
                     getContractDetails(socket, false);
                     if (chatWindow == 'SS') {
                         renderHTML += '<div class="message-wrapper reverse">\n' +
@@ -2353,7 +2322,6 @@
             if (openContractResponseData && openContractResponseData.canCommunicateWithCounterparty) {
                 conversionTypeArr.push('OTM');
             }
-            // console.log('asd', conversionTypeArr.includes(data.conversationType));
             if (!conversionTypeArr.includes(data.conversationType)) {
                 return false;
             }
@@ -2416,7 +2384,6 @@
                 } else if (data.confirmationType == "draft") {
                     if (data.status == 'approved') {
                         getContractSectionDetails();
-                        console.log(116);
                         getContractDetails(socket, redirection = false);
                         requestRowMessage = 'Draft confirmation request approved by ' + data.actionperformedbyUser;
                     } else {
@@ -2649,7 +2616,6 @@
                                 clauseNextPage = 1;
                                 clauseHasNextPage = true;
                                 clauseLists = [];
-                                console.log('1120');
                                 getClauses();
                             }
                         }
@@ -2678,7 +2644,6 @@
                                 clauseNextPage = 1;
                                 clauseHasNextPage = true;
                                 clauseLists = [];
-                                console.log('1121');
                                 getClauses();
                             }
                         } else if (contractInformation.counterPartyInviteStatus == 'Invited') {
@@ -2782,7 +2747,6 @@
                     switchClass(elements.sectionContractLists, displayNoneClass, false);
                     switchClass(elements.divContractListItems, displayedInvitecpPending, true);
                     switchClass(elements.divContractListItems, displayedInviteCP, false);
-                    console.log(117);
                     getContractDetails();
                 } else if (responseData && responseData.status == false && responseData.message) {
                     $('#inviteEmailAddress').parent().append('<label class="error api-error">' + responseData.message + '</label>');
@@ -3134,13 +3098,11 @@
                         clauseNextPage = 1;
                         clauseHasNextPage = true;
                         clauseLists = [];
-                        console.log('1122');
                         getClauses(commentID);
                         var data = {
                             chatRoomName: contractID,
                             tagData: JSON.stringify(nContentControlProperties)
                         };
-                        console.log('data', data);
                         socket.emit('newClauseCreated', data);
                         // location.reload(true);
                         switchClass(elements.sectionConversionHistory, displayNoneClass, true);
@@ -3168,7 +3130,6 @@
      */
     function getClauses(commentThreadID = null) {
         try {
-            console.log('Clause List Called');
             switchClass(elements.loader, displayNoneClass, false);
             var requestURL = apiBaseUrl + '/contract-section/get-contract-sections/' + contractID;
             requestURL += '?';
@@ -3343,7 +3304,6 @@
                     elements.divInvitedTeams.innerHTML = '';
                     if (response && response.status == true && response.code == 200) {
                         var responseData = response.data;
-                        console.log('getSelectedContractSectionDetails', responseData);
                         switchClass(elements.divSameSideTextbox, displayNoneClass, false);
                         switchClass(elements.divCounterpartyTextbox, displayNoneClass, false);
                         selectedContractSectionDetails = responseData;
@@ -3870,7 +3830,6 @@
                             var setLastHeight = elements.conversionHistory.scrollHeight;
 
                             responseData.forEach((element, index) => {
-                                console.log('element.messageType History <====>', element.messageType + " <==> " + element.message);
                                 var renderHTML = '';
                                 switch (element.messageType) {
                                     case "Normal":
@@ -4121,7 +4080,6 @@
 
                             responseData.forEach((element, index) => {
                                 var renderHTML = '';
-                                console.log('element.messageType History <====>', element.messageType + " <==> " + element.message);
                                 switch (element.messageType) {
                                     case "Invite":
                                         var inviteMessage = '';
@@ -4543,7 +4501,6 @@
                             elements.messageInputSameSide.innerHTML = '';
                         }
                         var renderHTML = '';
-                        console.log('postData', postData);
                         switch (postData.confirmationType) {
                             case "position":
                                 renderHTML += '<div class="message-wrapper reverse' + (postData.status == 'rejected' ? ' red-color' : '') + '">\n' +
@@ -4607,7 +4564,6 @@
                                             '</div>';
                                     }
                                     switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, true);
-                                    console.log(118);
                                     getContractDetails(socket, false);
                                 } else {
                                     renderHTML += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
@@ -4655,7 +4611,6 @@
                                     '      <strong>' + postData.actionperformedbyUser + ' has assigned ' + postData.sendToName + ' to draft this contract section</strong>\n' +
                                     '   </div>\n' +
                                     '</div>\n';
-                                console.log(119);
                                 getContractDetails(socket, redirection = false);
                                 switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, true);
                                 break;
@@ -4707,7 +4662,6 @@
                                     '   </div>\n' +
                                     '</div>\n';
                                 getContractSectionDetails();
-                                console.log(120);
                                 getContractDetails(socket, redirection = false);
                                 break;
                             default:
@@ -4817,7 +4771,6 @@
                 .then(response => {
                     // Handle the response data
                     if (response && response.status == true && response.code == 200) {
-                        console.log('response', response);
                         // Send same side user
                         socket.emit('contractSectionMessage', postData);
 
@@ -5044,7 +4997,6 @@
                 .then(response => {
                     // Handle the response data
                     var responseData = response;
-                    console.log('responseData', responseData);
                     if (invitationType == 'users') {
                         inviteUserSelect.forEach((el) => {
                             var inviteMessage = {
