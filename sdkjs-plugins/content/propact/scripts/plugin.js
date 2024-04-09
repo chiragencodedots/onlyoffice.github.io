@@ -444,12 +444,14 @@
                 clauseNextPage = 1;
                 clauseHasNextPage = true;
                 clauseLists = [];
+                console.log('1111');
                 await getClauses();
             } else {
                 searchText = '';
                 clauseNextPage = 1;
                 clauseHasNextPage = true;
                 clauseLists = [];
+                console.log('1112');
                 await getClauses();
             }
         }, 500);
@@ -458,6 +460,7 @@
     elements.divContractListItems.onscroll = async function (e) {
         if (elements.divContractListItems.scrollTop + elements.divContractListItems.offsetHeight >= (elements.divContractListItems.scrollHeight - 1)) {
             if (clauseHasNextPage) {
+                console.log('1113');
                 await getClauses();
             } else {
                 switchClass(elements.btnScrollDown, displayNoneClass, true);
@@ -694,6 +697,7 @@
             clauseNextPage = 1;
             clauseHasNextPage = true;
             clauseLists = [];
+            console.log('1114');
             await getClauses();
             switchClass(elements.sectionContractLists, displayNoneClass, false);
             switchClass(elements.sectionConversionHistory, displayNoneClass, true);
@@ -858,6 +862,7 @@
             clauseNextPage = 1;
             clauseHasNextPage = true;
             clauseLists = [];
+            console.log('1115');
             await getClauses();
             switchClass(elements.sectionContractLists, displayNoneClass, false);
             switchClass(elements.sectionSameSideChat, displayNoneClass, true);
@@ -1319,6 +1324,7 @@
             clauseNextPage = 1;
             clauseHasNextPage = true;
             clauseLists = [];
+            console.log('1116');
             await getClauses();
             switchClass(elements.sectionContractLists, displayNoneClass, false);
             switchClass(elements.sectionCounterpartyChat, displayNoneClass, true);
@@ -1928,6 +1934,7 @@
                     clauseNextPage = 1;
                     clauseHasNextPage = true;
                     clauseLists = [];
+                    console.log('1117');
                     await getClauses();
                 }
             });
@@ -1937,6 +1944,7 @@
                     clauseNextPage = 1;
                     clauseHasNextPage = true;
                     clauseLists = [];
+                    console.log('1118');
                     await getClauses();
                 }
             });
@@ -2029,6 +2037,7 @@
                     clauseNextPage = 1;
                     clauseHasNextPage = true;
                     clauseLists = [];
+                    console.log('1119');
                     await getClauses();
                 }
             });
@@ -2630,6 +2639,7 @@
                                 clauseNextPage = 1;
                                 clauseHasNextPage = true;
                                 clauseLists = [];
+                                console.log('1120');
                                 getClauses();
                             }
                         }
@@ -2657,6 +2667,7 @@
                             clauseNextPage = 1;
                             clauseHasNextPage = true;
                             clauseLists = [];
+                            console.log('1121');
                             getClauses();
                         } else if (contractInformation.counterPartyInviteStatus == 'Invited') {
                             if (!(responseData.userRole == 'Admin' || responseData.userRole == 'Contract Creator')) {
@@ -3110,6 +3121,7 @@
                         clauseNextPage = 1;
                         clauseHasNextPage = true;
                         clauseLists = [];
+                        console.log('1122');
                         getClauses(commentID);
                         var data = {
                             chatRoomName: contractID,
@@ -3143,6 +3155,7 @@
      */
     function getClauses(commentThreadID = null) {
         try {
+            console.log('Clause List Called');
             switchClass(elements.loader, displayNoneClass, false);
             var requestURL = apiBaseUrl + '/contract-section/get-contract-sections/' + contractID;
             requestURL += '?';
