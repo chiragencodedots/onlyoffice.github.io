@@ -258,10 +258,6 @@
         //event "init" for plugin
         window.Asc.plugin.executeMethod("ShowButton", ["back", false]);
         window.Asc.plugin.executeMethod("GetAllContentControls");
-        // debugger;
-        //event "init" for plugin
-        // window.Asc.plugin.executeMethod("ShowButton", ["back", false]);
-        // window.Asc.plugin.executeMethod("GetAllContentControls");
 
         if (window.Asc.plugin.info && typeof window.Asc.plugin.info.documentCallbackUrl == 'string') {
             documentCallbackUrl = window.Asc.plugin.info.documentCallbackUrl;
@@ -345,7 +341,7 @@
                     selectedCommentThereadID = tagLists[selectedTag].Tag;
 
                     $('.div-selected').removeClass('div-selected');
-                    $('#contractListItemsDiv #' + tagLists[selectedTag].Id).addClass('div-selected');
+                    $('#divContractListItems #' + tagLists[selectedTag].Id).addClass('div-selected');
                 }
             }
         }
