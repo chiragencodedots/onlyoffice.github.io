@@ -523,6 +523,27 @@
                 draftConfirmCPElement.parentNode.removeChild(draftConfirmCPElement);
             }
 
+            if (!flagRedirectClauseCreate) {
+                console.log('flagRedirectClauseCreate', flagRedirectClauseCreate);
+                await redirectToMessageScreen();
+            } else {
+                if (!(chatWindows == 'SS' || chatWindows == 'CP')) {
+                    withType = 'Our Team';
+                    messageConfirmationFor = 'Same Side';
+                    elements.conversionSameSide.innerHTML = '';
+                    chatNextPage = 1;
+                    chatHasNextPage = true;
+                    await getContractSectionMessageList('our');
+                    var chatRoomName = getChatRoom(withType);
+                    socket.emit('joinContractSectionChatRoom', chatRoomName);
+                    elements.messageInputSameSide.value = "";
+                    switchClass(elements.sectionContractLists, displayNoneClass, true);
+                    switchClass(elements.sectionSameSideChat, displayNoneClass, false);
+                    switchClass(elements.sectionCounterpartyChat, displayNoneClass, true);
+                    switchClass(elements.sectionConversionHistory, displayNoneClass, true);
+                }
+            }
+            return true;
             switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, true);
             elements.btnOpenInviteUserTeam.closest("li").classList.remove('active');
             if (typeof window.Asc.plugin.executeMethod === 'function') {
@@ -552,28 +573,7 @@
             } else {
                 switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, false);
             }
-
-            if (!flagRedirectClauseCreate) {
-                await redirectToMessageScreen();
-            } else {
-                if (!(chatWindows == 'SS' || chatWindows == 'CP')) {
-                    withType = 'Our Team';
-                    messageConfirmationFor = 'Same Side';
-                    elements.conversionSameSide.innerHTML = '';
-                    chatNextPage = 1;
-                    chatHasNextPage = true;
-                    await getContractSectionMessageList('our');
-                    var chatRoomName = getChatRoom(withType);
-                    socket.emit('joinContractSectionChatRoom', chatRoomName);
-                    elements.messageInputSameSide.value = "";
-                    switchClass(elements.sectionContractLists, displayNoneClass, true);
-                    switchClass(elements.sectionSameSideChat, displayNoneClass, false);
-                    switchClass(elements.sectionCounterpartyChat, displayNoneClass, true);
-                    switchClass(elements.sectionConversionHistory, displayNoneClass, true);
-                }
-            }
-
-            // await unreadMessageForThread();
+            await unreadMessageForThread();
             flagRedirectClauseCreate = false;
             /*var getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
             if (getClauseDetails && getClauseDetails._id) {
