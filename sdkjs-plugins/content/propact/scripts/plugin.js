@@ -2672,11 +2672,11 @@
                             elements.txtOrganizationName.textContent = counterPartyCompanyDetail.companyName;
                             switchClass(elements.btnMarkupMode, displayNoneClass, false);
                             switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', false);
-                            clauseNextPage = 1;
-                            clauseHasNextPage = true;
-                            clauseLists = [];
-                            console.log('1121');
-                            getClauses();
+                            // clauseNextPage = 1;
+                            // clauseHasNextPage = true;
+                            // clauseLists = [];
+                            // console.log('1121');
+                            // getClauses();
                         } else if (contractInformation.counterPartyInviteStatus == 'Invited') {
                             if (!(responseData.userRole == 'Admin' || responseData.userRole == 'Contract Creator')) {
                                 switchClass(elements.paragraphInvitationActions, displayNoneClass, true);
