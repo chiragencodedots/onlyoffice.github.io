@@ -254,6 +254,10 @@
 
     /**================================== Plugin Init Start ===============================*/
     window.Asc.plugin.init = function (text) {
+
+        //event "init" for plugin
+        window.Asc.plugin.executeMethod("ShowButton", ["back", false]);
+        window.Asc.plugin.executeMethod("GetAllContentControls");
         // debugger;
         //event "init" for plugin
         // window.Asc.plugin.executeMethod("ShowButton", ["back", false]);
