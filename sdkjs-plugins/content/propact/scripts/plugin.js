@@ -572,6 +572,7 @@
             } else {
                 switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, false);
             }
+            return true;
             await unreadMessageForThread();
             flagRedirectClauseCreate = false;
             return true;
