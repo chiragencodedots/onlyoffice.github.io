@@ -69,6 +69,7 @@
     var tagLists = [];
     var selectedThreadID = '';
     var selectedClauseID = '';
+    var clauseChatWindows = '';
     var selectedInviteTeams = [];
     var selectedInviteUsers = [];
     var searchText = '';
@@ -570,7 +571,7 @@
             } else {
                 switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, false);
             }
-            unreadMessageForThread();
+            await unreadMessageForThread();
             flagRedirectClauseCreate = false;
             /*var getClauseDetails = clauseLists.find((ele) => ele._id == selectedThreadID);
             if (getClauseDetails && getClauseDetails._id) {
