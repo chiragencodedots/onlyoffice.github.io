@@ -2568,6 +2568,7 @@
      */
     function getContractDetails(socket, redirection = true) {
         try {
+            var flagInit = true;
             let requestURL = apiBaseUrl + '/contract/get-open-contract-detail/' + contractID;
             var headers = {
                 "Content-Type": "application/json"
