@@ -502,7 +502,7 @@
             await getContractSectionDetails();
             if (!flagRedirectClauseCreate) {
                 console.log(112);
-                await getContractDetails(socket, redirection = false);
+                // await getContractDetails(socket, redirection = false);
             }
 
             var conversionHistorySocketRoom = getChatRoom('Conversion History');
