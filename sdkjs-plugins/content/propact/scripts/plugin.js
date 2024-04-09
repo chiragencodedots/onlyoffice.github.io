@@ -499,7 +499,7 @@
             selectedThreadID = $(this).data('commentid');
             selectedClauseID = $(this).data('id');
             clauseChatWindows = $(this).data('chatwindow');
-            // await getContractSectionDetails();
+            await getContractSectionDetails();
             if (!flagRedirectClauseCreate) {
                 console.log(112);
                 await getContractDetails(socket, redirection = false);
@@ -522,9 +522,7 @@
             if (draftConfirmCPElement) {
                 draftConfirmCPElement.parentNode.removeChild(draftConfirmCPElement);
             }
-
             if (!flagRedirectClauseCreate) {
-                console.log('flagRedirectClauseCreate', flagRedirectClauseCreate);
                 await redirectToMessageScreen();
             } else {
                 if (!(chatWindows == 'SS' || chatWindows == 'CP')) {
@@ -554,6 +552,7 @@
             switchClass(elements.btnSendPositionConfirmationSameSide.closest("li"), displayNoneClass, false);
             document.getElementById('btnSendPositionConfirmationCounterparty').closest("li").classList.remove(displayNoneClass);
             switchClass(elements.chatFooterInnerSameSide, 'justify-content-end', false);
+            return  true;
             if (!openContractResponseData.canCommunicateWithCounterparty) {
                 switchClass(elements.btnGoToCounterpartyChat, displayNoneClass, true);
                 switchClass(elements.btnGoToCounterparty, displayNoneClass, true);
