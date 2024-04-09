@@ -542,6 +542,7 @@
                 }
             }
             flagRedirectClauseCreate = false;
+            return true;
             switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, true);
             elements.btnOpenInviteUserTeam.closest("li").classList.remove('active');
             if (typeof window.Asc.plugin.executeMethod === 'function') {
@@ -552,7 +553,6 @@
             switchClass(elements.btnSendPositionConfirmationSameSide.closest("li"), displayNoneClass, false);
             document.getElementById('btnSendPositionConfirmationCounterparty').closest("li").classList.remove(displayNoneClass);
             switchClass(elements.chatFooterInnerSameSide, 'justify-content-end', false);
-            return  true;
             if (!openContractResponseData.canCommunicateWithCounterparty) {
                 switchClass(elements.btnGoToCounterpartyChat, displayNoneClass, true);
                 switchClass(elements.btnGoToCounterparty, displayNoneClass, true);
