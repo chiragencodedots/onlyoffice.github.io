@@ -381,6 +381,7 @@ img.img-info { width: 16px; padding-left: 3px;display: inline-block;margin: -2px
     .filter-box .accordion-item .accordion-body .user-name{width: auto;}
     .invite-user-tabs-body .tab-content .invite-user-list ul p { font-size: 12px; line-height: 18px;}
     .filter-box .accordion-item .accordion-button::after {background-size: 18px auto; background-position: 100%;}
+    .crop-text { width: 115px; }
 }
 @media only screen and (max-width:350px){
     .meeting-screen .chat-create-header {padding: 10px 10px;}
