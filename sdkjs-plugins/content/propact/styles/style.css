@@ -430,6 +430,12 @@ img.img-info { width: 16px; padding-left: 3px;display: inline-block;margin: -2px
 }
 @media only screen and (max-width:310px){
     .chat-create-header .conversation-left .user-icon { display: none; }
+    .conversation-right > ul li .invite-user-tabs { min-width: 190px; }
+    .invite-user-tabs .invite-user-tabs-header .nav-tabs { max-width: 190px; }
+    .invite-user-tabs-header .nav-tabs .nav-item .nav-link { min-width: 80px; }
+    .invite-user-list ul li .invite-user-inner .invite-user-name h3 { font-size: 11px; }
+    #btnInviteUsers img { width: 20px; }
+    .invite-user-list .invite-btn .btn-primary {padding: 4px 10px; min-width: 80px; }
 }
 @media only screen and (max-width:295px){
     .chat-create-header .conversation-right > ul li { min-width: 26px; }
