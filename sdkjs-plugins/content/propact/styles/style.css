@@ -436,6 +436,7 @@ img.img-info { width: 16px; padding-left: 3px;display: inline-block;margin: -2px
     .invite-user-list ul li .invite-user-inner .invite-user-name h3 { font-size: 11px; }
     #btnInviteUsers img { width: 20px; }
     .invite-user-list .invite-btn .btn-primary {padding: 4px 10px; min-width: 80px; }
+    .conversation-right > ul li .invite-user-tabs:after { left: 95px; }
 }
 @media only screen and (max-width:295px){
     .chat-create-header .conversation-right > ul li { min-width: 26px; }
