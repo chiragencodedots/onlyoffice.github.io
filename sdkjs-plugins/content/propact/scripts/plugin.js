@@ -1252,6 +1252,7 @@
         chatHistoryNextPage = 1;
         chatHistoryHasNextPage = true;
         getClauseConversionHistory();
+        switchClass(elements.sectionSameSideChat, displayNoneClass, true);
         switchClass(elements.sectionCounterpartyChat, displayNoneClass, true);
         switchClass(elements.sectionConversionHistory, displayNoneClass, false);
         closeBottomPopup();
