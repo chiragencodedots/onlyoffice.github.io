@@ -2603,7 +2603,7 @@
                             $('.loggedin-user-name').text(loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName);
                             // set logged-in user role
                             $('.loggedin-user-role').text(responseData.userRole);
-                            elements.userProfileName.innerHTML += '<img src="images/icon-info.svg" class="img-info">';
+                            elements.userProfileName.innerHTML += '<img src="images/icon-info.png" class="img-info">';
                             // document.getElementById('userProfileNameA').innerHTML = loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName + '<img src="images/icon-info.png" class="img-info">';
                         }
 
@@ -2639,7 +2639,7 @@
                             });
                             $('.counterparty-user-profile-name').text(counterPartyDetail.firstName + " " + counterPartyDetail.lastName);
                             $('.counterparty-user-profile-role').text(responseData.oppositeUserRole);
-                            elements.counterpartyUserProfileName.innerHTML += '<img src="images/icon-info.svg" class="img-info">';
+                            elements.counterpartyUserProfileName.innerHTML += '<img src="images/icon-info.png" class="img-info">';
                             elements.txtOrganizationName.textContent = counterPartyCompanyDetail.companyName;
                             switchClass(elements.btnMarkupMode, displayNoneClass, false);
                             switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', false);
