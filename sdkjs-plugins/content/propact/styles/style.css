@@ -349,7 +349,7 @@ img.img-info { width: 16px; padding-left: 3px;display: inline-block;margin: -2px
     .chat-footer-inner .btn { margin: 0 4px;  padding: 10px 12px; min-width: auto;}
     .btn {font-size: 11px;}
     .request-row .request-content,.chat-body .chat-area .message-wrapper .message-content {min-width: auto;}
-    .conversation-right > ul li {padding: 0 4px;}
+    .conversation-right > ul li {min-width: 32px;}
     .conversation-right > ul li a img { max-width: 24px; max-height: 24px;}
     .conversation-left .user-icon { width: 35px; height: 35px; margin: 0 6px 0 0;}
     .conversation-left .user-inner .user-name {font-size: 12px;}
