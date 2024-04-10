@@ -352,7 +352,7 @@
     /**================================== Plugin Init End =================================*/
 
 
-    /*/!**====================== Get & Set variables ======================*!/
+    /**====================== Get & Set variables ======================*/
     contractID = getURLParameter('contractID');
     contractMode = getContractMode('contractMode');
     splitArray = documentCallbackUrl.split('/');
@@ -363,7 +363,7 @@
     if (splitArray.length >= 14 && splitArray[13] != '0') {
         chatWindows = splitArray[13];
     }
-    /!**====================== Get & Set variables ======================*!/
+    /**====================== Get & Set variables ======================*/
 
     if (!flagSocketInit) {
         socket = io.connect(baseUrl,
@@ -372,12 +372,12 @@
         flagSocketInit = true;
     }
 
-    /!**
+    /**
      * @desc Get the open contract and user details
-     *!/
+     */
     if (contractID && authToken && !flagInit) {
         getContractDetails(socket);
-    }*/
+    }
     /**====================== Section: Invite Counterparty ======================*/
     $("#formInviteCounterparty").validate({
         submitHandler: function (form) {
@@ -776,6 +776,7 @@
         chatHistoryNextPage = 1;
         chatHistoryHasNextPage = true;
         getClauseConversionHistory();
+        switchClass(elements.sectionSameSideChat, displayNoneClass, true);
         switchClass(elements.sectionCounterpartyChat, displayNoneClass, true);
         switchClass(elements.sectionConversionHistory, displayNoneClass, false);
         closeBottomPopup();
