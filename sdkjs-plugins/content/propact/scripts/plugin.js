@@ -2541,7 +2541,7 @@
      */
     async function getContractDetails(socket, redirection = true) {
         try {
-            var flagInit = true;
+            flagInit = true;
             let requestURL = apiBaseUrl + '/contract/get-open-contract-detail/' + contractID;
             var headers = {
                 "Content-Type": "application/json"
@@ -2575,7 +2575,7 @@
                                 window.Asc.plugin.executeMethod("SetEditingRestrictions", [sDocumentEditingRestrictions]);
                             }
                         }
-                        var flagInit = true;
+                        flagInit = true;
                         if (selectedClauseID) {
                             // TODO: Set tooltip based on loggedin user roles
                             /*var getClauseDetails = clauseLists.find((ele) => ele._id == selectedClauseID);
