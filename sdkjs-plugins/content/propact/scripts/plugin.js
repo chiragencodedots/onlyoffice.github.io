@@ -1112,7 +1112,7 @@
         $(target).collapse('toggle');
         document.getElementById('assignDraftRequestBox').classList.add(displayNoneClass);
     });
-    
+
     setInterval(function() {
         var hasDNoneClass = $('#assignDraftingRequestBox').hasClass('d-none');
         if (!hasDNoneClass) {
@@ -1687,7 +1687,6 @@
         elements.assignDraftingRequestInput.value = userName;
         elements.assignDraftingRequestInput.placeholder = userName;
     }
-
     /**====================== Section: Counterparty chat ======================*/
 
 
@@ -2118,6 +2117,7 @@
             case "Notification":
                 var requestRowMessage = '';
                 if (data.confirmationType == 'position') {
+                    $('.reconfirm-approve[data-id="' + data.messageId + '"]').parent().addClass(displayNoneClass);
                     requestRowMessage = (data.status == "approved" ? 'Position approved by ' : 'Position rejected by ') + data.actionperformedbyUser
                 } else if (data.confirmationType == 'request_draft' && data.sendTo) {
                     requestRowMessage = data.actionperformedbyUser + ' has assigned a team member to draft this contract section';
@@ -2130,6 +2130,7 @@
                     } else {
                         requestRowMessage = 'Draft confirmation request rejected by ' + data.actionperformedbyUser;
                     }
+                    $('.draft-reject[data-id="' + data.messageId + '"]').parent().addClass(displayNoneClass);
                 } else if (data.confirmationType == "assign_draft") {
                     requestRowMessage = data.actionperformedbyUser + ' has assigned ' + data.sendToName + ' to draft this contract section';
                 } else if (data.confirmationType == "withdrawn") {
@@ -2553,7 +2554,6 @@
             elements.divChatHistoryBody.scrollTo(scrollToOptions);
         }
     }
-
     /**==================  Socket Function End  =========================*/
 
     /**================== API Start  =========================*/
