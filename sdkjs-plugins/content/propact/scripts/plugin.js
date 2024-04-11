@@ -2616,7 +2616,7 @@
                         if (redirection) {
                             switchClass(elements.btnMarkupMode, displayNoneClass, true);
                             switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
-                            // document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                            switchClass(elements.sectionContractLists, displayNoneClass, false);
                             if (contractInformation.counterPartyInviteStatus !== 'Accepted') {
                                 clauseNextPage = 1;
                                 clauseHasNextPage = true;
@@ -2666,7 +2666,7 @@
                             /*if (redirection) {
                                 switchClass(elements.btnMarkupMode, displayNoneClass, true);
                                 switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
-                                // document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                                /!*switchClass(elements.sectionContractLists, displayNoneClass, false);
                                 // if (documentMode != 'markup') {
                                 //     getContractTeamAndUserList();
                                 // }
@@ -2695,7 +2695,7 @@
                             if (redirection) {
                                 switchClass(elements.btnMarkupMode, displayNoneClass, true);
                                 switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', true);
-                                /!*document.getElementById('divContractLists').classList.remove(displayNoneClass);
+                                /!*switchClass(elements.sectionContractLists, displayNoneClass, false);
                                 if (documentMode != 'markup') {
                                     getContractTeamAndUserList();
                                 }
@@ -3247,7 +3247,7 @@
                                 setTimeout(function () {
                                     flagRedirectClauseCreate = true;
                                     $('.contract-item[data-id="' + sectionID + '"]').click();
-                                    document.getElementById('divContractLists').classList.add(displayNoneClass);
+                                    switchClass(elements.sectionContractLists, displayNoneClass, true);
                                     if (chatWindows == 'SS') {
                                         $('#btnGoToSameSideChat').click();
                                     } else if (chatWindows == 'CP') {
