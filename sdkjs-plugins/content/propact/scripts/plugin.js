@@ -2199,6 +2199,7 @@
                     if (draftConfirmSSElement) {
                         draftConfirmSSElement.parentNode.removeChild(draftConfirmSSElement);
                     }
+                    getContractDetails(socket, false);
                 }
                 if (data.status == "rejected") {
                     renderHTML += '<div class="message-wrapper red-color">\n' +
@@ -2440,6 +2441,7 @@
                     if (draftConfirmSSElement) {
                         draftConfirmSSElement.parentNode.removeChild(draftConfirmSSElement);
                     }
+                    getContractDetails(socket, false);
                 }
                 if (data.status == "rejected") {
                     renderHTML += '<div class="message-wrapper red-color' + (data.chatWindow !== 'Counterparty' ? " reverse" : "") + '">\n' +
@@ -4969,6 +4971,7 @@
                         };
                         elements.divChatCounterPartyBody.scrollTo(scrollToOptions);
                     }
+                    getContractDetails(socket, false);
                     switchClass(elements.loader, displayNoneClass, true);
                 })
                 .catch(error => {
