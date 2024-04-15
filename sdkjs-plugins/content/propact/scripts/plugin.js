@@ -2582,6 +2582,7 @@
                         contractInformation = responseData.openContractDetails;
                         loggedInUserDetails = responseData.loggedInUserDetails;
                         loggedInCompanyDetails = responseData.loggedInCompanyDetails;
+                        switchClass(elements.btnCreateClause, displayNoneClass, (contractInformation && contractInformation.contractCurrentStatus != "Under Negotiation"));
                         if (contractInformation.counterPartyInviteStatus !== 'Pending') {
                             counterPartyDetail = responseData.oppositeUser;
                         }
