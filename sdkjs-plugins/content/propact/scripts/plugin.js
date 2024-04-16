@@ -817,7 +817,7 @@
 
     elements.btnSendPositionConfirmationSameSide.onclick = async function (event) {
         var getClauseDetails = clauseLists.find((ele) => ele._id == selectedClauseID);
-        if (contractInformation && contractInformation.userWhoHasEditAccess == loggedInUserDetails._id && contractInformation.canSendPositionConfirmation && getClauseDetails && getClauseDetails.isSectionInDraftMode) {
+        if (contractInformation && contractInformation.userWhoHasEditAccess == loggedInUserDetails._id && contractInformation.canSendPositionConfirmation && selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && selectedContractSectionDetails.contractSectionData.isSectionInDraftMode) {
             switchClass(elements.sendDraftConfirmationPopup, displayNoneClass, false);
         } else if (openContractResponseData.canSendPositionConfirmation) {
             switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, false);
@@ -1334,8 +1334,8 @@
 
     elements.btnSendPositionConfirmationCounterparty.onclick = async function (event) {
         getContractDetails(socket, redirection = false);
-        var getClauseDetails = clauseLists.find((ele) => ele._id == selectedClauseID);
-        if (openContractResponseData && openContractResponseData.canSendPositionConfirmation && getClauseDetails && getClauseDetails.isSectionInDraftMode) {
+        // var getClauseDetails = clauseLists.find((ele) => ele._id == selectedClauseID);
+        if (openContractResponseData && openContractResponseData.canSendPositionConfirmation && selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && selectedContractSectionDetails.contractSectionData.isSectionInDraftMode) {
             if (contractInformation.userWhoHasEditAccess == loggedInUserDetails._id || openContractResponseData.userRole == "Counterparty" || openContractResponseData.userRole == "Contract Creator" || openContractResponseData.userRole == "Admin") {
                 switchClass(elements.sendDraftConfirmationPopup, displayNoneClass, false);
             } else {
@@ -2136,6 +2136,7 @@
                     }
                     $('.draft-reject[data-id="' + data.messageId + '"]').parent().addClass(displayNoneClass);
                 } else if (data.confirmationType == "assign_draft") {
+                    getContractSectionDetails();
                     requestRowMessage = data.actionperformedbyUser + ' has assigned ' + data.sendToName + ' to draft this contract section';
                 } else if (data.confirmationType == "withdrawn") {
                     renderHTML += '<div class="message-wrapper grey-color ' + (data.with == "Counterparty" ? "light-gold-color" : "") + '">\n' +
@@ -2220,6 +2221,7 @@
                         '       </div>\n' +
                         '</div>';
                 } else if (data.confirmationType == 'request_draft' && !data.sendTo) {
+                    getContractSectionDetails();
                     $('.reconfirm-approve[data-id="' + data.messageId + '"]').parent().addClass(displayNoneClass);
                     getContractDetails(socket, false);
                     if (chatWindow == 'SS') {
@@ -5232,7 +5234,6 @@
             console.log('Error #04040707:', error);
             switchClass(elements.loader, displayNoneClass, true);
         }
-        console.log('Function unreadMessageForThread Called');
     }
 
     /**
