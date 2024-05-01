@@ -5376,6 +5376,10 @@
         }
     }
 
+    /**
+     * @description This method is used for add meeting outcomes
+     * @returns {Promise<void>}
+     */
     async function submitMeetingOutcomes() {
         switchClass(elements.loader, displayNoneClass, false);
         var form = elements.formMeetingOutcomes;
