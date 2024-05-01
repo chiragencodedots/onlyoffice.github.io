@@ -441,10 +441,12 @@
 
     elements.btnMeetingViewOutcomes.onclick = function () {
         switchClass(elements.divMeetingViewOutcomes, displayNoneClass, !$('#divMeetingViewOutcomes').hasClass(displayNoneClass));
+        return false;
     }
 
     elements.btnMeetingEnterOutcomes.onclick = function () {
         switchClass(elements.divMeetingEnterOutcomes, displayNoneClass, !$('#divMeetingEnterOutcomes').hasClass(displayNoneClass));
+        return false;
     }
 
     elements.inputSearchbox.onkeyup = function (event) {
