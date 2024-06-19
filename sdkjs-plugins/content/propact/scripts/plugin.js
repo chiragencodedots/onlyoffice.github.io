@@ -91,6 +91,8 @@
     var tyingUserCPArray = [];
     var organisationListInterval;
     var typingTimeout;
+    var attachFileSameSide = [];
+    var attachFileCounterparty = [];
 
     /**
      * @constant
@@ -128,13 +130,19 @@
         btnCloseSameSideChat: document.getElementById("btnCloseSameSideChat"),
         btnCloseCounterpartyChat: document.getElementById("btnCloseCounterpartyChat"),
         btnSendPositionConfirmationSameSide: document.getElementById("btnSendPositionConfirmationSameSide"),
+        btnSendPositionConfirmationSameSideB: document.getElementById("btnSendPositionConfirmationSameSideB"),
         btnSendPositionConfirmationCounterparty: document.getElementById("btnSendPositionConfirmationCounterparty"),
+        btnSendPositionConfirmationCounterpartyB: document.getElementById("btnSendPositionConfirmationCounterpartyB"),
         btnOpenInviteUserTeam: document.getElementById("btnOpenInviteUserTeam"),
         btnScheduleMeetingSameSide: document.getElementById("btnScheduleMeetingSameSide"),
+        btnScheduleMeetingSameSideB: document.getElementById("btnScheduleMeetingSameSideB"),
         btnWithdrawnClauseSameSide: document.getElementById("btnWithdrawnClauseSameSide"),
+        btnAttachFileSameSide: document.getElementById("btnAttachFileSameSide"),
+        btnAttachFileCounterparty: document.getElementById("btnAttachFileCounterparty"),
         btnInviteUsers: document.getElementById("btnInviteUsers"),
         btnInviteTeams: document.getElementById("btnInviteTeams"),
         btnScheduleMeetingCounterparty: document.getElementById("btnScheduleMeetingCounterparty"),
+        btnScheduleMeetingCounterpartyB: document.getElementById("btnScheduleMeetingCounterpartyB"),
         btnMeetingView: document.getElementById("btnMeetingView"),
         btnMeetingEnterOutcomes: document.getElementById("btnMeetingEnterOutcomes"),
         btnMeetingViewOutcomes: document.getElementById("btnMeetingViewOutcomes"),
@@ -257,7 +265,13 @@
         MeetingTimings: document.getElementById("MeetingTimings"),
         participantCounts: document.getElementById("participantCounts"),
         meetingParticipantList: document.getElementById("meetingParticipantList"),
-        inputOrganisationName: document.getElementById("inputOrganisationName")
+        inputOrganisationName: document.getElementById("inputOrganisationName"),
+        attachFileSameSide: document.getElementById("attachFileSameSide"),
+        attachFileCounterparty: document.getElementById("attachFileCounterparty"),
+        attchedFilenameSameSide: document.getElementById("attchedFilenameSameSide"),
+        attchedFilenameCounterparty: document.getElementById("attchedFilenameCounterparty"),
+        errorFileUploadSameSide: document.getElementById("errorFileUploadSameSide"),
+        errorFileUploadCounterparty: document.getElementById("errorFileUploadCounterparty"),
     }
 
     /**================================== Plugin Init Start ===============================*/
@@ -558,7 +572,9 @@
             switchClass(elements.btnGoToCounterpartyChat, displayNoneClass, false);
             switchClass(elements.btnGoToCounterparty, displayNoneClass, false);
             switchClass(elements.btnSendPositionConfirmationSameSide.closest("li"), displayNoneClass, false);
+            switchClass(elements.btnSendPositionConfirmationSameSideB, displayNoneClass, false);
             document.getElementById('btnSendPositionConfirmationCounterparty').closest("li").classList.remove(displayNoneClass);
+            document.getElementById('btnSendPositionConfirmationCounterpartyB').classList.remove(displayNoneClass);
             switchClass(elements.chatFooterInnerSameSide, 'justify-content-end', false);
             if (!openContractResponseData.canCommunicateWithCounterparty) {
                 switchClass(elements.btnGoToCounterpartyChat, displayNoneClass, true);
@@ -567,7 +583,9 @@
             }
             if (openContractResponseData.canSendPositionConfirmation == false) {
                 switchClass(elements.btnSendPositionConfirmationSameSide.closest("li"), displayNoneClass, true);
+                switchClass(elements.btnSendPositionConfirmationSameSideB, displayNoneClass, true);
                 document.getElementById('btnSendPositionConfirmationCounterparty').closest("li").classList.add(displayNoneClass);
+                document.getElementById('btnSendPositionConfirmationCounterpartyB').classList.add(displayNoneClass);
             }
             if (contractInformation.counterPartyInviteStatus != 'Accepted') {
                 switchClass(elements.btnGoToCounterpartyChat, displayNoneClass, true);
@@ -785,6 +803,78 @@
         socket.emit('userTypingContractSection', data);
     };
 
+    elements.btnAttachFileSameSide.onclick = async function (event) {
+        elements.attachFileSameSide.click();
+    }
+
+    elements.attachFileSameSide.onchange = async function (event) {
+        attachFileSameSide = [];
+        const fileInput = event.target;
+        attachFileSameSide = event.target.files; // Get the selected files
+        const maxFiles = 10;
+        const maxSize = 100 * 1024 * 1024; // 100 MB in bytes
+        elements.errorFileUploadSameSide.innerHTML = "";
+        switchClass(elements.messageInputSameSide.parentElement, 'error-validation', false);
+        // Check the number of selected files
+        if (attachFileSameSide.length > maxFiles) {
+            let iHtml = '<label class="error">' + `You can only upload up to ${maxFiles} files.` + '</label>';
+            elements.errorFileUploadSameSide.innerHTML = iHtml;
+            fileInput.value = ''; // Clear the input
+            switchClass(elements.messageInputSameSide.parentElement, 'error-validation', true);
+            attachFileSameSide = [];
+            return;
+        }
+
+        let totalSize = 0;
+        for (const file of attachFileSameSide) {
+            totalSize += file.size;
+        }
+
+        // Check the total size of the selected files
+        if (totalSize > maxSize) {
+            let iHtml = '<label class="error">' + `The total size of files must not exceed 100 MB.` + '</label>';
+            elements.errorFileUploadSameSide.innerHTML = iHtml;
+            fileInput.value = ''; // Clear the input
+            attachFileSameSide = [];
+            switchClass(elements.messageInputSameSide.parentElement, 'error-validation', true);
+            return;
+        }
+
+        if (attachFileSameSide && attachFileSameSide.length > 0) {
+            // elements.attchedFilenameSameSide.innerHTML = "Files Upload Progress: 0/" + (attachFileSameSide.length);
+            const formdata = new FormData();
+            formdata.append("contractId", contractID);
+            formdata.append("contractSectionId", selectedClauseID);
+            formdata.append("chatWindow", withType);
+            formdata.append("with", withType);
+            for (let i = 0; i < attachFileSameSide.length; i++) {
+                const file = attachFileSameSide[i];
+                const fileName = file.name;
+                formdata.append("attachments[]", file, fileName);
+            }
+            var otherDetails = {
+                "contractId": contractID,
+                "contractSectionId": selectedClauseID,
+                "notifyUsers": [],
+                "with": withType,
+                "messageType": 'Attachment',
+                "companyId": loggedInCompanyDetails._id,
+                "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
+                "threadID": selectedThreadID,
+                "status": 'send',
+                "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+                "actionperformedbyUserImage": loggedInUserDetails.imageKey,
+                "actionperformedbyUserRole": openContractResponseData.userRole,
+                "messageConfirmationFor": messageConfirmationFor,
+                "chatRoomName": getChatRoom(withType),
+                "messageNumber": 0,
+                "chatWindow": withType
+            };
+            await addContractSectionAttachment(formdata, otherDetails, socket);
+            attachFileSameSide = [];
+        }
+    };
+
     elements.btnOpenInviteUserTeam.onclick = async function (event) {
         if (elements.btnOpenInviteUserTeam.closest("li").classList.contains('active')) {
             elements.btnOpenInviteUserTeam.closest("li").classList.remove('active');
@@ -805,7 +895,7 @@
     };
 
     elements.btnSendSameSide.onclick = async function (event) {
-        chat_message = elements.messageInputSameSide.innerHTML;
+        chat_message = elements.messageInputSameSide.innerHTML.trim();
         notifyUsers = tagUserInMessage;
         elements.messageInputSameSide.innerHTML = "";
         tagUserInMessage = [];
@@ -831,9 +921,50 @@
             };
             await addContractSectionMessage(addNewContractMessageDetail, socket);
         }
+        // if (attachFileSameSide && attachFileSameSide.length > 0) {
+        //     const formdata = new FormData();
+        //     formdata.append("contractId", contractID);
+        //     formdata.append("contractSectionId", selectedClauseID);
+        //     formdata.append("chatWindow", withType);
+        //     formdata.append("with", withType);
+        //     for (let i = 0; i < attachFileSameSide.length; i++) {
+        //         const file = attachFileSameSide[i];
+        //         const fileName = file.name;
+        //         formdata.append("attachments[]", file, fileName);
+        //     }
+        //     var otherDetails = {
+        //         "contractId": contractID,
+        //         "contractSectionId": selectedClauseID,
+        //         "notifyUsers": notifyUsers,
+        //         "with": withType,
+        //         "messageType": 'Attachment',
+        //         "companyId": loggedInCompanyDetails._id,
+        //         "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
+        //         "threadID": selectedThreadID,
+        //         "status": 'send',
+        //         "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+        //         "actionperformedbyUserImage": loggedInUserDetails.imageKey,
+        //         "actionperformedbyUserRole": openContractResponseData.userRole,
+        //         "messageConfirmationFor": messageConfirmationFor,
+        //         "chatRoomName": getChatRoom(withType),
+        //         "messageNumber": 0,
+        //         "chatWindow": withType
+        //     };
+        //     await addContractSectionAttachment(formdata, otherDetails, socket);
+        //     attachFileSameSide = [];
+        // }
     };
 
     elements.btnSendPositionConfirmationSameSide.onclick = async function (event) {
+        var getClauseDetails = clauseLists.find((ele) => ele._id == selectedClauseID);
+        if (contractInformation && contractInformation.userWhoHasEditAccess == loggedInUserDetails._id && contractInformation.canSendPositionConfirmation && selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && selectedContractSectionDetails.contractSectionData.isSectionInDraftMode) {
+            switchClass(elements.sendDraftConfirmationPopup, displayNoneClass, false);
+        } else if (openContractResponseData.canSendPositionConfirmation) {
+            switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, false);
+        }
+    };
+
+    elements.btnSendPositionConfirmationSameSideB.onclick = async function (event) {
         var getClauseDetails = clauseLists.find((ele) => ele._id == selectedClauseID);
         if (contractInformation && contractInformation.userWhoHasEditAccess == loggedInUserDetails._id && contractInformation.canSendPositionConfirmation && selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && selectedContractSectionDetails.contractSectionData.isSectionInDraftMode) {
             switchClass(elements.sendDraftConfirmationPopup, displayNoneClass, false);
@@ -1085,6 +1216,16 @@
         socket.emit('meetingSchedule', meetingData)
     };
 
+    elements.btnScheduleMeetingSameSideB.onclick = async function (event) {
+        var meetingData = {
+            contractId: contractID,
+            contractSectionId: selectedClauseID,
+            contractSectionThreadId: selectedThreadID,
+            chatRoomName: loggedInUserDetails._id + "_" + contractID
+        };
+        socket.emit('meetingSchedule', meetingData)
+    };
+
     document.addEventListener('click', function (e) {
         if (!elements.divInviteUserTabs.contains(e.target) && e.target !== elements.imgInviteUserTeam) {
             if (elements.btnOpenInviteUserTeam.closest('li')) {
@@ -1280,6 +1421,79 @@
         socket.emit('userTypingContractSection', data);
     };
 
+
+    elements.btnAttachFileCounterparty.onclick = async function (event) {
+        elements.attachFileCounterparty.click();
+    }
+
+    elements.attachFileCounterparty.onchange = async function (event) {
+        attachFileCounterparty = [];
+        const fileInput = event.target;
+        attachFileCounterparty = event.target.files; // Get the selected files
+
+        const maxFiles = 10;
+        const maxSize = 100 * 1024 * 1024; // 100 MB in bytes
+        elements.errorFileUploadCounterparty.innerHTML = "";
+        switchClass(elements.messageInputCounterParty.parentElement, 'error-validation', false);
+        // Check the number of selected files
+        if (attachFileCounterparty.length > maxFiles) {
+            let iHtml = '<label class="error">' + `You can only upload up to ${maxFiles} files.` + '</label>';
+            elements.errorFileUploadCounterparty.innerHTML = iHtml;
+            fileInput.value = ''; // Clear the input
+            switchClass(elements.messageInputCounterParty.parentElement, 'error-validation', true);
+            attachFileSameSide = [];
+            return;
+        }
+
+        let totalSize = 0;
+        for (const file of attachFileCounterparty) {
+            totalSize += file.size;
+        }
+
+        // Check the total size of the selected files
+        if (totalSize > maxSize) {
+            let iHtml = '<label class="error">' + `The total size of files must not exceed 100 MB.` + '</label>';
+            elements.errorFileUploadCounterparty.innerHTML = iHtml;
+            fileInput.value = ''; // Clear the input
+            attachFileSameSide = [];
+            switchClass(elements.messageInputCounterParty.parentElement, 'error-validation', true);
+            return;
+        }
+
+        if (attachFileCounterparty && attachFileCounterparty.length > 0) {
+            const formdata = new FormData();
+            formdata.append("contractId", contractID);
+            formdata.append("contractSectionId", selectedClauseID);
+            formdata.append("chatWindow", withType);
+            formdata.append("with", withType);
+            for (let i = 0; i < attachFileCounterparty.length; i++) {
+                const file = attachFileCounterparty[i];
+                const fileName = file.name;
+                formdata.append("attachments[]", file, fileName);
+            }
+            var otherDetails = {
+                "contractId": contractID,
+                "contractSectionId": selectedClauseID,
+                "notifyUsers": [],
+                "with": withType,
+                "messageType": 'Attachment',
+                "companyId": loggedInCompanyDetails._id,
+                "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
+                "threadID": selectedThreadID,
+                "status": 'send',
+                "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+                "actionperformedbyUserImage": loggedInUserDetails.imageKey,
+                "actionperformedbyUserRole": openContractResponseData.userRole,
+                "messageConfirmationFor": messageConfirmationFor,
+                "chatRoomName": getChatRoom(withType),
+                "messageNumber": 0,
+                "chatWindow": withType
+            }
+            await addContractSectionAttachment(formdata, otherDetails, socket);
+            attachFileCounterparty = [];
+        }
+    };
+
     elements.btnGoToConversionChatHistory.onclick = async function (event) {
         chatHistoryNextPage = 1;
         chatHistoryHasNextPage = true;
@@ -1291,7 +1505,7 @@
     };
 
     elements.btnSendCounterParty.onclick = async function (event) {
-        chat_message = elements.messageInputCounterParty.innerHTML;
+        chat_message = elements.messageInputCounterParty.innerHTML.trim();
         notifyUsers = tagUserInMessage;
         elements.messageInputCounterParty.innerHTML = "";
         tagUserInMessage = [];
@@ -1317,6 +1531,38 @@
             };
             await addContractSectionMessage(addNewContractMessageDetail, socket);
         }
+        /*if (attachFileCounterparty && attachFileCounterparty.length > 0) {
+            const formdata = new FormData();
+            formdata.append("contractId", contractID);
+            formdata.append("contractSectionId", selectedClauseID);
+            formdata.append("chatWindow", withType);
+            formdata.append("with", withType);
+            for (let i = 0; i < attachFileCounterparty.length; i++) {
+                const file = attachFileCounterparty[i];
+                const fileName = file.name;
+                formdata.append("attachments[]", file, fileName);
+            }
+            var otherDetails = {
+                "contractId": contractID,
+                "contractSectionId": selectedClauseID,
+                "notifyUsers": notifyUsers,
+                "with": withType,
+                "messageType": 'Attachment',
+                "companyId": loggedInCompanyDetails._id,
+                "oppositeCompanyId": counterPartyCompanyDetail && counterPartyCompanyDetail._id ? counterPartyCompanyDetail._id : null,
+                "threadID": selectedThreadID,
+                "status": 'send',
+                "actionperformedbyUser": loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName,
+                "actionperformedbyUserImage": loggedInUserDetails.imageKey,
+                "actionperformedbyUserRole": openContractResponseData.userRole,
+                "messageConfirmationFor": messageConfirmationFor,
+                "chatRoomName": getChatRoom(withType),
+                "messageNumber": 0,
+                "chatWindow": withType
+            }
+            await addContractSectionAttachment(formdata, otherDetails, socket);
+            attachFileCounterparty = [];
+        }*/
     };
 
     elements.btnGoToSameSide.onclick = async function (event) {
@@ -1365,6 +1611,20 @@
         }
     };
 
+    elements.btnSendPositionConfirmationCounterpartyB.onclick = async function (event) {
+        getContractDetails(socket, redirection = false);
+        // var getClauseDetails = clauseLists.find((ele) => ele._id == selectedClauseID);
+        if (openContractResponseData && openContractResponseData.canSendPositionConfirmation && selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && selectedContractSectionDetails.contractSectionData.isSectionInDraftMode) {
+            if (contractInformation.userWhoHasEditAccess == loggedInUserDetails._id || openContractResponseData.userRole == "Counterparty" || openContractResponseData.userRole == "Contract Creator" || openContractResponseData.userRole == "Admin") {
+                switchClass(elements.sendDraftConfirmationPopup, displayNoneClass, false);
+            } else {
+                switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, false);
+            }
+        } else if (openContractResponseData.canSendPositionConfirmation) {
+            switchClass(elements.sendPositionConfirmationPopup, displayNoneClass, false);
+        }
+    };
+
     elements.divChatCounterPartyBody.onscroll = (e) => {
         if (elements.divChatCounterPartyBody?.scrollTop == 0 && chatHasNextPage && chatNextPage != 1) {
             getContractSectionMessageList('Counterparty');
@@ -1390,6 +1650,16 @@
     };
 
     elements.btnScheduleMeetingCounterparty.onclick = async function (event) {
+        var meetingData = {
+            contractId: contractID,
+            contractSectionId: selectedClauseID,
+            contractSectionThreadId: selectedThreadID,
+            chatRoomName: loggedInUserDetails._id + "_" + contractID
+        };
+        socket.emit('meetingSchedule', meetingData)
+    };
+
+    elements.btnScheduleMeetingCounterpartyB.onclick = async function (event) {
         var meetingData = {
             contractId: contractID,
             contractSectionId: selectedClauseID,
@@ -1717,6 +1987,14 @@
         elements.assignDraftingRequestInput.placeholder = userName;
     }
 
+    $(document).on('click', '.attachment', async function () {
+        var data = {
+            chatRoomName: loggedInUserDetails._id + "_" + contractID,
+            documentURL: $(this).data('link')
+        };
+        socket.emit('downloadDocument', data);
+    });
+
     /**====================== Section: Counterparty chat ======================*/
 
 
@@ -1779,10 +2057,12 @@
      * @param add
      */
     function switchClass(el, className, add) {
-        if (add) {
-            el.classList.add(className);
-        } else {
-            el.classList.remove(className);
+        if (el) {
+            if (add) {
+                el.classList.add(className);
+            } else {
+                el.classList.remove(className);
+            }
         }
     }
 
@@ -2077,7 +2357,7 @@
     }
 
     function renderSocketMessage(data, chatWindow) {
-        // debugger;
+        debugger;
         var renderHTML = '';
         switch (data.messageType) {
             case "Invite":
@@ -2326,6 +2606,24 @@
                     '          </div>\n' +
                     '        </div>';
                 break;
+            case "Attachment":
+                renderHTML += '<div class="message-wrapper' + (chatWindow == 'CP' ? " light-gold-color" : "") + ' ">\n' +
+                    '   <div class="profile-picture">\n' +
+                    '      <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                    '      <p class="name">' + data.actionperformedbyUser + '&nbsp;<small>(' + (data && data.companyId === loggedInCompanyDetails._id ? 'Sameside' : 'Counterparty') + ')</small>' + '</p>\n' +
+                    '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                    '   </div>\n' +
+                    '   <div class="attachment-content">' +
+                    '       <div class="attachment" data-link="' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '">\n' +
+                    '           <div class="icon">\n' +
+                    '               <img src="images/pdf-link-icon.svg" alt="">\n' +
+                    '           </div>\n' +
+                    '           <h4 class="text-left">' + (data.attachmentName ? data.attachmentName.trim().replaceAll(/\n/g, '<br>') : '') + '</h4>\n' +
+                    '           <p  class="text-left">' + (data.attachmentSize ? data.attachmentSize.trim().replaceAll(/\n/g, '<br>') : '') + (data.attachmentExtention ? ' | ' + data.attachmentExtention.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
+                    '       </div>\n' +
+                    '   </div>\n' +
+                    '</div>\n';
+                break;
             default:
                 renderHTML += '<div class="message-wrapper' + (chatWindow == 'CP' ? " light-gold-color" : "") + '">\n' +
                     '   <div class="profile-picture">\n' +
@@ -2566,6 +2864,24 @@
                     '            </div>\n' +
                     '          </div>\n' +
                     '        </div>';
+                break;
+            case "Attachment":
+                renderHTML += '<div class="message-wrapper' + (data.chatWindow == 'Counterparty' ? " light-gold-color" : " reverse") + ' ">\n' +
+                    '   <div class="profile-picture">\n' +
+                    '      <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                    '      <p class="name">' + data.actionperformedbyUser + '&nbsp;<small>(' + (data && data.companyId === loggedInCompanyDetails._id ? 'Sameside' : 'Counterparty') + ')</small>' + '</p>\n' +
+                    '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                    '   </div>\n' +
+                    '   <div class="attachment-content">' +
+                    '       <div class="attachment" data-link="' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '">\n' +
+                    '           <div class="icon">\n' +
+                    '               <img src="images/pdf-link-icon.svg" alt="">\n' +
+                    '           </div>\n' +
+                    '           <h4 class="text-left">' + (data.attachmentName ? data.attachmentName.trim().replaceAll(/\n/g, '<br>') : '') + '</h4>\n' +
+                    '           <p  class="text-left">' + (data.attachmentSize ? data.attachmentSize.trim().replaceAll(/\n/g, '<br>') : '') + (data.attachmentExtention ? ' | ' + data.attachmentExtention.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
+                    '       </div>\n' +
+                    '   </div>\n' +
+                    '</div>\n';
                 break;
             default:
                 renderHTML += '<div class="message-wrapper' + (data.chatWindow == 'Counterparty' ? " light-gold-color" : " reverse") + '">\n' +
@@ -3488,6 +3804,7 @@
                         if (selectedContractSectionDetails.contractAssignedUsers && selectedContractSectionDetails.contractAssignedUsers.length > 0) {
                             if (openContractResponseData.canSendPositionConfirmation == true) {
                                 switchClass(elements.btnSendPositionConfirmationSameSide.closest("li"), displayNoneClass, false);
+                                switchClass(elements.btnSendPositionConfirmationSameSideB.closest("li"), displayNoneClass, false);
                             }
                             selectedContractSectionDetails.contractAssignedUsers.forEach((ele) => {
                                 iHtml += '<li>\n' +
@@ -3504,6 +3821,7 @@
                             });
                         } else {
                             switchClass(elements.btnSendPositionConfirmationSameSide.closest("li"), displayNoneClass, true);
+                            switchClass(elements.btnSendPositionConfirmationSameSideB.closest("li"), displayNoneClass, true);
                         }
                         iHtml += '</ul>';
                         elements.divInvitedUsers.innerHTML = iHtml;
@@ -3953,6 +4271,24 @@
                                             '       </div>\n' +
                                             '</div>\n';
                                         break;
+                                    case "Attachment":
+                                        renderHTML += '<div class="message-wrapper' + (element.conversationType == 'OTM' ? "" : " reverse") + (element.chatWindow == "Counterparty" ? " light-gold-color" : "") + '">\n' +
+                                            '       <div class="profile-picture">\n' +
+                                            '           <img src="' + (element && element.messageSenderUser && element.messageSenderUser.imageKey ? IMAGE_USER_PATH_LINK + element.messageSenderUser.imageKey : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                            '           <p class="name">' + element.messageSenderUser.firstName + ' ' + element.messageSenderUser.lastName + '&nbsp;<small>(' + (element && element.companyId === loggedInCompanyDetails._id ? 'Sameside' : 'Counterparty') + ')</small>' + '</p>\n' +
+                                            '           <p class="last-seen">' + formatDate(element.createdAt) + '</p>\n' +
+                                            '       </div>\n' +
+                                            '       <div class="attachment-content">' +
+                                            '           <div class="attachment" data-link="' + (element.message ? element.message.trim().replaceAll(/\n/g, '<br>') : '') + '">\n' +
+                                            '               <div class="icon">\n' +
+                                            '                   <img src="images/pdf-link-icon.svg" alt="">\n' +
+                                            '               </div>\n' +
+                                            '               <h4 class="text-left">' + (element.attachmentName ? element.attachmentName.trim().replaceAll(/\n/g, '<br>') : '') + '</h4>\n' +
+                                            '               <p  class="text-left">' + (element.attachmentSize ? element.attachmentSize.trim().replaceAll(/\n/g, '<br>') : '') + (element.attachmentExtention ? ' | ' + element.attachmentExtention.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
+                                            '           </div>\n' +
+                                            '       </div>\n' +
+                                            '</div>\n';
+                                        break;
                                     case "Invite":
                                         var inviteMessage = '';
                                         var userName = element.messageSenderUser.firstName + " " + element.messageSenderUser.lastName;
@@ -4325,6 +4661,24 @@
                                             '          </div>\n' +
                                             '        </div>';
                                         break;
+                                    case "Attachment":
+                                        renderHTML += '<div class="message-wrapper' + (element.from == loggedInUserDetails._id ? " reverse" : "") + (element.chatWindow == "Counterparty" ? " light-gold-color" : "") + '">\n' +
+                                            '       <div class="profile-picture">\n' +
+                                            '           <img src="' + (element && element.messageSenderUser && element.messageSenderUser.imageKey ? IMAGE_USER_PATH_LINK + element.messageSenderUser.imageKey : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                            '           <p class="name">' + element.messageSenderUser.firstName + ' ' + element.messageSenderUser.lastName + '&nbsp;<small>(' + (element && element.companyId === loggedInCompanyDetails._id ? 'Sameside' : 'Counterparty') + ')</small>' + '</p>\n' +
+                                            '           <p class="last-seen">' + formatDate(element.createdAt) + '</p>\n' +
+                                            '       </div>\n' +
+                                            '       <div class="attachment-content">' +
+                                            '           <div class="attachment" data-link="' + (element.message ? element.message.trim().replaceAll(/\n/g, '<br>') : '') + '">\n' +
+                                            '               <div class="icon">\n' +
+                                            '                   <img src="images/pdf-link-icon.svg" alt="">\n' +
+                                            '               </div>\n' +
+                                            '               <h4 class="text-left">' + (element.attachmentName ? element.attachmentName.trim().replaceAll(/\n/g, '<br>') : '') + '</h4>\n' +
+                                            '               <p  class="text-left">' + (element.attachmentSize ? element.attachmentSize.trim().replaceAll(/\n/g, '<br>') : '') + (element.attachmentExtention ? ' | ' + element.attachmentExtention.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
+                                            '           </div>\n' +
+                                            '       </div>\n' +
+                                            '</div>\n';
+                                        break;
                                     default:
                                         renderHTML += '<div class="message-wrapper' + (element.from == loggedInUserDetails._id ? " reverse" : "") + (element.chatWindow == "Counterparty" ? " light-gold-color" : "") + '">\n' +
                                             '       <div class="profile-picture">\n' +
@@ -4531,6 +4885,131 @@
                             };
                             elements.divChatSameSideBody.scrollTo(scrollToOptions);
                         }
+                        closeBottomPopup();
+                    }
+                    switchClass(elements.loader, displayNoneClass, true);
+                })
+                .catch(error => {
+                    // Handle any errors
+                    console.log('Error #29031200:', error);
+                    switchClass(elements.loader, displayNoneClass, true);
+                });
+        } catch (error) {
+            console.log('Error #29031150:', error);
+            switchClass(elements.loader, displayNoneClass, true);
+        }
+    }
+
+    async function addContractSectionAttachment(formData, otherDetails, socket) {
+        try {
+            switchClass(elements.loader, displayNoneClass, false);
+            // var data = JSON.stringify(postData);
+            var requestURL = apiBaseUrl + '/contract-section/add-contract-section-attachment';
+            var headers = {};
+            if (authToken) headers["Authorization"] = 'Bearer ' + authToken;
+            var requestOptions = {
+                method: 'POST',
+                headers: headers,
+                body: formData
+            };
+            fetch(requestURL, requestOptions)
+                .then(response => response.json())
+                .then(response => {
+                    // Handle the response data
+                    if (response && response.status == true && response.code == 201) {
+                        if (response && response.data && response.data.length > 0) {
+                            response.data.forEach((ele) => {
+                                console.log('ele', ele);
+                                var conversationType = 'OTM';
+                                if (loggedInCompanyDetails._id.toString() == contractInformation.companyId.toString() && ele.with == "Our Team") {
+                                    conversationType = 'OTCC';
+                                } else if (loggedInCompanyDetails._id.toString() == contractInformation.counterPartyCompanyId.toString() && ele.with == "Our Team") {
+                                    conversationType = 'OTCP';
+                                }
+                                ele.chatRoomName = otherDetails.chatRoomName;
+                                ele.actionperformedbyUserImage = otherDetails.actionperformedbyUserImage;
+                                ele.actionperformedbyUser = otherDetails.actionperformedbyUser;
+                                ele.actionperformedbyUserRole = otherDetails.actionperformedbyUserRole;
+                                ele.actionperformedbyUserId = otherDetails.actionperformedbyUserId;
+                                ele.actionperformedbyUserType = otherDetails.actionperformedbyUserType;
+                                socket.emit('contractSectionMessage', ele);
+
+                                var generalChatData = ele;
+                                generalChatData.chatRoomName = 'conversionHistory_' + selectedThreadID;
+                                generalChatData.conversationType = conversationType;
+                                socket.emit('conversionHistoryMessage', generalChatData);
+
+                                if (selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && (selectedContractSectionDetails.contractSectionData.isVisibleToCounterparty == false || selectedContractSectionDetails.contractSectionData.isVisibleToContractCreator == false)) {
+                                    getContractSectionDetails();
+                                    var data = {
+                                        chatRoomName: contractID,
+                                        refreshClauseList: true
+                                    };
+                                    socket.emit('refreshClauseList', data);
+                                }
+
+                                if (otherDetails.with == "Counterparty") {
+                                    elements.attchedFilenameCounterparty.innerHTML = '';
+                                    attachFileCounterparty = [];
+                                } else {
+                                    elements.attchedFilenameSameSide.innerHTML = '';
+                                    attachFileSameSide = [];
+                                }
+                                var renderHTML = '';
+                                switch (ele.messageType) {
+                                    default:
+                                        renderHTML += '<div class="message-wrapper reverse ' + (otherDetails.with == "Counterparty" ? "light-gold-color" : "") + ' ">\n' +
+                                            '   <div class="profile-picture">\n' +
+                                            '      <img src="' + (otherDetails.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + otherDetails.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                            '      <p class="name">' + otherDetails.actionperformedbyUser + '&nbsp;<small>(' + (ele && ele.companyId === loggedInCompanyDetails._id ? 'Sameside' : 'Counterparty') + ')</small>' + '</p>\n' +
+                                            '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                            '   </div>\n' +
+                                            '   <div class="attachment-content">' +
+                                            '       <div class="attachment" data-link="' + (ele.message ? ele.message.trim().replaceAll(/\n/g, '<br>') : '') + '">\n' +
+                                            '           <div class="icon">\n' +
+                                            '               <img src="images/pdf-link-icon.svg" alt="">\n' +
+                                            '           </div>\n' +
+                                            '           <h4 class="text-left">' + (ele.attachmentName ? ele.attachmentName.trim().replaceAll(/\n/g, '<br>') : '') + '</h4>\n' +
+                                            '           <p  class="text-left">' + (ele.attachmentSize ? ele.attachmentSize.trim().replaceAll(/\n/g, '<br>') : '') + (ele.attachmentExtention ? ' | ' + ele.attachmentExtention.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
+                                            '       </div>\n' +
+                                            '   </div>\n' +
+                                            '</div>\n';
+                                        break
+                                }
+
+
+                                if (otherDetails.with == "Counterparty") {
+                                    var newElement = document.createElement("div");
+                                    newElement.innerHTML = renderHTML;
+                                    elements.conversionCounterparty.appendChild(newElement);
+
+                                    var scrollToOptions = {
+                                        top: elements.divChatCounterPartyBody.scrollHeight,
+                                        behavior: 'smooth'
+                                    };
+                                    elements.divChatCounterPartyBody.scrollTo(scrollToOptions);
+                                } else {
+                                    var newElement = document.createElement("div");
+                                    newElement.innerHTML = renderHTML;
+                                    elements.conversionSameSide.appendChild(newElement);
+
+                                    var scrollToOptions = {
+                                        top: elements.divChatSameSideBody.scrollHeight,
+                                        behavior: 'smooth'
+                                    };
+                                    elements.divChatSameSideBody.scrollTo(scrollToOptions);
+                                }
+
+                            });
+                        }
+                        // postData._id = response.data._id;
+                        /*
+
+
+
+
+
+                        */
                         closeBottomPopup();
                     }
                     switchClass(elements.loader, displayNoneClass, true);

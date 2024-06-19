@@ -13,11 +13,12 @@ img {max-width: 100%;vertical-align: middle;border-style: none; height: auto;}
 .btn {width: auto; display: inline-block; margin: 0;  padding: 10px 18px; border: 0; font-size: 14px; color: #282756;  font-weight: 400; font-family: 'Poppins', sans-serif;  border-radius: 4px; min-width: 86px; text-align: center; box-shadow: none !important; outline: none !important; }
 .btn-secondary {background: #E5E5E5;}
 .btn-secondary:hover { background-color: #69DAEE; }
+#divCounterpartyTextbox .btn-secondary:hover { background-color: #FFBC81 !important; }
 .btn-primary { color: #ffffff !important; border: 1px solid !important; background: #282756 !important; }
 .btn-primary:hover { background-color: transparent !important; border-color: #282756 !important; color: #282756 !important; }
 .form-group {width: 100%; margin: 0 0 20px 0; padding: 0; float: left;}
 .form-group label { font-size: 12px; font-weight: 500; color: #282756; display: flex; margin: 0 0 6px 0; padding: 0; width: 100%;}
-.form-group label.error { font-weight: 400 !important; color: red; }
+.form-group label.error, label.error { font-weight: 400 !important; color: red; font-size: 12px }
 .form-group .form-control {width: 100%; margin: 0; padding: 0 12px; border: 1px solid #DADDE0;  border-radius: 5px; height: 50px; font-size: 12px; color: #282756; font-weight: 400; font-family: 'Poppins', sans-serif; outline: none !important;}
 .editable-div { padding: 12px !important; height: 70px !important; overflow-y: auto; }
 .form-group select.form-control { background-image: url(../images/select_Icon.svg); background-repeat: no-repeat; -webkit-appearance: none; -moz-appearance: none; appearance: none; border-radius: 0.375rem; transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out; background-position: 99.5%; padding-right: 0px;}
@@ -356,6 +357,45 @@ p#txtMeetingViewOutcomes { font-size: 14px; font-weight: 400; }
     50% {opacity: 1.0;}
     100% {-webkit-transform: scale(1.2, 1.2); opacity: 0.0;}
 }
+
+/******** 17-6-2024 **********/
+
+.contract-list .contract-list-items{border: 1px solid transparent; padding: 8px 1px 12px 5px; border-radius: 5px; height: auto;}
+.contract-list .contract-list-items.selected{border-color: #282756;}
+.contract-list .contract-list-items .head-h2{color: #282756; font-size: 14px; font-weight: 600;}
+.contract-top .contract-checkbox{float: right;}
+.remove-btn{padding-bottom: 12px; text-align: right;}
+.remove-btn .btn{border: 1px solid #282756;}
+.remove-btn .btn:hover{background-color: #282756; color: #ffffff;}
+
+.radio-custom{position: relative; margin: 0 0 0 -20px;}
+.radio-custom input{width: 15px; height: 15px; opacity: 0; cursor: pointer; position: absolute; left: 20px; z-index: 2; }
+.radio-custom span{width: 14px; height: 14px; display: inline-block; outline: 1px solid #282756; border-radius: 50%; border: 3px solid #F7F7F7; position: absolute;
+    left: 0; top: 3px; }
+.radio-custom input:checked + span{background: #282756;}
+.radio-group-top label{font-size: 13px;}
+.radio-group-top{background: #F7F7F7; padding: 16px 10px 8px 20px; margin-bottom: 20px; border-radius: 5px;}
+
+.type-sms-btn-part{position: absolute; right: 8px; bottom: 8px; }
+.type-sms-btn-part .btn{min-width: inherit; padding: 8px 7px; width: 38px;}
+.conversation-right > ul li .invite-user-tabs.first-icon{right: 43px;}
+
+.chat-top-new-part .line{font-size: 14px; color: #282756; font-weight: 600;}
+.chat-top-new-part .line3{display: flex;}
+.chat-top-new-part .line3 .text{font-size: 12px; font-weight: normal; flex-wrap: wrap; max-width: 170px; padding-left: 5px;}
+/*.chat-pdf-box{background-color: rgba(121, 215, 250, 0.12); padding: 10px; width: 242px; margin-left: auto; border-radius: 5px;}
+.chat-pdf-box .icon{background-color: #ffffff; text-align: center; width: 222px; height: 110px; display: flex; justify-content: center; align-items: center;
+    border-radius: 5px; }
+.chat-pdf-box h4{color: #282756; font-size: 12px; line-height: 17px; margin: 0; padding: 10px 0 0 0; font-weight: 600; }
+.chat-pdf-box p{font-size: 10px; line-height: 18px; color: rgba(40, 39, 86, 0.50); margin: 0; padding: 0; }*/
+.attachment{padding: 10px; width: 242px; border-radius: 5px; margin: 8px 0 0 0px; cursor: pointer}
+.attachment .icon{background-color: #ffffff; text-align: center; width: 222px; height: 110px; display: flex; justify-content: center; align-items: center;
+    border-radius: 5px; }
+.attachment h4{color: #282756; font-size: 12px; line-height: 17px; margin: 0; padding: 10px 0 0 0; font-weight: 600; }
+.attachment p{font-size: 10px; line-height: 18px; color: rgba(40, 39, 86, 0.50); margin: 0; padding: 0; }
+.chat-body .chat-area .message-wrapper .attachment { background: rgba(121, 215, 250, 0.12); }
+.chat-body .chat-area .light-gold-color .attachment { background: rgb(255, 246, 237); }
+.chat-body .chat-area .message-wrapper.reverse .attachment, .reverse .attachment { direction: ltr; }
 /*==================================== 22-08-2023 ====================================*/
 @media only screen and (max-width:375px){
     .chat-footer-inner .btn { margin: 0 4px;  padding: 10px 12px; min-width: auto;}
@@ -459,4 +499,7 @@ p#txtMeetingViewOutcomes { font-size: 14px; font-weight: 400; }
 .autocomplete-items {padding: 12px;border: 1px solid #DADDE0;border-radius: 5px;margin-top: 5px;position: absolute;width: 100%;background: #fff}
 .autocomplete-items .dropdown-option {
     padding: 5px;
+}
+.error-validation .type-sms-btn-part {
+    bottom: 36px;
 }

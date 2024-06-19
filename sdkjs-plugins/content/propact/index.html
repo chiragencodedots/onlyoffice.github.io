@@ -133,7 +133,8 @@
                     </div>-->
                     <div class="form-group autocomplete">
                         <label class="">Organisation name</label>
-                        <input id="inputOrganisationName" class="form-control" type="text" name="organisationName" placeholder="Organisation name" required>
+                        <input id="inputOrganisationName" class="form-control" type="text" name="organisationName"
+                               placeholder="Organisation name" required>
                     </div>
                     <div class="submit-btn">
                         <a class="btn btn-secondary" href="#" id="btnInviteCounterpartyCancel">Cancel</a>
@@ -282,12 +283,6 @@
                 </div>
                 <div class="conversation-right">
                     <ul>
-                        <li>
-                            <a href="#" id="btnGoToConversionHistory" data-bs-toggle="tooltip" data-bs-placement="top"
-                               title="View the Conversation History">
-                                <img src="images/chat-header-icon1.svg" alt="conversation-icon">
-                            </a>
-                        </li>
                         <li class="action-sameside">
                             <a href="#" id="btnOpenInviteUserTeam" data-bs-toggle="tooltip" data-bs-placement="top"
                                title="Invite User & Team">
@@ -334,10 +329,10 @@
                                 </div>
                             </div>
                         </li>
-                        <li class="action-sameside">
-                            <a href="#" id="btnSendPositionConfirmationSameSide" data-bs-toggle="tooltip"
-                               data-bs-placement="top" title="Send Confirmation">
-                                <img src="images/chat-header-icon3.svg" alt="send-icon">
+                        <li>
+                            <a href="#" id="btnGoToConversionHistory" data-bs-toggle="tooltip" data-bs-placement="top"
+                               title="View the Conversation History">
+                                <img src="images/chat-header-icon1.svg" alt="conversation-icon">
                             </a>
                         </li>
                         <li class="action-sameside dropdown">
@@ -347,12 +342,19 @@
                             </a>
                             <ul class="dropdown-menu more-option" aria-labelledby="dropdownMenuLink">
                                 <li>
-                                    <a class="dropdown-item" id="btnScheduleMeetingSameSide" href="#">Schedule
-                                        Meeting</a>
+                                    <a class="dropdown-item" id="btnWithdrawnClauseSameSide" href="#">
+                                        Withdraw clause
+                                    </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" id="btnWithdrawnClauseSameSide" href="#">Withdraw
-                                        Clause</a>
+                                    <a class="dropdown-item" id="btnSendPositionConfirmationSameSide" href="#">
+                                        Position/drafting confirmation
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" id="btnScheduleMeetingSameSide" href="#">
+                                        Schedule meeting
+                                    </a>
                                 </li>
                             </ul>
                         </li>
@@ -370,9 +372,29 @@
             <div class="chat-create-footer" id="divChatContractSameSideFooter">
                 <div id="divSameSideTextbox">
                     <span id="typingSpan"></span>
-                    <div class="form-group">
+                    <div class="form-group position-relative">
                         <div contenteditable="true" id="messageInputSameSide" placeholder="Type message here"
                              class="form-control editable-div">
+                        </div>
+                        <div id="errorFileUploadSameSide"></div>
+                        <div id="attchedFilenameSameSide"></div>
+                        <input type="file" class="d-none" id="attachFileSameSide" multiple>
+                        <div class="type-sms-btn-part">
+                            <button type="submit" class="btn btn-secondary" id="btnAttachFileSameSide" data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Attach File">
+                                <img src="images/attach-icon.svg" alt="Attach File">
+                            </button>
+                            <button type="submit" class="btn btn-secondary"  id="btnSendPositionConfirmationSameSideB" data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Position/drafting confirmation">
+                                <img src="images/file-right.svg" alt="Position/drafting confirmation"/>
+                            </button>
+                            <button type="submit" class="btn btn-secondary" id="btnScheduleMeetingSameSideB" data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Schedule meeting">
+                                <img src="images/calender-add.svg" alt="Schedule meeting">
+                            </button>
                         </div>
                     </div>
                     <div class="chat-footer-inner" id="chatFooterInnerSameSide">
@@ -439,11 +461,32 @@
             <div class="chat-create-footer" id="divChatContractCounterpartyFooter">
                 <div id="divCounterpartyTextbox">
                     <span id="typingSpanCP"></span>
-                    <div class="form-group">
+                    <div class="form-group position-relative">
                         <div contenteditable="true" id="messageInputCounterParty" placeholder="Type message here"
                              class="form-control editable-div">
                         </div>
+                        <div id="errorFileUploadCounterparty"></div>
+                        <div id="attchedFilenameSameSide"></div>
+                        <input type="file" class="d-none" id="attachFileCounterparty" multiple>
+                        <div class="type-sms-btn-part">
+                            <button type="submit" class="btn btn-secondary" id="btnAttachFileCounterparty" data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Attach File">
+                                <img src="images/attach-icon.svg" alt="Attach File">
+                            </button>
+                            <button type="submit" class="btn btn-secondary"  id="btnSendPositionConfirmationCounterpartyB" data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Position/drafting confirmation">
+                                <img src="images/file-right.svg" alt="Position/drafting confirmation"/>
+                            </button>
+                            <button type="submit" class="btn btn-secondary" id="btnScheduleMeetingCounterpartyB" data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Schedule meeting">
+                                <img src="images/calender-add.svg" alt="Schedule meeting">
+                            </button>
+                        </div>
                     </div>
+                    <div id="attchedFilenameCounterparty"></div>
                     <div class="chat-footer-inner" id="chatFooterInnerCP">
                         <button class="btn" id="btnGoToSameSide">Go to my side</button>
                         <div class="send-btn">
