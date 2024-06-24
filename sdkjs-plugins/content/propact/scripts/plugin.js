@@ -1380,13 +1380,16 @@
     });
 
     $(document).on('click', '.assign-user', function () {
+        debugger;
         let actionType = $(this).data('action');
         if (actionType == "reassign-user") {
+            let messageID = $(this).data('id');
+            console.log('messageID', messageID);
             elements.formReassignDraftRequest.reset();
             switchClass(elements.divReassignDraftingBox, displayNoneClass, true);
             elements.reassignDraftRequestUserId.value = "";
             elements.inputReassignDraftRequest.placeholder = "Select user";
-            elements.reassignDraftRequestMessageId.value = $(this).data('id');
+            elements.reassignDraftRequestMessageId.value = messageID;
             switchClass(elements.reassignDraftRequestPopup, displayNoneClass, false);
         } else {
             elements.assignDraftRequestMessageId.value = $(this).data('id');
@@ -1841,7 +1844,6 @@
     }
 
 
-
     const reAssignRadioButtons = document.querySelectorAll('input[name="reassignRadioButton"]');
 
     reAssignRadioButtons.forEach(radioButton => {
@@ -1855,6 +1857,7 @@
                 } else {
                     switchClass(elements.divReassignDraftingBox, displayNoneClass, true);
                     let messageID = $('#reassignDraftRequestMessageId').val();
+                    console.log('messageID', messageID);
                     elements.formReassignDraftRequest.reset();
                     elements.reassignDraftRequestUserId.value = "";
                     elements.inputReassignDraftRequest.placeholder = "Select user";
@@ -2249,7 +2252,7 @@
                 approveConfirmation.messageConfirmationFor = 'Same Side';
                 approveConfirmation.sendTo = elements.reassignDraftRequestUserId.value;
                 approveConfirmation.sendToName = elements.inputReassignDraftRequest.placeholder;
-                approveConfirmation.chatRoomName = 'user_' + counterPartyCompanyDetail._id + selectedThreadID
+                approveConfirmation.chatRoomName = 'user_' + loggedInCompanyDetails._id + '_' + selectedThreadID
             }
             updateContractSectionConfirmationStatus(approveConfirmation, socket);
             $('.reconfirm-approve[data-id="' + approveConfirmation.messageId + '"]').parent().addClass(displayNoneClass);
@@ -2538,12 +2541,15 @@
         if (!flagSocketFunctionInit) {
 
             var chatRoomName = loggedInUserDetails._id + "_" + contractID;
+            console.log('chatRoomName', chatRoomName);
             socket.emit('joinChatRoom', chatRoomName);
 
             var chatRoomNameA = 'room_' + contractID;
+            console.log('chatRoomNameA', chatRoomNameA);
             socket.emit('joinChatRoom', chatRoomNameA);
 
             var documentChatRoomName = contractID;
+            console.log('documentChatRoomName', documentChatRoomName);
             socket.emit('joinChatRoom', documentChatRoomName);
 
             socket.on('counterpartyInvited', data => {
@@ -2742,8 +2748,11 @@
                 if (data.confirmationType == 'position') {
                     $('.reconfirm-approve[data-id="' + data.messageId + '"]').parent().addClass(displayNoneClass);
                     requestRowMessage = (data.status == "approved" ? 'Position approved by ' : 'Position rejected by ') + data.actionperformedbyUser
-                } else if (data.confirmationType == 'request_draft' && data.sendTo) {
+                } else if (data.confirmationType == 'request_draft' && data.sendTo && data.flag != 'reassign') {
                     requestRowMessage = data.actionperformedbyUser + ' has been assigned a team member to draft this contract section';
+                    $('.reconfirm-approve[data-id="' + data.messageId + '"]').parent().addClass(displayNoneClass);
+                } else if (data.confirmationType == 'request_draft' && data.sendTo && data.flag == 'reassign') {
+                    requestRowMessage = data.actionperformedbyUser + ' has been assigned '+data.sendToName+' to draft this contract section';
                     $('.reconfirm-approve[data-id="' + data.messageId + '"]').parent().addClass(displayNoneClass);
                 } else if (data.confirmationType == "draft") {
                     if (data.status == 'approved') {
@@ -2841,11 +2850,8 @@
                         '       </div>\n' +
                         '</div>';
                 } else if (data.confirmationType == 'request_draft' && !data.sendTo) {
-                    getContractSectionDetails();
-                    $('.reconfirm-approve[data-id="' + data.messageId + '"]').parent().addClass(displayNoneClass);
-                    getContractDetails(socket, false);
-                    if (chatWindow == 'SS') {
-                        renderHTML += '<div class="message-wrapper reverse">\n' +
+                    if (data.flag === 'reassign' && chatWindow == "SS") {
+                        renderHTML += '<div class="message-wrapper">\n' +
                             '       <div class="profile-picture">\n' +
                             '           <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                             '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
@@ -2856,7 +2862,7 @@
                             '               <h4>Draft Request</h4>\n' +
                             '               <div class="content-message">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
                             '           </div>\n';
-                        if (openContractResponseData.userRole == "Admin" || openContractResponseData.userRole == "Contract Creator") {
+                        if (openContractResponseData.userRole == "Admin" || openContractResponseData.userRole == "Contract Creator"  || openContractResponseData.userRole == "Counterparty") {
                             renderHTML += '        <div class="request-btn">\n' +
                                 '               <button class="btn btn-primary assign-user" data-action="assign-user" data-id="' + data.messageId + '">Assign for Drafting</button>\n' +
                                 '           </div>\n';
@@ -2864,26 +2870,50 @@
                         renderHTML += '</div>\n' +
                             '</div>';
                     } else {
-                        renderHTML += '<div class="message-wrapper dark-gold-color">\n' +
-                            '       <div class="profile-picture">\n' +
-                            '           <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
-                            '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
-                            '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
-                            '       </div>\n' +
-                            '       <div class="request-row">\n' +
-                            '           <div class="message-content">\n' +
-                            '               <h4>Draft Request</h4>\n' +
-                            '               <div class="message">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
-                            '           </div>\n';
-                        renderHTML += '</div>\n' +
-                            '</div>';
-                        if (data.flagDraftAssigned) {
-                            requestRowMessage = data.actionperformedbyUser + ' has been assigned ' + (data.assignedUserDetails ? data.assignedUserDetails.firstName + " " + data.assignedUserDetails.lastName : "") + ' to draft this contract section';
+                        getContractSectionDetails();
+                        $('.reconfirm-approve[data-id="' + data.messageId + '"]').parent().addClass(displayNoneClass);
+                        getContractDetails(socket, false);
+                        if (chatWindow == 'SS') {
+                            renderHTML += '<div class="message-wrapper reverse">\n' +
+                                '       <div class="profile-picture">\n' +
+                                '           <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                                '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                '       </div>\n' +
+                                '       <div class="request-row">\n' +
+                                '           <div class="request-content">\n' +
+                                '               <h4>Draft Request</h4>\n' +
+                                '               <div class="content-message">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
+                                '           </div>\n';
+                            if (openContractResponseData.userRole == "Admin" || openContractResponseData.userRole == "Contract Creator") {
+                                renderHTML += '        <div class="request-btn">\n' +
+                                    '               <button class="btn btn-primary assign-user" data-action="assign-user" data-id="' + data.messageId + '">Assign for Drafting</button>\n' +
+                                    '           </div>\n';
+                            }
+                            renderHTML += '</div>\n' +
+                                '</div>';
                         } else {
-                            if (loggedInCompanyDetails._id == contractInformation.companyId) {
-                                requestRowMessage = data.actionperformedbyUser + ' has been assigned ' + (loggedInCompanyDetails._id == data.companyId ? loggedInCompanyDetails.companyName : counterPartyCompanyDetail.companyName) + ' to draft this contract section';
+                            renderHTML += '<div class="message-wrapper dark-gold-color">\n' +
+                                '       <div class="profile-picture">\n' +
+                                '           <img src="' + (data.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                '           <p class="name">' + data.actionperformedbyUser + '</p>\n' +
+                                '           <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                '       </div>\n' +
+                                '       <div class="request-row">\n' +
+                                '           <div class="message-content">\n' +
+                                '               <h4>Draft Request</h4>\n' +
+                                '               <div class="message">' + (data.message ? data.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
+                                '           </div>\n';
+                            renderHTML += '</div>\n' +
+                                '</div>';
+                            if (data.flagDraftAssigned) {
+                                requestRowMessage = data.actionperformedbyUser + ' has been assigned ' + (data.assignedUserDetails ? data.assignedUserDetails.firstName + " " + data.assignedUserDetails.lastName : "") + ' to draft this contract section';
                             } else {
-                                requestRowMessage = data.actionperformedbyUser + ' has been assigned ' + (loggedInCompanyDetails._id == data.companyId ? loggedInCompanyDetails.companyName : counterPartyCompanyDetail.companyName) + ' to draft this contract section';
+                                if (loggedInCompanyDetails._id == contractInformation.companyId) {
+                                    requestRowMessage = data.actionperformedbyUser + ' has been assigned ' + (loggedInCompanyDetails._id == data.companyId ? loggedInCompanyDetails.companyName : counterPartyCompanyDetail.companyName) + ' to draft this contract section';
+                                } else {
+                                    requestRowMessage = data.actionperformedbyUser + ' has been assigned ' + (loggedInCompanyDetails._id == data.companyId ? loggedInCompanyDetails.companyName : counterPartyCompanyDetail.companyName) + ' to draft this contract section';
+                                }
                             }
                         }
                     }
@@ -3706,7 +3736,7 @@
                                 // assets/images/no-profile-image.jpg
                                 userLists.forEach((ele) => {
                                     renderHTML += '<li>';
-                                    renderHTML += '<div class="'+(popup == 'assignDraftRequest' ? 'draft-request-user' : 'redraft-request-user')+'" data-id="' + ele.itemId + '" data-name="' + ele.itemName + '" data-json="' + JSON.stringify(ele) + '">\n' +
+                                    renderHTML += '<div class="' + (popup == 'assignDraftRequest' ? 'draft-request-user' : 'redraft-request-user') + '" data-id="' + ele.itemId + '" data-name="' + ele.itemName + '" data-json="' + JSON.stringify(ele) + '">\n' +
                                         '\t<label for="inviteuser_' + ele.itemId + '" class="form-check-label">\n' +
                                         '\t\t<div class="conversation-left">\n' +
                                         '\t\t\t<span class="user-icon" id="userProfileImage">\n' +
@@ -5505,6 +5535,15 @@
                     // var responseData = response;t
                     // console.log('responseData', responseData);
                     if (response && response.status == true && response.code == 200) {
+
+                        if (response.data) {
+                            if (response.data.addedMessageId) {
+                                postData._id = response.data.addedMessageId;
+                            }
+                            if (response.data.sharedMessage) {
+                                postData.message = response.data.sharedMessage;
+                            }
+                        }
                         if (postData.messageType == 'Notification' && postData.confirmationType == 'request_draft') {
                             if (postData.sendTo) {
                                 socket.emit('contractSectionMessage', postData);
@@ -5516,7 +5555,6 @@
                         } else {
                             socket.emit('contractSectionMessage', postData);
                         }
-                        postData._id = response.data._id;
                         var conversationType = 'OTM';
                         if (loggedInCompanyDetails._id.toString() == contractInformation.companyId.toString() && postData.with == "Our Team") {
                             conversationType = 'OTCC';
@@ -5568,84 +5606,113 @@
                                 }
                                 break;
                             case "request_draft":
-                                if (postData.sendTo) {
-                                    renderHTML += '<div class="message-wrapper reverse light-gold-color">\n' +
-                                        '   <div class="profile-picture">\n' +
-                                        '      <img src="' + (postData.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
-                                        '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
-                                        '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
-                                        '   </div>\n' +
-                                        '   <div class="request-row">\n' +
-                                        '      <strong>' + postData.actionperformedbyUser + ' has been assigned a team member to draft this contract section</strong>\n' +
-                                        '   </div>\n' +
-                                        '</div>';
-                                    if (postData.messageConfirmationFor != "Same Side") {
+                                if (postData.flag !== 'reassign') {
+                                    if (postData.sendTo) {
+                                        renderHTML += '<div class="message-wrapper reverse light-gold-color">\n' +
+                                            '       <div class="profile-picture">\n' +
+                                            '      <img src="' + (postData.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                            '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
+                                            '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                            '   </div>\n' +
+                                            '       <div class="request-row">\n' +
+                                            '      <strong>' + postData.actionperformedbyUser + ' has been assigned a team member to draft this contract section</strong>\n';
+                                        renderHTML += '       </div>\n' +
+                                            '</div>\n';
+                                        if (postData.messageConfirmationFor != "Same Side") {
+                                            renderHTML += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
+                                                '   <div class="profile-picture">\n' +
+                                                '      <img src="' + (postData.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                                '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
+                                                '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                                '   </div>\n' +
+                                                '   <div class="request-row dudhiya-color">\n' +
+                                                '      <div class="message-content">\n' +
+                                                '         <h4>Draft contract request</h4>\n' +
+                                                '           <div class="message">\n' +
+                                                '               <p>Draft Request: ' + (postData.message ? postData.message.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
+                                                '               <p>Note: ' + postData.actionperformedbyUser + ' has requested to give contract draft edit request to ' + postData.sendToName + '</p>\n' +
+                                                '           </div>\n' +
+                                                '      </div>\n' +
+                                                '   </div>\n' +
+                                                '</div>';
+                                        }
+                                        switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, true);
+                                        getContractSectionDetails();
+                                        getContractDetails(socket, false);
+                                    } else {
                                         renderHTML += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
                                             '   <div class="profile-picture">\n' +
                                             '      <img src="' + (postData.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                                             '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
                                             '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
                                             '   </div>\n' +
-                                            '   <div class="request-row dudhiya-color">\n' +
+                                            '   <div class="request-row">\n' +
                                             '      <div class="message-content">\n' +
-                                            '         <h4>Draft contract request</h4>\n' +
-                                            '           <div class="message">\n' +
-                                            '               <p>Draft Request: ' + (postData.message ? postData.message.trim().replaceAll(/\n/g, '<br>') : '') + '</p>\n' +
-                                            '               <p>Note: ' + postData.actionperformedbyUser + ' has requested to give contract draft edit request to ' + postData.sendToName + '</p>\n' +
-                                            '           </div>\n' +
+                                            '         <h4>Draft Request</h4>\n' +
+                                            '         <div class="message">' + (postData.message ? postData.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
                                             '      </div>\n' +
                                             '   </div>\n' +
                                             '</div>';
+                                        var message = '';
+                                        if (response.data.flagDraftAssigned) {
+                                            postData.flagDraftAssigned = response.data.flagDraftAssigned;
+                                            postData.assignedUserDetails = postData.sendToName;
+                                            socket.emit('contractSectionMessage', postData);
+                                            message = postData.actionperformedbyUser + ' has been assigned ' + (postData.sendToName ? postData.sendToName : "") + ' to draft this contract section';
+                                        } else {
+                                            message = postData.actionperformedbyUser + ' has been assigned ' + (loggedInCompanyDetails._id !== postData.companyId ? loggedInCompanyDetails.companyName : counterPartyCompanyDetail.companyName) + ' to draft this contract section';
+                                        }
+                                        renderHTML += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "light-gold-color" : "") + ' ">\n' +
+                                            '   <div class="profile-picture">\n' +
+                                            '      <img src="' + (postData.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                            '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
+                                            '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                            '   </div>\n' +
+                                            '   <div class="request-row">\n' +
+                                            '      <strong>' + message + '</strong>\n' +
+                                            '   </div>\n' +
+                                            '</div>';
                                     }
-                                    switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, true);
-                                    getContractSectionDetails();
-                                    getContractDetails(socket, false);
                                 } else {
-                                    renderHTML += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
-                                        '   <div class="profile-picture">\n' +
-                                        '      <img src="' + (postData.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
-                                        '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
-                                        '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
-                                        '   </div>\n' +
-                                        '   <div class="request-row">\n' +
-                                        '      <div class="message-content">\n' +
-                                        '         <h4>Draft Request</h4>\n' +
-                                        '         <div class="message">' + (postData.message ? postData.message.trim().replaceAll(/\n/g, '<br>') : '') + '</div>\n' +
-                                        '      </div>\n' +
-                                        '   </div>\n' +
-                                        '</div>';
-                                    var message = '';
-                                    if (response.data.flagDraftAssigned) {
-                                        postData.flagDraftAssigned = response.data.flagDraftAssigned;
-                                        postData.assignedUserDetails = postData.sendToName;
-                                        socket.emit('contractSectionMessage', postData);
-                                        message = postData.actionperformedbyUser + ' has been assigned ' + (postData.sendToName ? postData.sendToName : "") + ' to draft this contract section';
-                                    } else {
-                                        message = postData.actionperformedbyUser + ' has been assigned ' + (loggedInCompanyDetails._id !== postData.companyId ? loggedInCompanyDetails.companyName : counterPartyCompanyDetail.companyName) + ' to draft this contract section';
+                                    if (postData.sendTo) {
+                                        renderHTML += '<div class="message-wrapper reverse">\n' +
+                                            '       <div class="profile-picture">\n' +
+                                            '      <img src="' + (postData.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
+                                            '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
+                                            '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
+                                            '   </div>\n' +
+                                            '       <div class="request-row">\n' +
+                                            '      <strong>' + postData.actionperformedbyUser + ' has been assigned ' + postData.sendToName + ' to draft this contract section</strong>\n';
+                                        if (postData.with == 'Our Team' && (openContractResponseData.userRole == 'Contract Creator' || openContractResponseData.userRole == 'Admin' || openContractResponseData.userRole == 'Counterparty') && postData && postData.flag == 'reassign') {
+                                            renderHTML += '<br/>' +
+                                                '<div class="request-btn">\n' +
+                                                '               <button class="btn btn-primary assign-user" data-action="reassign-user" data-id="' + postData._id + '">Reassign for Drafting</button>\n' +
+                                                '           </div>\n';
+                                        }
+                                        renderHTML += '       </div>\n' +
+                                            '</div>\n';
                                     }
-                                    renderHTML += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "light-gold-color" : "") + ' ">\n' +
-                                        '   <div class="profile-picture">\n' +
-                                        '      <img src="' + (postData.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
-                                        '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
-                                        '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
-                                        '   </div>\n' +
-                                        '   <div class="request-row">\n' +
-                                        '      <strong>' + message + '</strong>\n' +
-                                        '   </div>\n' +
-                                        '</div>';
+                                    document.querySelector('button.assign-user[data-id="' + postData.messageId + '"]').style.display = 'none';
                                 }
                                 break;
                             case "assign_draft":
                                 renderHTML += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "light-gold-color" : "") + '">\n' +
-                                    '   <div class="profile-picture">\n' +
+                                    '       <div class="profile-picture">\n' +
                                     '      <img src="' + (postData.actionperformedbyUserImage ? IMAGE_USER_PATH_LINK + postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
                                     '      <p class="name">' + postData.actionperformedbyUser + '</p>\n' +
                                     '      <p class="last-seen">' + formatDate(new Date()) + '</p>\n' +
                                     '   </div>\n' +
-                                    '   <div class="request-row">\n' +
-                                    '      <strong>' + postData.actionperformedbyUser + ' has been assigned ' + postData.sendToName + ' to draft this contract section</strong>\n' +
-                                    '   </div>\n' +
+                                    '       <div class="request-row">\n' +
+                                    '      <strong>' + postData.actionperformedbyUser + ' has been assigned ' + postData.sendToName + ' to draft this contract section</strong>\n';
+                                if (postData.with == 'Our Team' && (openContractResponseData.userRole == 'Contract Creator' || openContractResponseData.userRole == 'Admin' || openContractResponseData.userRole == 'Counterparty')) {
+                                    renderHTML += '<br/>' +
+                                        '<div class="request-btn">\n' +
+                                        '               <button class="btn btn-primary assign-user" data-action="reassign-user" data-id="' + postData._id + '">Reassign for Drafting</button>\n' +
+                                        '           </div>\n';
+                                }
+                                renderHTML += '       </div>\n' +
                                     '</div>\n';
+
                                 getContractDetails(socket, redirection = false);
                                 switchClass(elements.btnWithdrawnClauseSameSide, displayNoneClass, true);
                                 break;
@@ -5714,7 +5781,7 @@
                         }
 
 
-                        if (postData.messageType == 'Notification' && postData.confirmationType == 'request_draft' && postData.sendTo) {
+                        if (postData.messageType == 'Notification' && postData.confirmationType == 'request_draft' && postData.sendTo && postData.flag != "reassign") {
                             if (postData.with == "Counterparty") {
                                 var newElement = document.createElement("div");
                                 newElement.innerHTML = renderHTML;
