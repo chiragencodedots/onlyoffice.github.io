@@ -301,6 +301,13 @@
         attchedFilenameCounterparty: document.getElementById("attchedFilenameCounterparty"),
         errorFileUploadSameSide: document.getElementById("errorFileUploadSameSide"),
         errorFileUploadCounterparty: document.getElementById("errorFileUploadCounterparty"),
+        clauseSectionTitleSameSide: document.getElementById("clauseSectionTitleSameSide"),
+        clauseSectionTitleCounterParty: document.getElementById("clauseSectionTitleCounterParty"),
+        clauseSectionTitleCHistory: document.getElementById("clauseSectionTitleCHistory"),
+        sameSideTeamList: document.getElementById("sameSideTeamList"),
+        sameSideUserList: document.getElementById("sameSideUserList"),
+        counterPartyTeamList: document.getElementById("counterPartyTeamList"),
+        counterPartyUserList: document.getElementById("counterPartyUserList"),
     }
 
     /**================================== Plugin Init Start ===============================*/
@@ -3317,7 +3324,7 @@
                             $('.loggedin-user-name').text(loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName);
                             // set logged-in user role
                             $('.loggedin-user-role').text(responseData.userRole == 'Counterparty' ? '-' : responseData.userRole);
-                            elements.userProfileName.innerHTML += '<img src="images/icon-info.png" class="img-info">';
+                            // elements.userProfileName.innerHTML += '<img src="images/icon-info.png" class="img-info">';
                             // document.getElementById('userProfileNameA').innerHTML = loggedInUserDetails.firstName + " " + loggedInUserDetails.lastName + '<img src="images/icon-info.png" class="img-info">';
                         }
 
@@ -3355,7 +3362,7 @@
                             });
                             $('.counterparty-user-profile-name').text(counterPartyDetail.firstName + " " + counterPartyDetail.lastName);
                             $('.counterparty-user-profile-role').text(responseData.oppositeUserRole);
-                            elements.counterpartyUserProfileName.innerHTML += '<img src="images/icon-info.png" class="img-info">';
+                            // elements.counterpartyUserProfileName.innerHTML += '<img src="images/icon-info.png" class="img-info">';
                             elements.txtOrganizationName.textContent = counterPartyCompanyDetail.companyName;
                             switchClass(elements.btnMarkupMode, displayNoneClass, false);
                             switchClass(elements.btnMarkupMode.parentElement, 'justify-content-end', false);
@@ -4199,8 +4206,13 @@
                     elements.divInvitedTeams.innerHTML = '';
                     if (response && response.status == true && response.code == 200) {
                         var responseData = response.data;
+                        elements.clauseSectionTitleSameSide.innerHTML = responseData.contractSectionData.contractSection;
+                        elements.clauseSectionTitleCounterParty.innerHTML = responseData.contractSectionData.contractSection;
+                        elements.clauseSectionTitleCHistory.innerHTML = responseData.contractSectionData.contractSection;
+
                         switchClass(elements.divSameSideTextbox, displayNoneClass, false);
                         switchClass(elements.divCounterpartyTextbox, displayNoneClass, false);
+
                         selectedContractSectionDetails = responseData;
                         if (responseData.sameSideUserList && responseData.sameSideUserList.length > 0) {
                             sameSideUserList = [];
@@ -4245,6 +4257,7 @@
                         switchClass(elements.divChatCounterPartyBody, 'contract-completed', false);
 
                         var iHtml = '<ul>';
+                        let contractUsers = ''
                         if (contractCreatorDetails) {
                             iHtml += '<li>\n' +
                                 '\t\t\t\t<div class="invite-user-inner">\n' +
@@ -4257,6 +4270,10 @@
                                 '\t\t\t\t\t\t\t\t</div>\n' +
                                 '\t\t\t\t</div>\n' +
                                 '</li>';
+                            contractUsers += contractCreatorDetails.itemName
+                            if(selectedContractSectionDetails.contractAssignedUsers.length > 0){
+                                contractUsers += ', ';
+                            }
                         }
                         if (contractCounterPartyDetails) {
                             iHtml += '<li>\n' +
@@ -4270,13 +4287,17 @@
                                 '\t\t\t\t\t\t\t\t</div>\n' +
                                 '\t\t\t\t</div>\n' +
                                 '</li>';
+                            contractUsers += contractCounterPartyDetails.itemName
+                            if(selectedContractSectionDetails.contractAssignedUsers.length > 0){
+                                contractUsers += ', ';
+                            }
                         }
                         if (selectedContractSectionDetails.contractAssignedUsers && selectedContractSectionDetails.contractAssignedUsers.length > 0) {
                             if (openContractResponseData.canSendPositionConfirmation == true) {
                                 switchClass(elements.btnSendPositionConfirmationSameSide.closest("li"), displayNoneClass, false);
                                 switchClass(elements.btnSendPositionConfirmationSameSideB.closest("li"), displayNoneClass, false);
                             }
-                            selectedContractSectionDetails.contractAssignedUsers.forEach((ele) => {
+                            selectedContractSectionDetails.contractAssignedUsers.forEach((ele, index) => {
                                 iHtml += '<li>\n' +
                                     '\t\t\t\t<div class="invite-user-inner">\n' +
                                     '\t\t\t\t\t\t\t\t<div class="invite-user-icon">\n' +
@@ -4288,6 +4309,12 @@
                                     '\t\t\t\t\t\t\t\t</div>\n' +
                                     '\t\t\t\t</div>\n' +
                                     '</li>';
+
+
+                                contractUsers += ele.userId.firstName + ' ' + ele.userId.lastName
+                                if (index < selectedContractSectionDetails.contractAssignedUsers.length - 1) {
+                                    contractUsers += ', ';
+                                }
                             });
                         } else {
                             switchClass(elements.btnSendPositionConfirmationSameSide.closest("li"), displayNoneClass, true);
@@ -4295,9 +4322,11 @@
                         }
                         iHtml += '</ul>';
                         elements.divInvitedUsers.innerHTML = iHtml;
+                        elements.sameSideUserList.innerHTML = contractUsers;
 
                         if (selectedContractSectionDetails.contractAssignedTeams && selectedContractSectionDetails.contractAssignedTeams.length > 0) {
                             var iHtml = '<ul>';
+                            let teamListHeader = ''
                             selectedContractSectionDetails.contractAssignedTeams.forEach((ele) => {
                                 iHtml += '<li>\n' +
                                     '\t\t\t\t<div class="invite-user-inner">\n' +
@@ -4306,14 +4335,17 @@
                                     '\t\t\t\t\t\t\t\t</div>\n' +
                                     '\t\t\t\t</div>\n' +
                                     '</li>';
+                                teamListHeader += ele.teamName
                             });
                             iHtml += '</ul>';
                             elements.divInvitedTeams.innerHTML = iHtml;
+                            elements.sameSideTeamList.innerHTML = teamListHeader;
                         } else {
                             var html = '<ul>' +
                                 '<li><p>No team selected</p></li>' +
                                 '</ul>';
                             elements.divInvitedTeams.innerHTML = html;
+                            elements.sameSideTeamList.innerHTML = '-';
                         }
                         if (selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && selectedContractSectionDetails.contractSectionData.contractSection) {
                             let contractCreatorUsers = [];
@@ -4327,7 +4359,6 @@
                                     }
                                 });
                             }
-
                             let contractCreatorUsersHtml = '<ul>';
                             if (selectedContractSectionDetails.contractCreatorDetail) {
                                 contractCreatorUsersHtml += '<li>\n' +
@@ -4429,41 +4460,41 @@
                             });
 
                             // Get the tooltip button
-                            var tooltipButtonB = document.getElementById('divOppsiteUserProfile');
-
-                            // Set the dynamic HTML content for the tooltip
-                            var dynamicHTMLContentB = '<div id="inviteUserTabsA">\n' +
-                                '                                <div class="clause-heading">\n' +
-                                '                                    <h3>' + selectedContractSectionDetails.contractSectionData.contractSection + '</h3>\n' +
-                                '                                </div>\n' +
-                                '                                <div class="invite-user-tabs-body">\n' +
-                                '                                    <div class="invite-user-tabs">\n' +
-                                '                                        <div id="usersTabsA" class="tab-pane active" role="tabpanel">\n' +
-                                '                                            <div class="invite-user-list">\n' +
-                                '                                                <div id="userTabContent">' + (loggedInCompanyDetails._id != contractInformation.companyId ? contractCreatorUsersHtml : opositesideUserHtml) + '</div>\n' +
-                                '                                            </div>\n' +
-                                '                                        </div>\n' +
-                                '                                    </div>\n' +
-                                '                                </div>\n' +
-                                '                      </div>';
-
-                            // Initialize the tooltip manually with a custom class
-                            var tooltipB = new bootstrap.Tooltip(tooltipButtonB, {
-                                title: dynamicHTMLContentB,
-                                html: true,
-                                placement: 'bottom',
-                                customClass: 'custom-tooltip-class counterparty-tooltip' // Add your custom class here
-                            });
-
-                            // Show the tooltip on mouseover
-                            tooltipButtonB.addEventListener('mouseover', function () {
-                                tooltipB.show();
-                            });
-
-                            // Hide the tooltip on mouseleave
-                            tooltipButtonB.addEventListener('mouseleave', function () {
-                                tooltipB.hide();
-                            });
+                            // var tooltipButtonB = document.getElementById('divOppsiteUserProfile');
+                            //
+                            // // Set the dynamic HTML content for the tooltip
+                            // var dynamicHTMLContentB = '<div id="inviteUserTabsA">\n' +
+                            //     '                                <div class="clause-heading">\n' +
+                            //     '                                    <h3>' + selectedContractSectionDetails.contractSectionData.contractSection + '</h3>\n' +
+                            //     '                                </div>\n' +
+                            //     '                                <div class="invite-user-tabs-body">\n' +
+                            //     '                                    <div class="invite-user-tabs">\n' +
+                            //     '                                        <div id="usersTabsA" class="tab-pane active" role="tabpanel">\n' +
+                            //     '                                            <div class="invite-user-list">\n' +
+                            //     '                                                <div id="userTabContent">' + (loggedInCompanyDetails._id != contractInformation.companyId ? contractCreatorUsersHtml : opositesideUserHtml) + '</div>\n' +
+                            //     '                                            </div>\n' +
+                            //     '                                        </div>\n' +
+                            //     '                                    </div>\n' +
+                            //     '                                </div>\n' +
+                            //     '                      </div>';
+                            //
+                            // // Initialize the tooltip manually with a custom class
+                            // var tooltipB = new bootstrap.Tooltip(tooltipButtonB, {
+                            //     title: dynamicHTMLContentB,
+                            //     html: true,
+                            //     placement: 'bottom',
+                            //     customClass: 'custom-tooltip-class counterparty-tooltip' // Add your custom class here
+                            // });
+                            //
+                            // // Show the tooltip on mouseover
+                            // tooltipButtonB.addEventListener('mouseover', function () {
+                            //     tooltipB.show();
+                            // });
+                            //
+                            // // Hide the tooltip on mouseleave
+                            // tooltipButtonB.addEventListener('mouseleave', function () {
+                            //     tooltipB.hide();
+                            // });
                         }
                         if (selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && (selectedContractSectionDetails.contractSectionData.contractSectionStatus == "Completed" || selectedContractSectionDetails.contractSectionData.contractSectionStatus == "Withdrawn")) {
                             switchClass(elements.divSameSideTextbox, displayNoneClass, true);

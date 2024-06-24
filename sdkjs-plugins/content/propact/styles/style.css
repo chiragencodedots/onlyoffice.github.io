@@ -373,8 +373,13 @@ p#txtMeetingViewOutcomes { font-size: 14px; font-weight: 400; }
 .radio-custom span{width: 14px; height: 14px; display: inline-block; outline: 1px solid #282756; border-radius: 50%; border: 3px solid #F7F7F7; position: absolute;
     left: 0; top: 3px; }
 .radio-custom input:checked + span{background: #282756;}
-.radio-group-top label{font-size: 13px;}
+.radio-group-top label{font-size: 13px; cursor: pointer}
+.radio-custom + .form-check-label{cursor: pointer}
 .radio-group-top{background: #F7F7F7; padding: 16px 10px 8px 20px; margin-bottom: 20px; border-radius: 5px;}
+
+.space-beetween {
+    display: flex; justify-content: space-between;
+}
 
 .type-sms-btn-part{position: absolute; right: 8px; bottom: 8px; }
 .type-sms-btn-part .btn{min-width: inherit; padding: 8px 7px; width: 38px;}
@@ -382,7 +387,7 @@ p#txtMeetingViewOutcomes { font-size: 14px; font-weight: 400; }
 
 .chat-top-new-part .line{font-size: 14px; color: #282756; font-weight: 600;}
 .chat-top-new-part .line3{display: flex;}
-.chat-top-new-part .line3 .text{font-size: 12px; font-weight: normal; flex-wrap: wrap; max-width: 170px; padding-left: 5px;}
+.chat-top-new-part .line3 .text{font-size: 12px; font-weight: normal; flex-wrap: wrap;  padding-left: 5px;}
 /*.chat-pdf-box{background-color: rgba(121, 215, 250, 0.12); padding: 10px; width: 242px; margin-left: auto; border-radius: 5px;}
 .chat-pdf-box .icon{background-color: #ffffff; text-align: center; width: 222px; height: 110px; display: flex; justify-content: center; align-items: center;
     border-radius: 5px; }
