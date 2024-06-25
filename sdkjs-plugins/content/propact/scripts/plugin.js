@@ -304,7 +304,7 @@
         clauseSectionTitleSameSide: document.getElementById("clauseSectionTitleSameSide"),
         clauseSectionTitleCounterParty: document.getElementById("clauseSectionTitleCounterParty"),
         clauseSectionTitleCHistory: document.getElementById("clauseSectionTitleCHistory"),
-        sameSideTeamList: document.getElementById("sameSideTeamList"),
+        // sameSideTeamList: document.getElementById("sameSideTeamList"),
         sameSideUserList: document.getElementById("sameSideUserList"),
         counterPartyTeamList: document.getElementById("counterPartyTeamList"),
         counterPartyUserList: document.getElementById("counterPartyUserList"),
@@ -4339,13 +4339,13 @@
                             });
                             iHtml += '</ul>';
                             elements.divInvitedTeams.innerHTML = iHtml;
-                            elements.sameSideTeamList.innerHTML = teamListHeader;
+                            // elements.sameSideTeamList.innerHTML = teamListHeader;
                         } else {
                             var html = '<ul>' +
                                 '<li><p>No team selected</p></li>' +
                                 '</ul>';
                             elements.divInvitedTeams.innerHTML = html;
-                            elements.sameSideTeamList.innerHTML = '-';
+                            // elements.sameSideTeamList.innerHTML = '-';
                         }
                         if (selectedContractSectionDetails && selectedContractSectionDetails.contractSectionData && selectedContractSectionDetails.contractSectionData.contractSection) {
                             let contractCreatorUsers = [];
