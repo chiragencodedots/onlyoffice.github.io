@@ -4390,8 +4390,8 @@
                                     '\t\t\t\t</div>\n' +
                                     '</li>';
                             }
-                            if (contractCreatorUsers && contractCreatorUsers.length > 0) {
-                                contractCreatorUsers.forEach((el) => {
+                            if (selectedContractSectionDetails.contractAssignedUsers && selectedContractSectionDetails.contractAssignedUsers.length > 0) {
+                                selectedContractSectionDetails.contractAssignedUsers.forEach((el) => {
                                     contractCreatorUsersHtml += '<li>\n' +
                                         '\t\t\t\t<div class="invite-user-inner">\n' +
                                         '\t\t\t\t\t\t\t\t<div class="invite-user-icon">\n' +
@@ -4421,8 +4421,8 @@
                                     '\t\t\t\t</div>\n' +
                                     '</li>';
                             }
-                            if (opositesideUsers && opositesideUsers.length > 0) {
-                                opositesideUsers.forEach((el) => {
+                            if (selectedContractSectionDetails.contractAssignedUsers && selectedContractSectionDetails.contractAssignedUsers.length > 0) {
+                                selectedContractSectionDetails.contractAssignedUsers.forEach((el) => {
                                     opositesideUserHtml += '<li>\n' +
                                         '\t\t\t\t<div class="invite-user-inner">\n' +
                                         '\t\t\t\t\t\t\t\t<div class="invite-user-icon">\n' +
