@@ -346,7 +346,7 @@
          */
         if (contractMode == 'markup') {
             switchClass(elements.btnCreateClause, displayNoneClass, true);
-            elements.btnMarkupMode.innerHTML = 'Back to Live Document';
+            elements.btnMarkupMode.innerHTML = 'Master Document';
         } else {
             if (contractInformation) {
                 switchClass(elements.btnCreateClause, displayNoneClass, (contractInformation && contractInformation.contractCurrentStatus != "Under Negotiation"));
