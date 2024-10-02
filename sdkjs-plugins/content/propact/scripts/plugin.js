@@ -5640,8 +5640,6 @@
                             } else {
                                 if (!(response.data && response.data.flagDraftAssigned)) {
                                     socket.emit('contractSectionMessage', postData);
-                                }else{
-                                    socket.emit('contractSectionMessage', postData);
                                 }
                             }
                         } else {
