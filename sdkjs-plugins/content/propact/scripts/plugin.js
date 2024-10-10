@@ -3565,7 +3565,7 @@
                     switchClass(elements.sectionContractLists, displayNoneClass, false);
                     switchClass(elements.divContractListItems, displayedInvitecpPending, true);
                     switchClass(elements.divContractListItems, displayedInviteCP, false);
-                    getContractDetails();
+                    getContractDetails(null,false);
                 } else if (responseData && responseData.status == false && responseData.message) {
                     $('#inviteEmailAddress').parent().append('<label class="error api-error">' + responseData.message + '</label>');
                 }
@@ -5633,7 +5633,6 @@
                     // Handle the response data
                     // var responseData = response;t
                     if (response && response.status == true && response.code == 200) {
-                        console.log("postData",postData)
                         if (response.data) {
                             if (response.data.addedMessageId) {
                                 postData._id = response.data.addedMessageId;
