@@ -5102,7 +5102,7 @@
                     switchClass(elements.draftingMessage, displayNoneClass, true);
                     if (response && response.status == true && response.code == 200 && response.data) {
                         let messageList = response.data.data
-
+                        debugger;
                         var getNormalMessage = messageList.filter((ele) => ele.messageType == "Normal");
                         if (getNormalMessage && getNormalMessage.length == 0) {
                             switchClass(elements.initialMessageMySide, displayNoneClass, false);
@@ -5112,9 +5112,8 @@
                             switchClass(elements.positionMessageMySide, displayNoneClass, false);
                             switchClass(elements.positionMessage, displayNoneClass, false);
                         }
-
                         var positionMessage = messageList.filter((ele) => ele.messageType == "Position Confirmation");
-                        if (positionMessage && positionMessage.length == 0) {
+                        if (positionMessage && positionMessage.length > 0) {
                             switchClass(elements.positionMessageMySide, displayNoneClass, true);
                             switchClass(elements.positionMessage, displayNoneClass, true);
                         }
@@ -5450,6 +5449,7 @@
                         var renderHTML = '';
                         switch (postData.messageType) {
                             case "Position Confirmation":
+                                positionMessageSent = true
                                 renderHTML += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
                                     '       <div class="profile-picture">\n' +
                                     '           <img src="' + (postData.actionperformedbyUserImage ? postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
@@ -5502,6 +5502,11 @@
                             switchClass(elements.initialMessage, displayNoneClass, true);
                             switchClass(elements.positionMessageMySide, displayNoneClass, false);
                             switchClass(elements.positionMessage, displayNoneClass, false);
+                        }
+
+                        if (positionMessageSent) {
+                            switchClass(elements.positionMessageMySide, displayNoneClass, true);
+                            switchClass(elements.positionMessage, displayNoneClass, true);
                         }
 
                         if (postData.with == "Counterparty") {
