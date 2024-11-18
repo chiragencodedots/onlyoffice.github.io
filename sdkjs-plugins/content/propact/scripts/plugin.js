@@ -99,6 +99,7 @@
     let contractArchieveStatus = false
     let normalMessageSent = false
     let positionMessageSent = false
+    let draftingMessageSent = false
     /**
      * @constant
      * @description Define the variables for socket functionality
@@ -2744,6 +2745,7 @@
                     '</div>\n';
                 break;
             case "Draft Confirmation":
+                draftingMessageSent = true
                 renderHTML += '<div class="message-wrapper' + (chatWindow == 'SS' ? " grey-color" : " dark-gold-color") + '">\n' +
                     '   <div class="profile-picture">\n' +
                     '           <img src="' + (data.actionperformedbyUserImage ? data.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
@@ -3023,6 +3025,11 @@
         if (positionMessageSent) {
             switchClass(elements.positionMessageMySide, displayNoneClass, true);
             switchClass(elements.positionMessage, displayNoneClass, true);
+        }
+
+        if (draftingMessageSent) {
+            switchClass(elements.draftingMessageMySide, displayNoneClass, true);
+            switchClass(elements.draftingMessage, displayNoneClass, true);
         }
 
         if (chatWindow == 'SS') {
@@ -5466,6 +5473,7 @@
                                     '</div>\n';
                                 break;
                             case "Draft Confirmation":
+                                draftingMessageSent = true
                                 renderHTML += '<div class="message-wrapper reverse ' + (postData.with == "Counterparty" ? "dark-gold-color" : "") + '">\n' +
                                     '       <div class="profile-picture">\n' +
                                     '           <img src="' + (postData.actionperformedbyUserImage ? postData.actionperformedbyUserImage : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
@@ -5508,6 +5516,11 @@
                         if (positionMessageSent) {
                             switchClass(elements.positionMessageMySide, displayNoneClass, true);
                             switchClass(elements.positionMessage, displayNoneClass, true);
+                        }
+
+                        if (draftingMessageSent) {
+                            switchClass(elements.draftingMessageMySide, displayNoneClass, true);
+                            switchClass(elements.draftingMessage, displayNoneClass, true);
                         }
 
                         if (postData.with == "Counterparty") {
