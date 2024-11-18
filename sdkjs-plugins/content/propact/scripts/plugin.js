@@ -5231,6 +5231,7 @@
                                             '</div>\n';
                                         break;
                                     case "Draft Confirmation":
+                                        draftingMessageSent = true;
                                         renderHTML += '<div class="message-wrapper' + (element.from == loggedInUserDetails._id ? " reverse" : "") + (element.with == "Counterparty" && element.messageStatus != ' Reject' ? " dark-gold-color" : "") + ' ' + (element.messageStatus == 'Reject' ? " red-color" : "") + '">\n' +
                                             '       <div class="profile-picture">\n' +
                                             '           <img src="' + (element && element.messageSenderUser && element.messageSenderUser.imageKey ? element.messageSenderUser.imageKey : 'images/no-profile-image.jpg') + '" alt="pp">\n' +
@@ -5336,6 +5337,10 @@
                                             '       </div>\n' +
                                             '</div>\n';
                                         break;
+                                }
+                                if (draftingMessageSent) {
+                                    switchClass(elements.draftingMessageMySide, displayNoneClass, true);
+                                    switchClass(elements.draftingMessage, displayNoneClass, true);
                                 }
                                 if (chatNextPage == 1) {
                                     var contentDiv;
