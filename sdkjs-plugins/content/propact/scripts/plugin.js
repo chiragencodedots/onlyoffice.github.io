@@ -5102,7 +5102,7 @@
                     switchClass(elements.draftingMessage, displayNoneClass, true);
                     if (response && response.status == true && response.code == 200 && response.data) {
                         let messageList = response.data.data
-                        debugger;
+
                         var getNormalMessage = messageList.filter((ele) => ele.messageType == "Normal");
                         if (getNormalMessage && getNormalMessage.length == 0) {
                             switchClass(elements.initialMessageMySide, displayNoneClass, false);
@@ -5112,6 +5112,7 @@
                             switchClass(elements.positionMessageMySide, displayNoneClass, false);
                             switchClass(elements.positionMessage, displayNoneClass, false);
                         }
+
                         var positionMessage = messageList.filter((ele) => ele.messageType == "Position Confirmation");
                         if (positionMessage && positionMessage.length > 0) {
                             switchClass(elements.positionMessageMySide, displayNoneClass, true);
